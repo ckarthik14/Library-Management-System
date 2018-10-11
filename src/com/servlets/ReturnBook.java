@@ -29,14 +29,13 @@ public class ReturnBook extends HttpServlet {
 		
 		out.println("<div class='container'>");
 		String callno=request.getParameter("callno");
-		String sstudentid=request.getParameter("studentid");
-		int studentid=Integer.parseInt(sstudentid);
+		String studentid=request.getParameter("studentid");
 		
 		int i=BookDao.returnBook(callno,studentid);
 		if(i>0){
 			out.println("<h3>Book returned successfully</h3>");
 		}else{
-			out.println("<h3>Sorry, unable to return book.</h3><p>We may have sortage of books. Kindly visit later.</p>");
+			out.println("<h3>Sorry, unable to return book.</h3><p>We may have shortage of books.</p>");
 		}
 		out.println("</div>");
 		

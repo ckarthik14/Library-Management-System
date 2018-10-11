@@ -135,13 +135,13 @@ public class BookDao {
 			return 0;
 		}
 	}
-	public static int returnBook(String callno,int studentid){
+	public static int returnBook(String callno,String studentid){
 		int status=0;
 			try{
 				Connection con=DB.getCon();
 				PreparedStatement ps=con.prepareStatement("update issuebook set returnstatus='yes' where callno=? and studentid=?");
 				ps.setString(1,callno);
-				ps.setInt(2,studentid);
+				ps.setString(2,studentid);
 				
 				status=ps.executeUpdate();
 				if(status>0){

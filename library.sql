@@ -1,6 +1,6 @@
 -- MySQL dump 10.13  Distrib 5.7.23, for Linux (x86_64)
 --
--- Host: localhost    Database: elibrary
+-- Host: localhost    Database: library
 -- ------------------------------------------------------
 -- Server version	5.7.23
 
@@ -66,7 +66,7 @@ CREATE TABLE `issuebook` (
 
 LOCK TABLES `issuebook` WRITE;
 /*!40000 ALTER TABLE `issuebook` DISABLE KEYS */;
-INSERT INTO `issuebook` VALUES ('1','cs068','Karthik',12345,'2018-08-19','no');
+INSERT INTO `issuebook` VALUES ('1','cs068','Karthik',12345,'2018-08-19','no'),('1','1','a',2,'2018-09-27','yes');
 /*!40000 ALTER TABLE `issuebook` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -84,7 +84,7 @@ CREATE TABLE `librarian` (
   `EMAIL` varchar(2000) DEFAULT NULL,
   `MOBILE` int(11) DEFAULT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -93,7 +93,7 @@ CREATE TABLE `librarian` (
 
 LOCK TABLES `librarian` WRITE;
 /*!40000 ALTER TABLE `librarian` DISABLE KEYS */;
-INSERT INTO `librarian` VALUES (1,'Karthik','1','a@b.c',123);
+INSERT INTO `librarian` VALUES (2,'a','e','b@c.d',1),(3,'Me','e','a@b.c',1),(4,'Karthik','1','a@b.c',1),(5,'jj','1','jj@kj.ds',12);
 /*!40000 ALTER TABLE `librarian` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -106,4 +106,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-09-22 22:52:28
+-- Dump completed on 2018-10-11 15:47:53
