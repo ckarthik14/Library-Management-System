@@ -16,6 +16,58 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
+-- Table structure for table `author`
+--
+
+DROP TABLE IF EXISTS `author`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `author` (
+  `AID` int(11) NOT NULL,
+  `FNAME` varchar(25) NOT NULL,
+  `LNAME` varchar(25) DEFAULT NULL,
+  `ADDRESS` varchar(100) NOT NULL,
+  `PHONE` int(11) NOT NULL,
+  PRIMARY KEY (`AID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `author`
+--
+
+LOCK TABLES `author` WRITE;
+/*!40000 ALTER TABLE `author` DISABLE KEYS */;
+/*!40000 ALTER TABLE `author` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `belongs_to`
+--
+
+DROP TABLE IF EXISTS `belongs_to`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `belongs_to` (
+  `ISBN` varchar(20) NOT NULL,
+  `CID` int(11) NOT NULL,
+  KEY `isbn_idx` (`ISBN`),
+  KEY `cid_idx` (`CID`),
+  CONSTRAINT `cid` FOREIGN KEY (`CID`) REFERENCES `category` (`CID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `isbn_bt` FOREIGN KEY (`ISBN`) REFERENCES `book` (`ISBN`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `belongs_to`
+--
+
+LOCK TABLES `belongs_to` WRITE;
+/*!40000 ALTER TABLE `belongs_to` DISABLE KEYS */;
+/*!40000 ALTER TABLE `belongs_to` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `book`
 --
 
@@ -23,13 +75,14 @@ DROP TABLE IF EXISTS `book`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `book` (
-  `CALLNO` varchar(2000) NOT NULL,
-  `NAME` varchar(2000) DEFAULT NULL,
-  `AUTHOR` varchar(2000) DEFAULT NULL,
-  `PUBLISHER` varchar(2000) DEFAULT NULL,
-  `QUANTITY` int(11) DEFAULT NULL,
-  `ISSUED` int(11) DEFAULT NULL,
-  PRIMARY KEY (`CALLNO`)
+  `ISBN` varchar(20) NOT NULL,
+  `TITLE` varchar(200) NOT NULL,
+  `EDITION` varchar(20) NOT NULL,
+  `QUANTITY` int(11) NOT NULL,
+  `PID` int(11) NOT NULL,
+  PRIMARY KEY (`ISBN`),
+  KEY `pid_idx` (`PID`),
+  CONSTRAINT `pid` FOREIGN KEY (`PID`) REFERENCES `publisher` (`PID`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -39,8 +92,31 @@ CREATE TABLE `book` (
 
 LOCK TABLES `book` WRITE;
 /*!40000 ALTER TABLE `book` DISABLE KEYS */;
-INSERT INTO `book` VALUES ('1','Da Vinci Code','Dan Brown','Bantam Books',7,1);
 /*!40000 ALTER TABLE `book` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `category`
+--
+
+DROP TABLE IF EXISTS `category`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `category` (
+  `CID` int(11) NOT NULL AUTO_INCREMENT,
+  `NAME` varchar(45) NOT NULL,
+  `DESCRIPTION` varchar(100) NOT NULL,
+  PRIMARY KEY (`CID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `category`
+--
+
+LOCK TABLES `category` WRITE;
+/*!40000 ALTER TABLE `category` DISABLE KEYS */;
+/*!40000 ALTER TABLE `category` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -51,12 +127,17 @@ DROP TABLE IF EXISTS `issuebook`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `issuebook` (
-  `CALLNO` varchar(2000) NOT NULL,
-  `STUDENTID` varchar(2000) NOT NULL,
-  `STUDENTNAME` varchar(2000) DEFAULT NULL,
-  `STUDENTMOBILE` int(11) DEFAULT NULL,
-  `ISSUEDDATE` date DEFAULT NULL,
-  `RETURNSTATUS` varchar(2000) DEFAULT NULL
+  `ISBN` varchar(20) NOT NULL,
+  `SID` varchar(20) NOT NULL,
+  `LID` varchar(100) NOT NULL,
+  `DOI` date NOT NULL,
+  `DOR` date NOT NULL,
+  KEY `LID_idx` (`LID`),
+  KEY `SID_idx` (`SID`),
+  KEY `ISBN_idx` (`ISBN`),
+  CONSTRAINT `isbn_issue` FOREIGN KEY (`ISBN`) REFERENCES `book` (`ISBN`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `lid` FOREIGN KEY (`LID`) REFERENCES `librarian` (`LID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `sid` FOREIGN KEY (`SID`) REFERENCES `student` (`SID`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -66,7 +147,6 @@ CREATE TABLE `issuebook` (
 
 LOCK TABLES `issuebook` WRITE;
 /*!40000 ALTER TABLE `issuebook` DISABLE KEYS */;
-INSERT INTO `issuebook` VALUES ('1','cs068','Karthik',12345,'2018-08-19','no'),('1','1','a',2,'2018-09-27','yes');
 /*!40000 ALTER TABLE `issuebook` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -78,13 +158,11 @@ DROP TABLE IF EXISTS `librarian`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `librarian` (
-  `ID` int(11) NOT NULL AUTO_INCREMENT,
-  `NAME` varchar(2000) DEFAULT NULL,
-  `PASSWORD` varchar(2000) DEFAULT NULL,
-  `EMAIL` varchar(2000) DEFAULT NULL,
-  `MOBILE` int(11) DEFAULT NULL,
-  PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+  `LID` varchar(100) NOT NULL,
+  `NAME` varchar(50) NOT NULL,
+  `PASSWORD` varchar(50) NOT NULL,
+  PRIMARY KEY (`LID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -93,8 +171,109 @@ CREATE TABLE `librarian` (
 
 LOCK TABLES `librarian` WRITE;
 /*!40000 ALTER TABLE `librarian` DISABLE KEYS */;
-INSERT INTO `librarian` VALUES (2,'a','e','b@c.d',1),(3,'Me','e','a@b.c',1),(4,'Karthik','1','a@b.c',1),(5,'jj','1','jj@kj.ds',12);
 /*!40000 ALTER TABLE `librarian` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `prescribes`
+--
+
+DROP TABLE IF EXISTS `prescribes`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `prescribes` (
+  `ISBN` varchar(20) NOT NULL,
+  `CID` int(11) NOT NULL,
+  KEY `course_id_idx` (`CID`),
+  KEY `isbn_p_idx` (`ISBN`),
+  CONSTRAINT `course_id` FOREIGN KEY (`CID`) REFERENCES `category` (`CID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `isbn_p` FOREIGN KEY (`ISBN`) REFERENCES `book` (`ISBN`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `prescribes`
+--
+
+LOCK TABLES `prescribes` WRITE;
+/*!40000 ALTER TABLE `prescribes` DISABLE KEYS */;
+/*!40000 ALTER TABLE `prescribes` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `publisher`
+--
+
+DROP TABLE IF EXISTS `publisher`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `publisher` (
+  `PID` int(11) NOT NULL,
+  `PNAME` varchar(50) NOT NULL,
+  `PHONE` int(11) NOT NULL,
+  `ADDRESS` varchar(100) NOT NULL,
+  PRIMARY KEY (`PID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `publisher`
+--
+
+LOCK TABLES `publisher` WRITE;
+/*!40000 ALTER TABLE `publisher` DISABLE KEYS */;
+/*!40000 ALTER TABLE `publisher` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `student`
+--
+
+DROP TABLE IF EXISTS `student`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `student` (
+  `SID` varchar(20) NOT NULL,
+  `NAME` varchar(50) NOT NULL,
+  `DOB` date NOT NULL,
+  `PASSWORD` varchar(50) NOT NULL,
+  PRIMARY KEY (`SID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `student`
+--
+
+LOCK TABLES `student` WRITE;
+/*!40000 ALTER TABLE `student` DISABLE KEYS */;
+/*!40000 ALTER TABLE `student` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `written_by`
+--
+
+DROP TABLE IF EXISTS `written_by`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `written_by` (
+  `ISBN` varchar(20) NOT NULL,
+  `AID` int(11) NOT NULL,
+  KEY `isbn_wb_idx` (`ISBN`),
+  KEY `aid_idx` (`AID`),
+  CONSTRAINT `aid` FOREIGN KEY (`AID`) REFERENCES `author` (`AID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `isbn_wb` FOREIGN KEY (`ISBN`) REFERENCES `book` (`ISBN`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `written_by`
+--
+
+LOCK TABLES `written_by` WRITE;
+/*!40000 ALTER TABLE `written_by` DISABLE KEYS */;
+/*!40000 ALTER TABLE `written_by` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -106,4 +285,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-10-11 15:47:53
+-- Dump completed on 2018-10-12 17:06:44
