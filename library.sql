@@ -42,29 +42,52 @@ LOCK TABLES `author` WRITE;
 UNLOCK TABLES;
 
 --
--- Table structure for table `belongs_to`
+-- Table structure for table `category`
 --
 
-DROP TABLE IF EXISTS `belongs_to`;
+DROP TABLE IF EXISTS `category`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `belongs_to` (
-  `ISBN` varchar(20) NOT NULL,
-  `CID` int(11) NOT NULL,
-  KEY `isbn_idx` (`ISBN`),
-  KEY `cid_idx` (`CID`),
-  CONSTRAINT `cid` FOREIGN KEY (`CID`) REFERENCES `category` (`CID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `isbn_bt` FOREIGN KEY (`ISBN`) REFERENCES `book` (`ISBN`) ON DELETE NO ACTION ON UPDATE NO ACTION
+CREATE TABLE `category` (
+  `CID` int(11) NOT NULL AUTO_INCREMENT,
+  `NAME` varchar(45) NOT NULL,
+  `DESCRIPTION` varchar(100) NOT NULL,
+  PRIMARY KEY (`CID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `belongs_to`
+-- Dumping data for table `category`
 --
 
-LOCK TABLES `belongs_to` WRITE;
-/*!40000 ALTER TABLE `belongs_to` DISABLE KEYS */;
-/*!40000 ALTER TABLE `belongs_to` ENABLE KEYS */;
+LOCK TABLES `category` WRITE;
+/*!40000 ALTER TABLE `category` DISABLE KEYS */;
+/*!40000 ALTER TABLE `category` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `publisher`
+--
+
+DROP TABLE IF EXISTS `publisher`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `publisher` (
+  `PID` int(11) NOT NULL AUTO_INCREMENT,
+  `PNAME` varchar(50) NOT NULL,
+  `PHONE` int(11) NOT NULL,
+  `ADDRESS` varchar(100) NOT NULL,
+  PRIMARY KEY (`PID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `publisher`
+--
+
+LOCK TABLES `publisher` WRITE;
+/*!40000 ALTER TABLE `publisher` DISABLE KEYS */;
+/*!40000 ALTER TABLE `publisher` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -96,51 +119,78 @@ LOCK TABLES `book` WRITE;
 UNLOCK TABLES;
 
 --
--- Table structure for table `category`
+-- Table structure for table `belongs_to`
 --
 
-DROP TABLE IF EXISTS `category`;
+DROP TABLE IF EXISTS `belongs_to`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `category` (
-  `CID` int(11) NOT NULL AUTO_INCREMENT,
-  `NAME` varchar(45) NOT NULL,
-  `DESCRIPTION` varchar(100) NOT NULL,
-  PRIMARY KEY (`CID`)
+CREATE TABLE `belongs_to` (
+  `ISBN` varchar(20) NOT NULL,
+  `CID` int(11) NOT NULL,
+  KEY `isbn_idx` (`ISBN`),
+  KEY `cid_idx` (`CID`),
+  CONSTRAINT `cid` FOREIGN KEY (`CID`) REFERENCES `category` (`CID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `isbn_bt` FOREIGN KEY (`ISBN`) REFERENCES `book` (`ISBN`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `category`
+-- Dumping data for table `belongs_to`
 --
 
-LOCK TABLES `category` WRITE;
-/*!40000 ALTER TABLE `category` DISABLE KEYS */;
-/*!40000 ALTER TABLE `category` ENABLE KEYS */;
+LOCK TABLES `belongs_to` WRITE;
+/*!40000 ALTER TABLE `belongs_to` DISABLE KEYS */;
+/*!40000 ALTER TABLE `belongs_to` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
--- Table structure for table `course`
+-- Table structure for table `librarian`
 --
 
-DROP TABLE IF EXISTS `course`;
+DROP TABLE IF EXISTS `librarian`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `course` (
-  `CID` int(11) NOT NULL AUTO_INCREMENT,
-  `TITLE` varchar(50) NOT NULL,
-  `DEPARTMENT` varchar(50) NOT NULL,
-  PRIMARY KEY (`CID`)
+CREATE TABLE `librarian` (
+  `LID` varchar(100) NOT NULL,
+  `NAME` varchar(50) NOT NULL,
+  `PASSWORD` varchar(50) NOT NULL,
+  PRIMARY KEY (`LID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `course`
+-- Dumping data for table `librarian`
 --
 
-LOCK TABLES `course` WRITE;
-/*!40000 ALTER TABLE `course` DISABLE KEYS */;
-/*!40000 ALTER TABLE `course` ENABLE KEYS */;
+LOCK TABLES `librarian` WRITE;
+/*!40000 ALTER TABLE `librarian` DISABLE KEYS */;
+/*!40000 ALTER TABLE `librarian` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `student`
+--
+
+DROP TABLE IF EXISTS `student`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `student` (
+  `SID` varchar(20) NOT NULL,
+  `NAME` varchar(50) NOT NULL,
+  `DOB` date NOT NULL,
+  `PASSWORD` varchar(50) NOT NULL,
+  PRIMARY KEY (`SID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `student`
+--
+
+LOCK TABLES `student` WRITE;
+/*!40000 ALTER TABLE `student` DISABLE KEYS */;
+/*!40000 ALTER TABLE `student` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -177,27 +227,24 @@ LOCK TABLES `issuebook` WRITE;
 UNLOCK TABLES;
 
 --
--- Table structure for table `librarian`
+-- Table structure for table `course`
 --
-
-DROP TABLE IF EXISTS `librarian`;
+ DROP TABLE IF EXISTS `course`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `librarian` (
-  `LID` varchar(100) NOT NULL,
-  `NAME` varchar(50) NOT NULL,
-  `PASSWORD` varchar(50) NOT NULL,
-  PRIMARY KEY (`LID`)
+CREATE TABLE `course` (
+  `CID` int(11) NOT NULL AUTO_INCREMENT,
+  `TITLE` varchar(50) NOT NULL,
+  `DEPARTMENT` varchar(50) NOT NULL,
+  PRIMARY KEY (`CID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
+ --
+-- Dumping data for table `course`
 --
--- Dumping data for table `librarian`
---
-
-LOCK TABLES `librarian` WRITE;
-/*!40000 ALTER TABLE `librarian` DISABLE KEYS */;
-/*!40000 ALTER TABLE `librarian` ENABLE KEYS */;
+ LOCK TABLES `course` WRITE;
+/*!40000 ALTER TABLE `course` DISABLE KEYS */;
+/*!40000 ALTER TABLE `course` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -224,56 +271,6 @@ CREATE TABLE `prescribes` (
 LOCK TABLES `prescribes` WRITE;
 /*!40000 ALTER TABLE `prescribes` DISABLE KEYS */;
 /*!40000 ALTER TABLE `prescribes` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `publisher`
---
-
-DROP TABLE IF EXISTS `publisher`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `publisher` (
-  `PID` int(11) NOT NULL AUTO_INCREMENT,
-  `PNAME` varchar(50) NOT NULL,
-  `PHONE` int(11) NOT NULL,
-  `ADDRESS` varchar(100) NOT NULL,
-  PRIMARY KEY (`PID`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `publisher`
---
-
-LOCK TABLES `publisher` WRITE;
-/*!40000 ALTER TABLE `publisher` DISABLE KEYS */;
-/*!40000 ALTER TABLE `publisher` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `student`
---
-
-DROP TABLE IF EXISTS `student`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `student` (
-  `SID` varchar(20) NOT NULL,
-  `NAME` varchar(50) NOT NULL,
-  `DOB` date NOT NULL,
-  `PASSWORD` varchar(50) NOT NULL,
-  PRIMARY KEY (`SID`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `student`
---
-
-LOCK TABLES `student` WRITE;
-/*!40000 ALTER TABLE `student` DISABLE KEYS */;
-/*!40000 ALTER TABLE `student` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
