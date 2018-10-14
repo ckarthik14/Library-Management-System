@@ -23,7 +23,7 @@ DROP TABLE IF EXISTS `author`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `author` (
-  `AID` int(11) NOT NULL,
+  `AID` int(11) NOT NULL AUTO_INCREMENT,
   `FNAME` varchar(25) NOT NULL,
   `LNAME` varchar(25) DEFAULT NULL,
   `ADDRESS` varchar(100) NOT NULL,
@@ -81,7 +81,7 @@ CREATE TABLE `book` (
   `QUANTITY` int(11) NOT NULL,
   `PID` int(11) NOT NULL,
   PRIMARY KEY (`ISBN`),
-  KEY `pid_idx` (`PID`),
+  KEY `fk_book_1_idx` (`PID`),
   CONSTRAINT `pid` FOREIGN KEY (`PID`) REFERENCES `publisher` (`PID`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -120,6 +120,30 @@ LOCK TABLES `category` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `course`
+--
+
+DROP TABLE IF EXISTS `course`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `course` (
+  `CID` int(11) NOT NULL AUTO_INCREMENT,
+  `TITLE` varchar(50) NOT NULL,
+  `DEPARTMENT` varchar(50) NOT NULL,
+  PRIMARY KEY (`CID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `course`
+--
+
+LOCK TABLES `course` WRITE;
+/*!40000 ALTER TABLE `course` DISABLE KEYS */;
+/*!40000 ALTER TABLE `course` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `issuebook`
 --
 
@@ -132,6 +156,8 @@ CREATE TABLE `issuebook` (
   `LID` varchar(100) NOT NULL,
   `DOI` date NOT NULL,
   `DOR` date NOT NULL,
+  `ISSUEID` int(11) NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (`ISSUEID`),
   KEY `LID_idx` (`LID`),
   KEY `SID_idx` (`SID`),
   KEY `ISBN_idx` (`ISBN`),
@@ -186,7 +212,7 @@ CREATE TABLE `prescribes` (
   `CID` int(11) NOT NULL,
   KEY `course_id_idx` (`CID`),
   KEY `isbn_p_idx` (`ISBN`),
-  CONSTRAINT `course_id` FOREIGN KEY (`CID`) REFERENCES `category` (`CID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `course_id` FOREIGN KEY (`CID`) REFERENCES `course` (`CID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `isbn_p` FOREIGN KEY (`ISBN`) REFERENCES `book` (`ISBN`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -208,7 +234,7 @@ DROP TABLE IF EXISTS `publisher`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `publisher` (
-  `PID` int(11) NOT NULL,
+  `PID` int(11) NOT NULL AUTO_INCREMENT,
   `PNAME` varchar(50) NOT NULL,
   `PHONE` int(11) NOT NULL,
   `ADDRESS` varchar(100) NOT NULL,
@@ -285,4 +311,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-10-12 17:06:44
+-- Dump completed on 2018-10-14 20:11:09
