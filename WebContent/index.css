@@ -1,0 +1,17 @@
+.img{
+	background-image: url("./images/lib_home_page1.jpg");
+	background-size: cover;
+}
+
+.text_format{
+	color: #cccccc;
+	text-shadow: 3px 2px #000000;
+	font-family: "Verdana", sans-serif;
+}
+
+.text_format_title{
+	color: #cccccc;
+	text-shadow: 3px 2px #000000;
+	font-family: "Courier New";
+	font-weight: bold;
+}

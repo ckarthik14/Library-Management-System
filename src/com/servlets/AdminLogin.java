@@ -22,7 +22,6 @@ public class AdminLogin extends HttpServlet {
 		out.println("<title>Admin Section</title>");
 		out.println("<link rel='stylesheet' href='bootstrap.min.css'/>");
 		out.println("</head>");
-		out.println("<body>");
 		
 		String email=request.getParameter("email");
 		String password=request.getParameter("password");
@@ -56,7 +55,6 @@ public class AdminLogin extends HttpServlet {
 		out.println("<title>Admin Section</title>");
 		out.println("<link rel='stylesheet' href='bootstrap.min.css'/>");
 		out.println("</head>");
-		out.println("<body>");
 		
 		HttpSession session=request.getSession();
 		
@@ -66,6 +64,7 @@ public class AdminLogin extends HttpServlet {
 		}
 		
 		else {
+			out.println("<body>");
 			request.getRequestDispatcher("index.html").include(request, response);
 		}
 		

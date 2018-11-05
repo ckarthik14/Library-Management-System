@@ -24,8 +24,8 @@ public class LibrarianLogin extends HttpServlet {
 		out.println("<head>");
 		out.println("<title>Librarian Section</title>");
 		out.println("<link rel='stylesheet' href='bootstrap.min.css'/>");
+		out.println("<link rel='stylesheet' href='index.css'/>");
 		out.println("</head>");
-		out.println("<body>");
 		
 		String email=request.getParameter("email");
 		String password=request.getParameter("password");
@@ -39,7 +39,7 @@ public class LibrarianLogin extends HttpServlet {
 		}else{
 			request.getRequestDispatcher("navhome.html").include(request, response);
 			out.println("<div class='container'>");
-			out.println("<h3>Username or password error</h3>");
+			out.println("<h3 class='text_format'>Username or password error</h3>");
 			request.getRequestDispatcher("librarianloginform.html").include(request, response);
 			out.println("</div>");
 		}
@@ -58,8 +58,8 @@ public class LibrarianLogin extends HttpServlet {
 		out.println("<head>");
 		out.println("<title>Librarian Section</title>");
 		out.println("<link rel='stylesheet' href='bootstrap.min.css'/>");
+		out.println("<link rel='stylesheet' href='index.css'/>");
 		out.println("</head>");
-		out.println("<body>");
 		
 		System.out.println(request.getSession());
 		

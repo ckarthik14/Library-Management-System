@@ -2,24 +2,27 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>Insert title here</title>
-<link rel="stylesheet" href="bootstrap.min.css"/>
+<title>LMS</title>
+<link rel="stylesheet" href="bootstrap.min.css" type="text/css" />
+<link rel="stylesheet" href="index.css" type="text/css" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
 </head>
-<body>
+<body class="img">
 
 <div class="container-fluid">
-<h1>Library Management System</h1>
+<h1 class="text_format_title" style="color: #66bd74">Library Management Login</h1>
 
 <div class="row">
   <div class="col-md-6">
-  <h3>Admin Login</h3>
+  <h3 class="text_format">Admin Login</h3>
   <form action="AdminLogin" method="post" style="width:300px">
   <div class="form-group">
-    <label for="email1">Email address</label>
+    <label for="email1" class="text_format">Email address</label>
     <input type="email" class="form-control" name="email" id="email1" placeholder="Email"/>
   </div>
   <div class="form-group">
-    <label for="password1">Password</label>
+    <label for="password1" class="text_format">Password</label>
     <input type="password" class="form-control" name="password" id="password1" placeholder="Password"/>
   </div>  
   <button type="submit" class="btn btn-primary">Login</button>
@@ -27,14 +30,14 @@
   
   </div>
   <div class="col-md-6">
-  <h3>Librarian Login</h3>
+  <h3 class="text_format">Librarian Login</h3>
   <form action="LibrarianLogin" method="post" style="width:300px">
   <div class="form-group">
-    <label for="email1">Email address</label>
+    <label for="email1" class="text_format">Email address</label>
     <input type="email" class="form-control" id="email1" name="email" placeholder="Email"/>
   </div>
   <div class="form-group">
-    <label for="password1">Password</label>
+    <label for="password1" class="text_format">Password</label>
     <input type="password" class="form-control" id="password1" name="password" placeholder="Password"/>
   </div>  
   <button type="submit" class="btn btn-primary">Login</button>
@@ -43,10 +46,8 @@
   </div>
 </div>
 
-
-
-
   <script src="jquery.min.js"></script>
   <script src="bootstrap.min.js"></script>
+
 </body>
 </html>

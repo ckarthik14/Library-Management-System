@@ -16,11 +16,11 @@ public class LibrarianDao {
 		int status=0;
 		try{
 			Connection con=DB.getCon();
-			PreparedStatement ps=con.prepareStatement("insert into librarian(name,email,password,mobile) values(?,?,?,?)");
-			ps.setString(1,bean.getName());
-			ps.setString(2,bean.getEmail());
+			PreparedStatement ps=con.prepareStatement("insert into librarian(lid, name, password, mobile) values(?,?,?,?)");
+			ps.setString(1,bean.getLid());
+			ps.setString(2,bean.getName());
 			ps.setString(3,bean.getPassword());
-			ps.setLong(4,bean.getMobile());
+			ps.setString(4,bean.getMobile());
 			status=ps.executeUpdate();
 			con.close();
 			
@@ -32,12 +32,11 @@ public class LibrarianDao {
 		int status=0;
 		try{
 			Connection con=DB.getCon();
-			PreparedStatement ps=con.prepareStatement("update librarian set name=?,email=?,password=?,mobile=? where id=?");
+			PreparedStatement ps=con.prepareStatement("update librarian set name=?, password=?, mobile=? where lid=?");
 			ps.setString(1,bean.getName());
-			ps.setString(2,bean.getEmail());
-			ps.setString(3,bean.getPassword());
-			ps.setLong(4,bean.getMobile());
-			ps.setInt(5,bean.getId());
+			ps.setString(2,bean.getPassword());
+			ps.setString(3,bean.getMobile());
+			ps.setString(4,bean.getLid());
 			status=ps.executeUpdate();
 			con.close();
 			
@@ -53,11 +52,10 @@ public class LibrarianDao {
 			ResultSet rs=ps.executeQuery();
 			while(rs.next()){
 				LibrarianBean bean=new LibrarianBean();
-				bean.setId(rs.getInt("id"));
+				bean.setLid(rs.getString("lid"));
 				bean.setName(rs.getString("name"));
-				bean.setEmail(rs.getString("email"));
 				bean.setPassword(rs.getString("password"));
-				bean.setMobile(rs.getLong("mobile"));
+				bean.setMobile(rs.getString("mobile"));
 				list.add(bean);
 			}
 			con.close();
@@ -66,19 +64,18 @@ public class LibrarianDao {
 		
 		return list;
 	}
-	public static LibrarianBean viewById(int id){
+	public static LibrarianBean viewById(String Lid){
 		LibrarianBean bean = new LibrarianBean();
 		try{
 			Connection con=DB.getCon();
-			PreparedStatement ps=con.prepareStatement("select * from librarian where id=?");
-			ps.setInt(1,id);
+			PreparedStatement ps=con.prepareStatement("select * from librarian where lid=?");
+			ps.setString(1,Lid);
 			ResultSet rs=ps.executeQuery();
 			if(rs.next()){
-				bean.setId(rs.getInt(1));
+				bean.setLid(rs.getString(1));
 				bean.setName(rs.getString(2));
 				bean.setPassword(rs.getString(3));
-				bean.setEmail(rs.getString(4));
-				bean.setMobile(rs.getLong(5));
+				bean.setMobile(rs.getString(4));
 			}
 			con.close();
 			
@@ -86,12 +83,12 @@ public class LibrarianDao {
 		
 		return bean;
 	}
-	public static int delete(int id){
+	public static int delete(String Lid){
 		int status=0;
 		try{
 			Connection con=DB.getCon();
-			PreparedStatement ps=con.prepareStatement("delete from librarian where id=?");
-			ps.setInt(1,id);
+			PreparedStatement ps=con.prepareStatement("delete from librarian where lid=?");
+			ps.setString(1,Lid);
 			status=ps.executeUpdate();
 			con.close();
 			
@@ -104,7 +101,7 @@ public class LibrarianDao {
 		boolean status=false;
 		try{
 			Connection con=DB.getCon();
-			PreparedStatement ps=con.prepareStatement("select * from librarian where email=? and password=?");
+			PreparedStatement ps=con.prepareStatement("select * from librarian where lid=? and password=?");
 			ps.setString(1,email);
 			ps.setString(2,password);
 			ResultSet rs=ps.executeQuery();

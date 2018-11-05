@@ -12,9 +12,8 @@ import com.dao.LibrarianDao;
 @WebServlet("/DeleteLibrarian")
 public class DeleteLibrarian extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String sid=request.getParameter("id");
-		int id=Integer.parseInt(sid);
-		LibrarianDao.delete(id);
+		String lid=request.getParameter("lid");
+		LibrarianDao.delete(lid);
 		response.sendRedirect("ViewLibrarian");
 	}
 }
