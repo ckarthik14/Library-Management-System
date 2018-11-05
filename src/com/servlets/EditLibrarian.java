@@ -17,14 +17,11 @@ import com.dao.LibrarianDao;
 @WebServlet("/EditLibrarian")
 public class EditLibrarian extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String sid=request.getParameter("id");
-		int id=Integer.parseInt(sid);
 		String name=request.getParameter("name");
-		String email=request.getParameter("email");
+		String email=request.getParameter("lid");
 		String password=request.getParameter("password");
 		String smobile=request.getParameter("mobile");
-		long mobile=Long.parseLong(smobile);
-		LibrarianBean bean = new LibrarianBean(id, name, email, password, mobile);
+		LibrarianBean bean = new LibrarianBean(name, email, password, smobile);
 		LibrarianDao.update(bean);
 		response.sendRedirect("ViewLibrarian");
 	}

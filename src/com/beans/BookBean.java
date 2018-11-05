@@ -1,51 +1,49 @@
 package com.beans;
 
 public class BookBean {
-private String callno,name,author,publisher;
-private int quantity,issued;
+	private String isbn, title, edition;
+	private int quantity, issued, pid;
 
-public BookBean(String callno, String name, String author, String publisher, int quantity) {
-	this.callno = callno;
-	this.name = name;
-	this.author = author;
-	this.publisher = publisher;
-	this.quantity = quantity;
-}
-public String getCallno() {
-	return callno;
-}
-public void setCallno(String callno) {
-	this.callno = callno;
-}
-public String getName() {
-	return name;
-}
-public void setName(String name) {
-	this.name = name;
-}
-public String getAuthor() {
-	return author;
-}
-public void setAuthor(String author) {
-	this.author = author;
-}
-public String getPublisher() {
-	return publisher;
-}
-public void setPublisher(String publisher) {
-	this.publisher = publisher;
-}
-public int getQuantity() {
-	return quantity;
-}
-public void setQuantity(int quantity) {
-	this.quantity = quantity;
-}
-public int getIssued() {
-	return issued;
-}
-public void setIssued(int issued) {
-	this.issued = issued;
-}
+	public BookBean(String isbn, String title, String author, String publisher, int quantity) {
+		this.isbn = isbn;
+		this.title = title;
+		this.quantity = quantity;
+	}
+	public String getIsbn() {
+		return isbn;
+	}
+	public void setIsbn(String isbn) {
+		this.isbn = isbn;
+	}
+	public String getTitle() {
+		return title;
+	}
+	public void setTitle(String title) {
+		this.title = title;
+	}
+	public int getQuantity() {
+		return quantity;
+	}
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
+	}
+	public int getIssued() {
+		return issued;
+	}
+	public void setIssued(int issued) {
+		this.issued = issued;
+	}
+	public String getEdition() {
+		return edition;
+	}
+	public void setEdition(String edition) {
+		this.edition = edition;
+	}
+	public int getPid() {
+		return pid;
+	}
+	public void setPid(int pid) {
+		this.pid = pid;
+	}
 
 }

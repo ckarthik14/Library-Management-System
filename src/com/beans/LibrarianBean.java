@@ -2,44 +2,30 @@ package com.beans;
 
 public class LibrarianBean {
 private int id;
-private String name,email,password;
-private long mobile;
+private String name,lid,password;
+private String mobile;
 
 public LibrarianBean() {}
 
-public LibrarianBean(String name, String email, String password, long mobile) {
+public LibrarianBean(String name, String lid, String password, String mobile) {
 	
 	this.name = name;
-	this.email = email;
+	this.lid = lid;
 	this.password = password;
 	this.mobile = mobile;
 }
 
-public LibrarianBean(int id, String name, String email, String password, long mobile) {
-	this.id = id;
-	this.name = name;
-	this.email = email;
-	this.password = password;
-	this.mobile = mobile;
-}
-
-public int getId() {
-	return id;
-}
-public void setId(int id) {
-	this.id = id;
-}
 public String getName() {
 	return name;
 }
 public void setName(String name) {
 	this.name = name;
 }
-public String getEmail() {
-	return email;
+public String getLid() {
+	return lid;
 }
-public void setEmail(String email) {
-	this.email = email;
+public void setLid(String lid) {
+	this.lid = lid;
 }
 public String getPassword() {
 	return password;
@@ -47,10 +33,10 @@ public String getPassword() {
 public void setPassword(String password) {
 	this.password = password;
 }
-public long getMobile() {
+public String getMobile() {
 	return mobile;
 }
-public void setMobile(long mobile) {
+public void setMobile(String mobile) {
 	this.mobile = mobile;
 }
 
