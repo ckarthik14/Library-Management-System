@@ -10,6 +10,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.beans.BookBean;
 import com.beans.IssueBookBean;
@@ -27,21 +28,35 @@ public class ViewIssuedBook extends HttpServlet {
 		out.println("<link rel='stylesheet' href='bootstrap.min.css'/>");
 		out.println("</head>");
 		out.println("<body>");
-		request.getRequestDispatcher("navlibrarian.html").include(request, response);
 		
-		out.println("<div class='container'>");
+		HttpSession session = request.getSession();
 		
-		List<IssueBookBean> list=BookDao.viewIssuedBooks();
-		
-		out.println("<table class='table table-bordered table-striped'>");
-		out.println("<tr><th>Callno</th><th>Student Id</th><th>Student Name</th><th>Student Mobile</th><th>Issued Date</th><th>Return Status</th></tr>");
-		for(IssueBookBean bean:list){
-			out.println("<tr><td>"+bean.getCallno()+"</td><td>"+bean.getStudentid()+"</td><td>"+bean.getStudentname()+"</td><td>"+bean.getStudentmobile()+"</td><td>"+bean.getIssueddate()+"</td><td>"+bean.getReturnstatus()+"</td></tr>");
+		if (session.getAttribute("librarianemail") != null)
+		{
+			request.getRequestDispatcher("navlibrarian.html").include(request, response);
+			
+			out.println("<div class='container'>");
+			
+			List<IssueBookBean> list=BookDao.viewIssuedBooks();
+			
+			out.println("<table class='table table-bordered table-striped'>");
+			out.println("<tr><th>Callno</th><th>Student Id</th><th>Student Name</th><th>Student Mobile</th><th>Issued Date</th><th>Return Status</th></tr>");
+			for(IssueBookBean bean:list){
+				out.println("<tr><td>"+bean.getCallno()+"</td><td>"+bean.getStudentid()+"</td><td>"+bean.getStudentname()+"</td><td>"+bean.getStudentmobile()+"</td><td>"+bean.getIssueddate()+"</td><td>"+bean.getReturnstatus()+"</td></tr>");
+			}
+			out.println("</table>");
+			
+			out.println("</div>");
 		}
-		out.println("</table>");
 		
-		out.println("</div>");
-		
+		else
+		{
+			request.getRequestDispatcher("navhome.html").include(request, response);
+			out.println("<div class='container'>");
+			request.getRequestDispatcher("librarianloginform.html").include(request, response);
+			out.println("</div>");
+				
+		}
 		
 		request.getRequestDispatcher("footer.html").include(request, response);
 		out.close();

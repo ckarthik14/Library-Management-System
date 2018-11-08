@@ -21,11 +21,12 @@ public class AdminLogin extends HttpServlet {
 		out.println("<head>");
 		out.println("<title>Admin Section</title>");
 		out.println("<link rel='stylesheet' href='bootstrap.min.css'/>");
+		out.println("<link rel='stylesheet' href='index.css'/>");
 		out.println("</head>");
 		
 		String email=request.getParameter("email");
 		String password=request.getParameter("password");
-		if(email.equals("karthik@awesome.com")&&password.equals("123")){
+		if(email.equals("admin@admin.com") && password.equals("123")){
 			HttpSession session=request.getSession();
 			session.setAttribute("admin","true");
 			
@@ -35,7 +36,7 @@ public class AdminLogin extends HttpServlet {
 		}else{
 			request.getRequestDispatcher("navhome.html").include(request, response);
 			out.println("<div class='container'>");
-			out.println("<h3>Username or password error</h3>");
+			out.println("<h3 class='text_format'>Username or password error</h3>");
 			request.getRequestDispatcher("adminloginform.html").include(request, response);
 			out.println("</div>");
 		}
@@ -54,6 +55,7 @@ public class AdminLogin extends HttpServlet {
 		out.println("<head>");
 		out.println("<title>Admin Section</title>");
 		out.println("<link rel='stylesheet' href='bootstrap.min.css'/>");
+		out.println("<link rel='stylesheet' href='index.css'/>");
 		out.println("</head>");
 		
 		HttpSession session=request.getSession();
