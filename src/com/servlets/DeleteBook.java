@@ -29,23 +29,15 @@ public class DeleteBook extends HttpServlet {
 		
 		HttpSession session = request.getSession();
 		
-		if (session.getAttribute("librarianemail") != null) {
-			
+		if (session.getAttribute("librarianemail") != null)
+		{
 			BookDao.delete(request.getParameter("callno"));
 			response.sendRedirect("ViewBook");
-		
 		}
 			
-		else {
-		
-		request.getRequestDispatcher("navhome.html").include(request, response);
-		out.println("<div class='container'>");
-		request.getRequestDispatcher("librarianloginform.html").include(request, response);
-		out.println("</div>");
-		
-		request.getRequestDispatcher("footer.html").include(request, response);
-		
-		
+		else
+		{
+			new com.authfunctions.LibraryLogin(request,response,out);
 		}		
 		
 		out.close();

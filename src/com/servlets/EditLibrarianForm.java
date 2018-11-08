@@ -62,11 +62,7 @@ public class EditLibrarianForm extends HttpServlet {
 		
 		else
 		{
-			request.getRequestDispatcher("navhome.html").include(request, response);
-			out.println("<div class='container'>");
-			request.getRequestDispatcher("librarianloginform.html").include(request, response);
-			out.println("</div>");
-				
+			new com.authfunctions.AdminLogin(request,response,out);	
 		}
 		
 		request.getRequestDispatcher("footer.html").include(request, response);

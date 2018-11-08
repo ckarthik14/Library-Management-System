@@ -51,11 +51,7 @@ public class ViewIssuedBook extends HttpServlet {
 		
 		else
 		{
-			request.getRequestDispatcher("navhome.html").include(request, response);
-			out.println("<div class='container'>");
-			request.getRequestDispatcher("librarianloginform.html").include(request, response);
-			out.println("</div>");
-				
+			new com.authfunctions.LibraryLogin(request,response,out);	
 		}
 		
 		request.getRequestDispatcher("footer.html").include(request, response);
