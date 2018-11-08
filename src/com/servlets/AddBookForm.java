@@ -25,14 +25,30 @@ public class AddBookForm extends HttpServlet {
 		out.println("<link rel='stylesheet' href='bootstrap.min.css'/>");
 		out.println("</head>");
 		out.println("<body>");
-		request.getRequestDispatcher("navlibrarian.html").include(request, response);
 		
+		HttpSession session = request.getSession();
+		
+		if (session.getAttribute("librarianemail") != null) {
+			
+			request.getRequestDispatcher("navlibrarian.html").include(request, response);
+			
+			out.println("<div class='container'>");
+			request.getRequestDispatcher("addbookform.html").include(request, response);
+			out.println("</div>");
+					
+		}
+			
+		else {
+		
+		request.getRequestDispatcher("navhome.html").include(request, response);
 		out.println("<div class='container'>");
-		request.getRequestDispatcher("addbookform.html").include(request, response);
+		request.getRequestDispatcher("librarianloginform.html").include(request, response);
 		out.println("</div>");
 		
-		
+		}
+	
 		request.getRequestDispatcher("footer.html").include(request, response);
+		
 		out.close();
 	}
 

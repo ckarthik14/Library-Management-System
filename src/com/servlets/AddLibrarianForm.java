@@ -9,6 +9,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 @WebServlet("/AddLibrarianForm")
 public class AddLibrarianForm extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -23,14 +24,25 @@ public class AddLibrarianForm extends HttpServlet {
 		out.println("</head>");
 		out.println("<body>");
 		
-		request.getRequestDispatcher("navadmin.html").include(request, response);
-		out.println("<div class='container'>");
-		request.getRequestDispatcher("addlibrarianform.html").include(request, response);
-		out.println("</div>");
+		HttpSession session = request.getSession();
 		
+		if (session.getAttribute("admin") == "true") 
+		{
+			
+			request.getRequestDispatcher("navadmin.html").include(request, response);
+			out.println("<div class='container'>");
+			request.getRequestDispatcher("addlibrarianform.html").include(request, response);
+			out.println("</div>");
 		
+		}
+			
+		else
+		{
+			new com.authfunctions.AdminLogin(request,response,out);		
+		}		
 		
 		request.getRequestDispatcher("footer.html").include(request, response);
+		
 		out.close();
 	}
 

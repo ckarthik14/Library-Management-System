@@ -10,6 +10,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.beans.LibrarianBean;
 import com.dao.LibrarianDao;
@@ -27,30 +28,47 @@ public class EditLibrarianForm extends HttpServlet {
 		out.println("</head>");
 		out.println("<body>");
 		
-		request.getRequestDispatcher("navadmin.html").include(request, response);
-		out.println("<div class='container'>");
-		String lid=request.getParameter("lid");
+		HttpSession session = request.getSession();
 		
-		LibrarianBean bean=LibrarianDao.viewById(lid);
+		if (session.getAttribute("librarianemail") != null)
+		{
 		
-		out.print("<form action='EditLibrarian' method='post' style='width:300px'>");
-		out.print("<div class='form-group'>");
-		out.print("<input type='hidden' name='lid' value='"+bean.getLid()+"'/>");
-		out.print("<label for='name1'>Name</label>");
-		out.print("<input type='text' class='form-control' value='"+bean.getName()+"' name='name' id='name1' placeholder='Name'/>");
-		out.print("</div>");
-		out.print("<div class='form-group'>");
-		out.print("<label for='password1'>Password</label>");
-		out.print("<input type='password' class='form-control' value='"+bean.getPassword()+"' name='password' id='password1' placeholder='Password'/>");
-		out.print("</div>  ");
-		out.print("<div class='form-group'>");
-		out.print("<label for='mobile1'>Mobile Number</label>");
-		out.print("<input type='number' class='form-control' value='"+bean.getMobile()+"' name='mobile' id='mobile1' placeholder='Mobile'/>");
-		out.print("</div>");
-		out.print("<button type='submit' class='btn btn-primary'>Update</button>");
-		out.print("</form>");
+			request.getRequestDispatcher("navadmin.html").include(request, response);
+			out.println("<div class='container'>");
+			String lid=request.getParameter("lid");
+			
+			LibrarianBean bean=LibrarianDao.viewById(lid);
+			
+			out.print("<form action='EditLibrarian' method='post' style='width:300px'>");
+			out.print("<div class='form-group'>");
+			out.print("<input type='hidden' name='lid' value='"+bean.getLid()+"'/>");
+			out.print("<label for='name1'>Name</label>");
+			out.print("<input type='text' class='form-control' value='"+bean.getName()+"' name='name' id='name1' placeholder='Name'/>");
+			out.print("</div>");
+			out.print("<div class='form-group'>");
+			out.print("<label for='password1'>Password</label>");
+			out.print("<input type='password' class='form-control' value='"+bean.getPassword()+"' name='password' id='password1' placeholder='Password'/>");
+			out.print("</div>  ");
+			out.print("<div class='form-group'>");
+			out.print("<label for='mobile1'>Mobile Number</label>");
+			out.print("<input type='number' class='form-control' value='"+bean.getMobile()+"' name='mobile' id='mobile1' placeholder='Mobile'/>");
+			out.print("</div>");
+			out.print("<button type='submit' class='btn btn-primary'>Update</button>");
+			out.print("</form>");
+			
+			out.println("</div>");
+			
+		}
 		
-		out.println("</div>");
+		else
+		{
+			request.getRequestDispatcher("navhome.html").include(request, response);
+			out.println("<div class='container'>");
+			request.getRequestDispatcher("librarianloginform.html").include(request, response);
+			out.println("</div>");
+				
+		}
+		
 		request.getRequestDispatcher("footer.html").include(request, response);
 		out.close();
 		

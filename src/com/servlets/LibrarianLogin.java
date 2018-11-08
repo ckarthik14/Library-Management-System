@@ -29,14 +29,19 @@ public class LibrarianLogin extends HttpServlet {
 		
 		String email=request.getParameter("email");
 		String password=request.getParameter("password");
-		if(LibrarianDao.authenticate(email, password)){
+		
+		if(LibrarianDao.authenticate(email, password))
+		{
 			HttpSession session=request.getSession();
-			session.setAttribute("email",email);
+			session.setAttribute("librarianemail",email);
 			
 			request.getRequestDispatcher("navlibrarian.html").include(request, response);
 			request.getRequestDispatcher("librariancarousel.html").include(request, response);
 			
-		}else{
+		}
+		
+		else
+		{
 			request.getRequestDispatcher("navhome.html").include(request, response);
 			out.println("<div class='container'>");
 			out.println("<h3 class='text_format'>Username or password error</h3>");
@@ -65,7 +70,7 @@ public class LibrarianLogin extends HttpServlet {
 		
 		HttpSession session = request.getSession();
 		
-		if (session.getAttribute("email") != null) {
+		if (session.getAttribute("librarianemail") != null) {
 		
 		request.getRequestDispatcher("navlibrarian.html").include(request, response);
 		request.getRequestDispatcher("librariancarousel.html").include(request, response);
