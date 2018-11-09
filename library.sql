@@ -165,7 +165,6 @@ CREATE TABLE `librarian` (
   `LID` varchar(100) NOT NULL,
   `NAME` varchar(50) NOT NULL,
   `PASSWORD` varchar(50) NOT NULL,
-  `MOBILE` varchar(15) DEFAULT NULL,
   PRIMARY KEY (`LID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -176,7 +175,6 @@ CREATE TABLE `librarian` (
 
 LOCK TABLES `librarian` WRITE;
 /*!40000 ALTER TABLE `librarian` DISABLE KEYS */;
-INSERT INTO `librarian` VALUES ('ckarthik114@gmail.com','Karthik Cottur','123','9481779848');
 /*!40000 ALTER TABLE `librarian` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -291,4 +289,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-11-09 10:25:41
+-- Dump completed on 2018-11-09 12:44:39
