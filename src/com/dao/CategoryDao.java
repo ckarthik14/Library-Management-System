@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.beans.CategoryBean;
+import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
 
 public class CategoryDao {
 
@@ -23,7 +24,14 @@ public class CategoryDao {
 			status=ps.executeUpdate();
 			con.close();
 			
-		}catch(Exception e){System.out.println(e);}
+		}
+		catch(MySQLIntegrityConstraintViolationException e)
+		{
+			status = 2;
+		}
+		catch (Exception e) {
+			System.out.println(e);
+		}
 		
 		return status;
 	}

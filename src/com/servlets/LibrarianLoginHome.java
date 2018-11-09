@@ -28,8 +28,6 @@ public class LibrarianLoginHome extends HttpServlet {
 		out.println("<link rel='stylesheet' href='index.css'/>");
 		out.println("</head>");
 		
-		System.out.println(request.getSession());
-		
 		HttpSession session = request.getSession();
 		
 		if (session.getAttribute("librarianemail") != null) {
