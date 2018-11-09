@@ -2,48 +2,69 @@ package com.beans;
 
 public class BookBean {
 	private String isbn, title, edition;
-	private int quantity, issued, pid;
+	private int quantity, issued, pid, cid;
 
-	public BookBean(String isbn, String title, String author, String publisher, int quantity) {
+	public BookBean(String isbn, String title, String author, String publisher, int quantity)
+	{
 		this.isbn = isbn;
 		this.title = title;
 		this.quantity = quantity;
 	}
-	public String getIsbn() {
+	public String getIsbn()
+	{
 		return isbn;
 	}
-	public void setIsbn(String isbn) {
+	public void setIsbn(String isbn)
+	{
 		this.isbn = isbn;
 	}
-	public String getTitle() {
+	public String getTitle()
+	{
 		return title;
 	}
-	public void setTitle(String title) {
+	public void setTitle(String title)
+	{
 		this.title = title;
 	}
-	public int getQuantity() {
+	public int getQuantity()
+	{
 		return quantity;
 	}
-	public void setQuantity(int quantity) {
+	public void setQuantity(int quantity)
+	{
 		this.quantity = quantity;
 	}
-	public int getIssued() {
+	public int getIssued()
+	{
 		return issued;
 	}
-	public void setIssued(int issued) {
+	public void setIssued(int issued)
+	{
 		this.issued = issued;
 	}
-	public String getEdition() {
+	public String getEdition()
+	{
 		return edition;
 	}
-	public void setEdition(String edition) {
+	public void setEdition(String edition)
+	{
 		this.edition = edition;
 	}
-	public int getPid() {
+	public int getPid()
+	{
 		return pid;
 	}
-	public void setPid(int pid) {
+	public void setPid(int pid)
+	{
 		this.pid = pid;
+	}
+	public int getCid()
+	{
+		return cid;
+	}
+	public void setCid(int cid)
+	{
+		this.cid = cid;
 	}
 
 }

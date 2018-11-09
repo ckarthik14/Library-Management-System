@@ -20,7 +20,6 @@ public class LibrarianDao {
 			ps.setString(1,bean.getLid());
 			ps.setString(2,bean.getName());
 			ps.setString(3,bean.getPassword());
-			ps.setString(4,bean.getMobile());
 			status=ps.executeUpdate();
 			con.close();
 			
@@ -35,7 +34,6 @@ public class LibrarianDao {
 			PreparedStatement ps=con.prepareStatement("update librarian set name=?, password=?, mobile=? where lid=?");
 			ps.setString(1,bean.getName());
 			ps.setString(2,bean.getPassword());
-			ps.setString(3,bean.getMobile());
 			ps.setString(4,bean.getLid());
 			status=ps.executeUpdate();
 			con.close();
@@ -55,7 +53,6 @@ public class LibrarianDao {
 				bean.setLid(rs.getString("lid"));
 				bean.setName(rs.getString("name"));
 				bean.setPassword(rs.getString("password"));
-				bean.setMobile(rs.getString("mobile"));
 				list.add(bean);
 			}
 			con.close();
@@ -75,7 +72,6 @@ public class LibrarianDao {
 				bean.setLid(rs.getString(1));
 				bean.setName(rs.getString(2));
 				bean.setPassword(rs.getString(3));
-				bean.setMobile(rs.getString(4));
 			}
 			con.close();
 			

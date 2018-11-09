@@ -32,8 +32,7 @@ public class AddLibrarian extends HttpServlet {
 		String name=request.getParameter("name");
 		String email=request.getParameter("email");
 		String password=request.getParameter("password");
-		String smobile=request.getParameter("mobile");
-		LibrarianBean bean=new LibrarianBean(name, email, password, smobile);
+		LibrarianBean bean=new LibrarianBean(name, email, password);
 		LibrarianDao.save(bean);
 		out.print("<h4>Librarian added successfully</h4>");
 		request.getRequestDispatcher("addlibrarianform.html").include(request, response);
