@@ -42,32 +42,6 @@ LOCK TABLES `author` WRITE;
 UNLOCK TABLES;
 
 --
--- Table structure for table `belongs_to`
---
-
-DROP TABLE IF EXISTS `belongs_to`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `belongs_to` (
-  `ISBN` varchar(20) NOT NULL,
-  `CID` int(11) NOT NULL,
-  KEY `isbn_idx` (`ISBN`),
-  KEY `cid_idx` (`CID`),
-  CONSTRAINT `cid` FOREIGN KEY (`CID`) REFERENCES `category` (`CID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `isbn_bt` FOREIGN KEY (`ISBN`) REFERENCES `book` (`ISBN`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `belongs_to`
---
-
-LOCK TABLES `belongs_to` WRITE;
-/*!40000 ALTER TABLE `belongs_to` DISABLE KEYS */;
-/*!40000 ALTER TABLE `belongs_to` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `book`
 --
 
@@ -81,8 +55,11 @@ CREATE TABLE `book` (
   `QUANTITY` int(11) NOT NULL,
   `ISSUED` int(11) NOT NULL,
   `PID` int(11) NOT NULL,
+  `CID` int(11) NOT NULL,
   PRIMARY KEY (`ISBN`),
   KEY `fk_book_1_idx` (`PID`),
+  KEY `cid_idx` (`CID`),
+  CONSTRAINT `cid` FOREIGN KEY (`CID`) REFERENCES `category` (`CID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `pid` FOREIGN KEY (`PID`) REFERENCES `publisher` (`PID`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -314,4 +291,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-11-09  0:08:03
+-- Dump completed on 2018-11-09 10:25:41
