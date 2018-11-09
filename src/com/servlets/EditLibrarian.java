@@ -21,7 +21,7 @@ public class EditLibrarian extends HttpServlet {
 		String email=request.getParameter("lid");
 		String password=request.getParameter("password");
 		String smobile=request.getParameter("mobile");
-		LibrarianBean bean = new LibrarianBean(name, email, password, smobile);
+		LibrarianBean bean = new LibrarianBean(name, email, password);
 		LibrarianDao.update(bean);
 		response.sendRedirect("ViewLibrarian");
 	}
