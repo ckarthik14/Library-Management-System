@@ -9,20 +9,20 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.beans.CategoryBean;
-import com.dao.CategoryDao;
+import com.beans.CourseBean;
+import com.dao.CourseDao;
 
-@WebServlet("/EditCategory")
-public class EditCategory extends HttpServlet {
+@WebServlet("/EditCourse")
+public class EditCourse extends HttpServlet {
 		protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		int cid = Integer.parseInt(request.getParameter("cid"));
-		String name = request.getParameter("name");
-		String description = request.getParameter("description");
+		String title = request.getParameter("title");
+		String department = request.getParameter("department");
 		
-		CategoryBean bean = new CategoryBean(cid, name, description);
-		int i = CategoryDao.update(bean);
+		CourseBean bean = new CourseBean(cid, title, department);
+		int i = CourseDao.update(bean);
 		
-		response.sendRedirect("ViewCategory");
+		response.sendRedirect("ViewCourse");
 		
 	}
 
