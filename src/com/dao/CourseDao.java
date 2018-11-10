@@ -9,18 +9,18 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.beans.CategoryBean;
+import com.beans.CourseBean;
 import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
 
-public class CategoryDao {
+public class CourseDao {
 
-	public static int save(CategoryBean bean){
+	public static int save(CourseBean bean){
 		int status=0;
 		try{
 			Connection con=DB.getCon();
-			PreparedStatement ps=con.prepareStatement("insert into category(name, description) values(?,?)");
-			ps.setString(1,bean.getName());
-			ps.setString(2,bean.getDescription());
+			PreparedStatement ps=con.prepareStatement("insert into course(title, department) values(?,?)");
+			ps.setString(1,bean.getTitle());
+			ps.setString(2,bean.getDepartment());
 			status=ps.executeUpdate();
 			con.close();
 			
@@ -36,13 +36,13 @@ public class CategoryDao {
 		
 		return status;
 	}
-	public static int update(CategoryBean bean){
+	public static int update(CourseBean bean){
 		int status=0;
 		try{
 			Connection con=DB.getCon();
-			PreparedStatement ps=con.prepareStatement("update category set name=?, description=? where cid=?");
-			ps.setString(1,bean.getName());
-			ps.setString(2,bean.getDescription());
+			PreparedStatement ps=con.prepareStatement("update course set title=?, department=? where cid=?");
+			ps.setString(1,bean.getTitle());
+			ps.setString(2,bean.getDepartment());
 			ps.setInt(3,bean.getCid());
 			status=ps.executeUpdate();
 			con.close();
@@ -56,17 +56,17 @@ public class CategoryDao {
 		
 		return status;
 	}
-	public static List<CategoryBean> view(){
-		List<CategoryBean> list=new ArrayList<CategoryBean>();
+	public static List<CourseBean> view(){
+		List<CourseBean> list=new ArrayList<CourseBean>();
 		try{
 			Connection con=DB.getCon();
-			PreparedStatement ps=con.prepareStatement("select * from category");
+			PreparedStatement ps=con.prepareStatement("select * from course");
 			ResultSet rs=ps.executeQuery();
 			while(rs.next()){
-				CategoryBean bean=new CategoryBean();
+				CourseBean bean=new CourseBean();
 				bean.setCid(rs.getInt("cid"));
-				bean.setName(rs.getString("name"));
-				bean.setDescription(rs.getString("description"));
+				bean.setTitle(rs.getString("title"));
+				bean.setDepartment(rs.getString("department"));
 				list.add(bean);
 			}
 			con.close();
@@ -75,17 +75,17 @@ public class CategoryDao {
 		
 		return list;
 	}
-	public static CategoryBean viewById(String cid){
-		CategoryBean bean = new CategoryBean();
+	public static CourseBean viewById(String cid){
+		CourseBean bean = new CourseBean();
 		try{
 			Connection con=DB.getCon();
-			PreparedStatement ps=con.prepareStatement("select * from category where cid=?");
+			PreparedStatement ps=con.prepareStatement("select * from course where cid=?");
 			ps.setString(1,cid);
 			ResultSet rs=ps.executeQuery();
 			if(rs.next()){
 				bean.setCid(rs.getInt(1));
-				bean.setName(rs.getString(2));
-				bean.setDescription(rs.getString(3));
+				bean.setTitle(rs.getString(2));
+				bean.setDepartment(rs.getString(3));
 			}
 			con.close();
 			
@@ -97,7 +97,7 @@ public class CategoryDao {
 		int status=0;
 		try{
 			Connection con=DB.getCon();
-			PreparedStatement ps=con.prepareStatement("delete from category where cid=?");
+			PreparedStatement ps=con.prepareStatement("delete from course where cid=?");
 			ps.setString(1,cid);
 			status=ps.executeUpdate();
 			con.close();
@@ -107,3 +107,4 @@ public class CategoryDao {
 		return status;
 	}
 }
+

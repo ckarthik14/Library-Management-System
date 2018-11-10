@@ -10,8 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-@WebServlet("/AddCategoryForm")
-public class AddCategoryForm extends HttpServlet {
+@WebServlet("/AddCourseForm")
+public class AddCourseForm extends HttpServlet {
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
@@ -21,7 +21,7 @@ public class AddCategoryForm extends HttpServlet {
 		out.print("<!DOCTYPE html>");
 		out.print("<html>");
 		out.println("<head>");
-		out.println("<title>New Category</title>");
+		out.println("<title>New Course</title>");
 		out.println("<link rel='stylesheet' href='bootstrap.min.css'/>");
 		out.println("</head>");
 		out.println("<body>");
@@ -34,7 +34,7 @@ public class AddCategoryForm extends HttpServlet {
 			request.getRequestDispatcher("navlibrarian.html").include(request, response);
 			
 			out.println("<div class='container'>");
-			request.getRequestDispatcher("addcategoryform.html").include(request, response);
+			request.getRequestDispatcher("addcourseform.html").include(request, response);
 			out.println("</div>");
 					
 		}
