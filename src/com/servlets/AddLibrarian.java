@@ -4,6 +4,7 @@ package com.servlets;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+import javax.net.ssl.SSLEngineResult.Status;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -33,8 +34,16 @@ public class AddLibrarian extends HttpServlet {
 		String email=request.getParameter("email");
 		String password=request.getParameter("password");
 		LibrarianBean bean=new LibrarianBean(name, email, password);
-		LibrarianDao.save(bean);
-		out.print("<h4>Librarian added successfully</h4>");
+		int status = LibrarianDao.save(bean);
+		
+		if(status == 2)
+		{
+			out.print("<h4>Librarian already exists</h4>");
+		}
+		else
+		{
+			out.print("<h4>Librarian added successfully</h4>");
+		}
 		request.getRequestDispatcher("addlibrarianform.html").include(request, response);
 		
 		

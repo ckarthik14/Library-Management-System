@@ -30,7 +30,7 @@ public class EditLibrarianForm extends HttpServlet {
 		
 		HttpSession session = request.getSession();
 		
-		if (session.getAttribute("librarianemail") != null)
+		if (session.getAttribute("admin") == "true")
 		{
 		
 			request.getRequestDispatcher("navadmin.html").include(request, response);

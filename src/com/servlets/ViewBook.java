@@ -1,5 +1,6 @@
 package com.servlets;
 import java.io.IOException;
+
 import java.io.PrintWriter;
 import java.util.List;
 
@@ -44,7 +45,7 @@ public class ViewBook extends HttpServlet {
 			out.println("<table class='table table-bordered table-striped'>");
 			out.println("<tr><th>Callno</th><th>Name</th><th>Author</th><th>Publisher</th><th>Quantity</th><th>Issued</th><th>Delete</th></tr>");
 			for(BookBean bean:list){
-				out.println("<tr><td>"+bean.getIsbn()+"</td><td>"+bean.getTitle()+"</td><td>"+bean.getAuthor()+"</td><td>"+bean.getPublisher()+"</td><td>"+bean.getQuantity()+"</td><td>"+bean.getIssued()+"</td><td><a href='DeleteBook?callno="+bean.getIsbn()+"'>Delete</a></td></tr>");
+				out.println("<tr><td>"+bean.getIsbn()+"</td><td>"+bean.getTitle()+"</td><td>"+bean.getQuantity()+"</td><td>"+bean.getIssued()+"</td><td><a href='DeleteBook?callno="+bean.getIsbn()+"'>Delete</a></td></tr>");
 			}
 			out.println("</table>");
 			

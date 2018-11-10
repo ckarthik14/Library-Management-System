@@ -36,7 +36,7 @@ public class AddCategory extends HttpServlet {
 		
 		int i=CategoryDao.save(bean);
 		
-		if(i==0){
+		if(i==1){
 			out.println("<h3>Category saved successfully</h3>");
 		}
 		else if(i==2) {

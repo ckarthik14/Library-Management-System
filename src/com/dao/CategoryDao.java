@@ -2,6 +2,7 @@ package com.dao;
 
 import java.sql.Connection;
 
+
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -17,21 +18,21 @@ public class CategoryDao {
 		int status=0;
 		try{
 			Connection con=DB.getCon();
-			PreparedStatement ps=con.prepareStatement("insert into category(cid, name, description) values(?,?,?)");
-			ps.setInt(1,bean.getCid());
-			ps.setString(2,bean.getName());
-			ps.setString(3,bean.getDescription());
+			PreparedStatement ps=con.prepareStatement("insert into category(name, description) values(?,?)");
+			ps.setString(1,bean.getName());
+			ps.setString(2,bean.getDescription());
 			status=ps.executeUpdate();
 			con.close();
 			
 		}
-		catch(MySQLIntegrityConstraintViolationException e)
-		{
+		catch (MySQLIntegrityConstraintViolationException e) {
 			status = 2;
 		}
 		catch (Exception e) {
 			System.out.println(e);
 		}
+		
+		System.out.println(status);
 		
 		return status;
 	}
@@ -60,7 +61,7 @@ public class CategoryDao {
 				CategoryBean bean=new CategoryBean();
 				bean.setCid(rs.getInt("cid"));
 				bean.setName(rs.getString("name"));
-				bean.setDescription(rs.getString("password"));
+				bean.setDescription(rs.getString("description"));
 				list.add(bean);
 			}
 			con.close();
@@ -69,12 +70,12 @@ public class CategoryDao {
 		
 		return list;
 	}
-	public static CategoryBean viewById(String Lid){
+	public static CategoryBean viewById(String cid){
 		CategoryBean bean = new CategoryBean();
 		try{
 			Connection con=DB.getCon();
-			PreparedStatement ps=con.prepareStatement("select * from category where lid=?");
-			ps.setString(1,Lid);
+			PreparedStatement ps=con.prepareStatement("select * from category where cid=?");
+			ps.setString(1,cid);
 			ResultSet rs=ps.executeQuery();
 			if(rs.next()){
 				bean.setCid(rs.getInt(1));
@@ -91,7 +92,7 @@ public class CategoryDao {
 		int status=0;
 		try{
 			Connection con=DB.getCon();
-			PreparedStatement ps=con.prepareStatement("delete from category where lid=?");
+			PreparedStatement ps=con.prepareStatement("delete from category where cid=?");
 			ps.setString(1,cid);
 			status=ps.executeUpdate();
 			con.close();

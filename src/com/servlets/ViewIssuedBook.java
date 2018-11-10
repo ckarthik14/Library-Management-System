@@ -2,6 +2,7 @@ package com.servlets;
 
 
 import java.io.IOException;
+
 import java.io.PrintWriter;
 import java.util.List;
 
@@ -15,6 +16,7 @@ import javax.servlet.http.HttpSession;
 import com.beans.BookBean;
 import com.beans.IssueBookBean;
 import com.dao.BookDao;
+
 @WebServlet("/ViewIssuedBook")
 public class ViewIssuedBook extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

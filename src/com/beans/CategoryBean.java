@@ -6,6 +6,12 @@ public class CategoryBean {
 	
 	public CategoryBean() {}
 	
+	public CategoryBean(int cid, String name, String description) {
+		this.name = name;
+		this.description = description;
+		this.cid = cid;
+	}
+	
 	public CategoryBean(String name, String description) {
 		this.name = name;
 		this.description = description;
