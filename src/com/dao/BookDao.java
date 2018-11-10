@@ -19,10 +19,10 @@ public class BookDao {
 		try{
 			Connection con=DB.getCon();
 			PreparedStatement ps=con.prepareStatement("insert into book values(?,?,?,?,?,?)");
-			ps.setString(1,bean.getCallno());
-			ps.setString(2,bean.getName());
-			ps.setString(3,bean.getAuthor());
-			ps.setString(4,bean.getPublisher());
+//			ps.setString(1,bean.getCallno());
+//			ps.setString(2,bean.getName());
+//			ps.setString(3,bean.getAuthor());
+//			ps.setString(4,bean.getPublisher());
 			ps.setInt(5,bean.getQuantity());
 			ps.setInt(6,0);
 			status=ps.executeUpdate();

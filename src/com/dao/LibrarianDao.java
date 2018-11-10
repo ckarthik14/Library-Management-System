@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.beans.LibrarianBean;
+import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
 
 public class LibrarianDao {
 
@@ -16,14 +17,18 @@ public class LibrarianDao {
 		int status=0;
 		try{
 			Connection con=DB.getCon();
-			PreparedStatement ps=con.prepareStatement("insert into librarian(lid, name, password, mobile) values(?,?,?,?)");
+			PreparedStatement ps=con.prepareStatement("insert into librarian(lid, name, password) values(?,?,?)");
 			ps.setString(1,bean.getLid());
 			ps.setString(2,bean.getName());
 			ps.setString(3,bean.getPassword());
 			status=ps.executeUpdate();
 			con.close();
 			
-		}catch(Exception e){System.out.println(e);}
+		}catch (MySQLIntegrityConstraintViolationException e) {
+			status = 2;
+		}
+		
+		catch(Exception e){System.out.println(e);}
 		
 		return status;
 	}
@@ -31,10 +36,10 @@ public class LibrarianDao {
 		int status=0;
 		try{
 			Connection con=DB.getCon();
-			PreparedStatement ps=con.prepareStatement("update librarian set name=?, password=?, mobile=? where lid=?");
+			PreparedStatement ps=con.prepareStatement("update librarian set name=?, password=? where lid=?");
 			ps.setString(1,bean.getName());
 			ps.setString(2,bean.getPassword());
-			ps.setString(4,bean.getLid());
+			ps.setString(3,bean.getLid());
 			status=ps.executeUpdate();
 			con.close();
 			

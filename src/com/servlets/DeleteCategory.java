@@ -1,6 +1,5 @@
 package com.servlets;
 
-
 import java.io.IOException;
 import java.io.PrintWriter;
 
@@ -10,12 +9,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import javax.websocket.Session;
 
-import com.dao.LibrarianDao;
-@WebServlet("/LibrarianLoginHome")
-public class LibrarianLoginHome extends HttpServlet {
-	
+import com.dao.CategoryDao;
+
+@WebServlet("/DeleteCategory")
+public class DeleteCategory extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("text/html");
 		PrintWriter out=response.getWriter();
@@ -30,23 +28,19 @@ public class LibrarianLoginHome extends HttpServlet {
 		
 		HttpSession session = request.getSession();
 		
-		if (session.getAttribute("librarianemail") != null) {
-		
-			request.getRequestDispatcher("navlibrarian.html").include(request, response);
-			request.getRequestDispatcher("librarianloginhome.html").include(request, response);
-			
+		if (session.getAttribute("librarianemail") != null)
+		{
+			CategoryDao.delete(request.getParameter("cid"));
+			response.sendRedirect("ViewCategory");
 		}
-		
+			
 		else
 		{
-			new com.authfunctions.LibraryLogin(request, response, out);
-		}
-		
-		request.getRequestDispatcher("footer.html").include(request, response);
+			new com.authfunctions.LibraryLogin(request,response,out);
+		}		
 		
 		out.close();
 		
 	}
 
 }
-
