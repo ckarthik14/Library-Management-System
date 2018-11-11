@@ -1,16 +1,20 @@
-<h3>Add Librarian</h3>
-  <form action="AddLibrarian" method="post" style="width:300px">
+<h3>Add Student</h3>
+  <form action="AddStudent" method="post" style="width:300px">
   <div class="form-group">
     <label for="name1">Name</label>
     <input required type="text" class="form-control" name="name" id="name1" placeholder="Name"/>
   </div>
   <div class="form-group">
-    <label for="email1">Email address</label>
-    <input required type="email" class="form-control" name="email" id="email1" placeholder="Email"/>
+    <label for="sid1">USN</label>
+    <input required type="text" class="form-control" name="sid" id="sid1" placeholder="USN"/>
   </div>
   <div class="form-group">
     <label for="password1">Password</label>
     <input required type="password" class="form-control" name="password" id="password1" placeholder="Password"/>
+  </div>
+  <div class="form-group">
+    <label for="dob1">DOB</label>
+    <input required type="date" class="form-control" name="dob" id="dob1" placeholder="DOB"/>
   </div>  
   <button type="submit" class="btn btn-primary">Submit</button>
 </form>
