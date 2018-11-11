@@ -17,6 +17,13 @@ public class AuthorBean {
 		this.phone = phone;
 		this.address = address;
 	}
+	public AuthorBean(Integer aid, String fname, String lname, int phone, String address) {
+		this.aid = aid;
+		this.fname = fname;
+		this.lname = lname;
+		this.phone = phone;
+		this.address = address;
+	}
 	
 	public int getAid() {
 		return aid;

@@ -11,6 +11,12 @@ public class PublisherBean {
 		this.phone = phone;
 		this.address = address;
 	}
+	public PublisherBean(int pid, String name, int phone, String address) {
+		this.pid = pid;
+		this.name = name;
+		this.phone = phone;
+		this.address = address;
+	}
 	
 	public int getPid() {
 		return pid;

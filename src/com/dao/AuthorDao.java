@@ -68,8 +68,8 @@ public class AuthorDao {
 				bean.setAid(rs.getInt("aid"));
 				bean.setFname(rs.getString("fname"));
 				bean.setLname(rs.getString("lname"));
-				bean.setPhone(rs.getInt("phone"));
 				bean.setAddress(rs.getString("address"));
+				bean.setPhone(rs.getInt("phone"));
 				list.add(bean);
 			}
 			con.close();
@@ -89,8 +89,8 @@ public class AuthorDao {
 				bean.setAid(rs.getInt(1));
 				bean.setFname(rs.getString(2));
 				bean.setLname(rs.getString(3));
-				bean.setPhone(rs.getInt(4));
-				bean.setAddress(rs.getString(5));
+				bean.setPhone(rs.getInt(5));
+				bean.setAddress(rs.getString(4));
 			}
 			con.close();
 			
