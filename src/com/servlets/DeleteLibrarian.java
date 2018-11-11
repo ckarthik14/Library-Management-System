@@ -29,7 +29,7 @@ public class DeleteLibrarian extends HttpServlet {
 		
 		HttpSession session = request.getSession();
 		
-		if (session.getAttribute("librarianemail") != null)
+		if (session.getAttribute("admin") == "true")
 		{
 		
 			String lid=request.getParameter("lid");

@@ -10,44 +10,37 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-@WebServlet("/AddCategoryForm")
-public class AddCategoryForm extends HttpServlet {
-	
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+import com.dao.CourseDao;
 
+@WebServlet("/DeleteCourse")
+public class DeleteCourse extends HttpServlet {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("text/html");
 		PrintWriter out=response.getWriter();
 		
 		out.print("<!DOCTYPE html>");
 		out.print("<html>");
 		out.println("<head>");
-		out.println("<title>New Category</title>");
+		out.println("<title>Librarian Section</title>");
 		out.println("<link rel='stylesheet' href='bootstrap.min.css'/>");
+		out.println("<link rel='stylesheet' href='index.css'/>");
 		out.println("</head>");
-		out.println("<body>");
 		
 		HttpSession session = request.getSession();
 		
 		if (session.getAttribute("librarianemail") != null)
 		{
-			
-			request.getRequestDispatcher("navlibrarian.html").include(request, response);
-			
-			out.println("<div class='container'>");
-			request.getRequestDispatcher("addcategoryform.html").include(request, response);
-			out.println("</div>");
-					
+			CourseDao.delete(request.getParameter("cid"));
+			response.sendRedirect("ViewCourse");
 		}
 			
 		else
 		{
 			new com.authfunctions.LibraryLogin(request,response,out);
-		}
-	
-		request.getRequestDispatcher("footer.html").include(request, response);
+		}		
 		
 		out.close();
+		
 	}
-	
 
 }

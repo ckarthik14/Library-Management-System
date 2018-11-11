@@ -7,9 +7,14 @@ public class CategoryBean {
 	public CategoryBean() {}
 	
 	public CategoryBean(int cid, String name, String description) {
+		this.name = name;
+		this.description = description;
 		this.cid = cid;
-		this.setName(name);
-		this.setDescription(description);
+	}
+	
+	public CategoryBean(String name, String description) {
+		this.name = name;
+		this.description = description;
 		
 	}
 	
@@ -38,7 +43,5 @@ public class CategoryBean {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	
-	
 
 }
