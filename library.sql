@@ -86,7 +86,7 @@ CREATE TABLE `category` (
   `DESCRIPTION` varchar(100) NOT NULL,
   PRIMARY KEY (`CID`),
   UNIQUE KEY `NAME_UNIQUE` (`NAME`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -95,7 +95,7 @@ CREATE TABLE `category` (
 
 LOCK TABLES `category` WRITE;
 /*!40000 ALTER TABLE `category` DISABLE KEYS */;
-INSERT INTO `category` VALUES (1,'Fiction','Unreal works of art'),(10,'Science','Physics, Chemistry and Biology');
+INSERT INTO `category` VALUES (1,'Fiction','Unreal works of art'),(10,'Science','Physics, Chemistry and Biology related books');
 /*!40000 ALTER TABLE `category` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -110,8 +110,9 @@ CREATE TABLE `course` (
   `CID` int(11) NOT NULL AUTO_INCREMENT,
   `TITLE` varchar(50) NOT NULL,
   `DEPARTMENT` varchar(50) NOT NULL,
-  PRIMARY KEY (`CID`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  PRIMARY KEY (`CID`),
+  UNIQUE KEY `TITLE_UNIQUE` (`TITLE`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -120,6 +121,7 @@ CREATE TABLE `course` (
 
 LOCK TABLES `course` WRITE;
 /*!40000 ALTER TABLE `course` DISABLE KEYS */;
+INSERT INTO `course` VALUES (1,'DMS','CSE');
 /*!40000 ALTER TABLE `course` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -254,6 +256,7 @@ CREATE TABLE `student` (
 
 LOCK TABLES `student` WRITE;
 /*!40000 ALTER TABLE `student` DISABLE KEYS */;
+INSERT INTO `student` VALUES ('1RV16CS001','Aashish','1999-01-01','123');
 /*!40000 ALTER TABLE `student` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -292,4 +295,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-11-10 21:44:20
+-- Dump completed on 2018-11-11 12:41:17
