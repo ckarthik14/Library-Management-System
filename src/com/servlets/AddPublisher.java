@@ -30,15 +30,18 @@ public class AddPublisher extends HttpServlet {
 		out.println("<div class='container'>");
 
 		String name=request.getParameter("name");
-		Integer phone=Integer.parseInt(request.getParameter("phone"));
+		String phone=request.getParameter("phone");
 		String address=request.getParameter("address");
 		
 		PublisherBean bean=new PublisherBean(name,phone,address);
 		int i=PublisherDao.save(bean);
-		if(i==0){
+		
+		System.out.println(i);
+		
+		if(i==1){
 			out.println("<h3>Publisher saved successfully</h3>");
 		}
-		else if(i==2) {
+		else if(i==0) {
 			out.println("<h3>Publisher already exists</h3>");
 		}
 		request.getRequestDispatcher("addpublisherform.html").include(request, response);

@@ -2,6 +2,7 @@ package com.dao;
 
 import java.sql.Connection;
 
+
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -21,17 +22,16 @@ public class AuthorDao {
 			ps.setInt(1,bean.getAid());
 			ps.setString(2,bean.getFname());
 			ps.setString(3,bean.getLname());
-			ps.setInt(4,bean.getPhone());
+			ps.setString(4,bean.getPhone());
 			ps.setString(5,bean.getAddress());
 			status=ps.executeUpdate();
 			con.close();
 			
 		}
-		catch(MySQLIntegrityConstraintViolationException e) {
+		catch (MySQLIntegrityConstraintViolationException e) {
 			status = 2;
 		}
 		catch(Exception e){System.out.println(e);}
-		
 		
 		return status;
 	}
@@ -42,7 +42,7 @@ public class AuthorDao {
 			PreparedStatement ps=con.prepareStatement("update author set fname=?, lname=?, phone=?, address=? where aid=?");
 			ps.setString(1,bean.getFname());
 			ps.setString(2,bean.getLname());
-			ps.setInt(3,bean.getPhone());
+			ps.setString(3,bean.getPhone());
 			ps.setString(4,bean.getAddress());
 			ps.setInt(5,bean.getAid());
 			status=ps.executeUpdate();
@@ -69,7 +69,7 @@ public class AuthorDao {
 				bean.setFname(rs.getString("fname"));
 				bean.setLname(rs.getString("lname"));
 				bean.setAddress(rs.getString("address"));
-				bean.setPhone(rs.getInt("phone"));
+				bean.setPhone(rs.getString("phone"));
 				list.add(bean);
 			}
 			con.close();
@@ -78,7 +78,7 @@ public class AuthorDao {
 		
 		return list;
 	}
-	public static AuthorBean viewById(Integer Aid){
+	public static AuthorBean viewById(int Aid){
 		AuthorBean bean = new AuthorBean();
 		try{
 			Connection con=DB.getCon();
@@ -89,7 +89,7 @@ public class AuthorDao {
 				bean.setAid(rs.getInt(1));
 				bean.setFname(rs.getString(2));
 				bean.setLname(rs.getString(3));
-				bean.setPhone(rs.getInt(5));
+				bean.setPhone(rs.getString(5));
 				bean.setAddress(rs.getString(4));
 			}
 			con.close();
@@ -98,7 +98,7 @@ public class AuthorDao {
 		
 		return bean;
 	}
-	public static int delete(Integer Aid){
+	public static int delete(int Aid){
 		int status=0;
 		try{
 			Connection con=DB.getCon();

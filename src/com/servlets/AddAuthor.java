@@ -31,15 +31,17 @@ public class AddAuthor extends HttpServlet {
 
 		String fname=request.getParameter("fname");
 		String lname=request.getParameter("lname");
-		Integer phone=Integer.parseInt(request.getParameter("phone"));
+		String phone=request.getParameter("phone");
 		String address=request.getParameter("address");
 		
 		AuthorBean bean=new AuthorBean(fname,lname,phone,address);
 		int i=AuthorDao.save(bean);
-		if(i==0){
+		System.out.println(i);
+		
+		if(i==1){
 			out.println("<h3>Author saved successfully</h3>");
 		}
-		else if(i==2) {
+		else if(i==0) {
 			out.println("<h3>Author already exists</h3>");
 		}
 		request.getRequestDispatcher("addauthorform.html").include(request, response);
