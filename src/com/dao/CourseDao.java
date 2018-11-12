@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.beans.CourseBean;
+import com.beans.CourseRecommendBean;
 import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
 
 public class CourseDao {
@@ -105,6 +106,27 @@ public class CourseDao {
 		}catch(Exception e){System.out.println(e);}
 		
 		return status;
+	}
+	
+	public static CourseRecommendBean retrieve(String cid){
+		CourseRecommendBean bean = new CourseRecommendBean();
+		try{
+			Connection con=DB.getCon();
+			PreparedStatement ps=con.prepareStatement("select isbn, b.title, edition, c.title, quantity, issued from prescribes as p, book as b, course as c where c.cid=p.cid and p.isbn=b.isbn and c.cid=?");
+			ps.setString(1,cid);
+			ResultSet rs=ps.executeQuery();
+			if(rs.next()){
+				bean.setIsbn(rs.getString(1));
+				bean.setTitle(rs.getString(2));
+				bean.setEdition(rs.getString(3));
+				bean.setCourse(rs.getString(4));
+				bean.setStock(rs.getInt(5) - rs.getInt(6));
+			}
+			con.close();
+			
+		}catch(Exception e){System.out.println(e);}
+		
+		return bean;
 	}
 }
 
