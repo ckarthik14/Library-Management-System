@@ -27,9 +27,11 @@ CREATE TABLE `author` (
   `FNAME` varchar(25) NOT NULL,
   `LNAME` varchar(25) DEFAULT NULL,
   `ADDRESS` varchar(100) NOT NULL,
-  `PHONE` int(11) NOT NULL,
-  PRIMARY KEY (`AID`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `PHONE` varchar(15) NOT NULL,
+  PRIMARY KEY (`AID`),
+  UNIQUE KEY `PHONE_UNIQUE` (`PHONE`),
+  UNIQUE KEY `NAME` (`FNAME`,`LNAME`)
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -38,6 +40,7 @@ CREATE TABLE `author` (
 
 LOCK TABLES `author` WRITE;
 /*!40000 ALTER TABLE `author` DISABLE KEYS */;
+INSERT INTO `author` VALUES (2,'Dan','Brown','3, Oxford Street','8751235421'),(6,'Arthur','Conan Doyle','221B Baker Street','8571239041'),(10,'Muhammad','Mazidi','University of Tabriz','9681239121'),(12,'Janice','Mazidi','University of Tabriz','9859123877');
 /*!40000 ALTER TABLE `author` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -86,7 +89,7 @@ CREATE TABLE `category` (
   `DESCRIPTION` varchar(100) NOT NULL,
   PRIMARY KEY (`CID`),
   UNIQUE KEY `NAME_UNIQUE` (`NAME`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -95,7 +98,7 @@ CREATE TABLE `category` (
 
 LOCK TABLES `category` WRITE;
 /*!40000 ALTER TABLE `category` DISABLE KEYS */;
-INSERT INTO `category` VALUES (1,'Fiction','Unreal works of art'),(10,'Science','Physics, Chemistry and Biology related books');
+INSERT INTO `category` VALUES (1,'Fiction','Unreal works of art'),(10,'Science','Physics, Chemistry and Biology related books'),(12,'Engineering','Books for Engineering');
 /*!40000 ALTER TABLE `category` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -111,8 +114,8 @@ CREATE TABLE `course` (
   `TITLE` varchar(50) NOT NULL,
   `DEPARTMENT` varchar(50) NOT NULL,
   PRIMARY KEY (`CID`),
-  UNIQUE KEY `TITLE_UNIQUE` (`TITLE`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+  UNIQUE KEY `TITLE_DEPT` (`DEPARTMENT`,`TITLE`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -121,7 +124,7 @@ CREATE TABLE `course` (
 
 LOCK TABLES `course` WRITE;
 /*!40000 ALTER TABLE `course` DISABLE KEYS */;
-INSERT INTO `course` VALUES (1,'DMS','CSE');
+INSERT INTO `course` VALUES (1,'DMS','CSE'),(2,'MCES','CSE');
 /*!40000 ALTER TABLE `course` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -219,10 +222,12 @@ DROP TABLE IF EXISTS `publisher`;
 CREATE TABLE `publisher` (
   `PID` int(11) NOT NULL AUTO_INCREMENT,
   `PNAME` varchar(50) NOT NULL,
-  `PHONE` int(11) NOT NULL,
+  `PHONE` varchar(15) NOT NULL,
   `ADDRESS` varchar(100) NOT NULL,
-  PRIMARY KEY (`PID`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  PRIMARY KEY (`PID`),
+  UNIQUE KEY `PNAME_UNIQUE` (`PNAME`),
+  UNIQUE KEY `PHONE_UNIQUE` (`PHONE`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -231,6 +236,7 @@ CREATE TABLE `publisher` (
 
 LOCK TABLES `publisher` WRITE;
 /*!40000 ALTER TABLE `publisher` DISABLE KEYS */;
+INSERT INTO `publisher` VALUES (1,'Bantam Books','9846581252','NY, USA'),(5,'Pearson','020 7010 2336','London, England');
 /*!40000 ALTER TABLE `publisher` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -261,13 +267,13 @@ INSERT INTO `student` VALUES ('1RV16CS001','Aashish','1999-01-01','123');
 UNLOCK TABLES;
 
 --
--- Table structure for table `written_by`
+-- Table structure for table `written`
 --
 
-DROP TABLE IF EXISTS `written_by`;
+DROP TABLE IF EXISTS `written`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `written_by` (
+CREATE TABLE `written` (
   `ISBN` varchar(20) NOT NULL,
   `AID` int(11) NOT NULL,
   KEY `isbn_wb_idx` (`ISBN`),
@@ -278,12 +284,12 @@ CREATE TABLE `written_by` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `written_by`
+-- Dumping data for table `written`
 --
 
-LOCK TABLES `written_by` WRITE;
-/*!40000 ALTER TABLE `written_by` DISABLE KEYS */;
-/*!40000 ALTER TABLE `written_by` ENABLE KEYS */;
+LOCK TABLES `written` WRITE;
+/*!40000 ALTER TABLE `written` DISABLE KEYS */;
+/*!40000 ALTER TABLE `written` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -295,4 +301,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-11-11 12:41:17
+-- Dump completed on 2018-11-12  6:52:42

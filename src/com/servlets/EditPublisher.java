@@ -17,7 +17,7 @@ public class EditPublisher extends HttpServlet {
 		protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		int pid = Integer.parseInt(request.getParameter("pid"));
 		String name = request.getParameter("name");
-		Integer phone = Integer.parseInt(request.getParameter("phone"));
+		String phone = request.getParameter("phone");
 		String address = request.getParameter("address");
 		
 		PublisherBean bean = new PublisherBean(pid, name, phone, address);

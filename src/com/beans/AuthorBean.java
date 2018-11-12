@@ -1,23 +1,23 @@
 package com.beans;
 
 public class AuthorBean {
-	private int aid, phone;
-	private String fname, lname, address;
+	private int aid;
+	private String fname, lname, address, phone;
 	
 	public AuthorBean() {}
 	
-	public AuthorBean(String fname, int phone, String address) {
+	public AuthorBean(String fname, String phone, String address) {
 		this.fname = fname;
 		this.phone = phone;
 		this.address = address;
 	}
-	public AuthorBean(String fname, String lname, int phone, String address) {
+	public AuthorBean(String fname, String lname, String phone, String address) {
 		this.fname = fname;
 		this.lname = lname;
 		this.phone = phone;
 		this.address = address;
 	}
-	public AuthorBean(Integer aid, String fname, String lname, int phone, String address) {
+	public AuthorBean(Integer aid, String fname, String lname, String phone, String address) {
 		this.aid = aid;
 		this.fname = fname;
 		this.lname = lname;
@@ -49,11 +49,11 @@ public class AuthorBean {
 		this.lname = lname;
 	}
 
-	public int getPhone() {
+	public String getPhone() {
 		return phone;
 	}
 
-	public void setPhone(int phone) {
+	public void setPhone(String phone) {
 		this.phone = phone;
 	}
 
@@ -61,7 +61,7 @@ public class AuthorBean {
 		return address;
 	}
 
-	public void setAddress(String phone) {
+	public void setAddress(String address) {
 		this.address = address;
 	}
 }

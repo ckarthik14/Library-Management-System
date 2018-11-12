@@ -18,7 +18,7 @@ public class EditAuthor extends HttpServlet {
 		int aid = Integer.parseInt(request.getParameter("aid"));
 		String fname = request.getParameter("fname");
 		String lname = request.getParameter("lname");
-		Integer phone = Integer.parseInt(request.getParameter("phone"));
+		String phone = request.getParameter("phone");
 		String address = request.getParameter("address");
 		
 		AuthorBean bean = new AuthorBean(aid, fname, lname, phone, address);

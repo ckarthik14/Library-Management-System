@@ -20,7 +20,7 @@ public class PublisherDao {
 			PreparedStatement ps=con.prepareStatement("insert into publisher (pid, pname, phone, address) values(?,?,?,?)");
 			ps.setInt(1,bean.getPid());
 			ps.setString(2,bean.getName());
-			ps.setInt(3,bean.getPhone());
+			ps.setString(3,bean.getPhone());
 			ps.setString(4,bean.getAddress());
 			status=ps.executeUpdate();
 			con.close();
@@ -40,7 +40,7 @@ public class PublisherDao {
 			Connection con=DB.getCon();
 			PreparedStatement ps=con.prepareStatement("update publisher set pname=?, phone=?, address=? where pid=?");
 			ps.setString(1,bean.getName());
-			ps.setInt(2,bean.getPhone());
+			ps.setString(2,bean.getPhone());
 			ps.setString(3,bean.getAddress());
 			ps.setInt(4,bean.getPid());
 			status=ps.executeUpdate();
@@ -65,7 +65,7 @@ public class PublisherDao {
 				PublisherBean bean=new PublisherBean();
 				bean.setPid(rs.getInt("pid"));
 				bean.setName(rs.getString("pname"));
-				bean.setPhone(rs.getInt("phone"));
+				bean.setPhone(rs.getString("phone"));
 				bean.setAddress(rs.getString("address"));
 				list.add(bean);
 			}
@@ -85,7 +85,7 @@ public class PublisherDao {
 			if(rs.next()){
 				bean.setPid(rs.getInt(1));
 				bean.setName(rs.getString(2));
-				bean.setPhone(rs.getInt(3));
+				bean.setPhone(rs.getString(3));
 				bean.setAddress(rs.getString(4));
 			}
 			con.close();
