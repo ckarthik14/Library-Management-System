@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.beans.AuthorBean;
+import com.beans.AuthorRecommendBean;
 import com.mysql.jdbc.exceptions.MySQLIntegrityConstraintViolationException;
 
 public class AuthorDao {
@@ -115,5 +116,27 @@ public class AuthorDao {
 		
 		status = 2;
 		return status;
+	}
+	
+	public static AuthorRecommendBean retrieve(String cid){
+		AuthorRecommendBean bean = new AuthorRecommendBean();
+		try{
+			Connection con=DB.getCon();
+			PreparedStatement ps=con.prepareStatement("select isbn, b.title, edition, fname, lname, quantity, issued from written as w, book as b, author as a where a.aid=w.aid and a.isbn=b.isbn and a.aid=?");
+			ps.setString(1,cid);
+			ResultSet rs=ps.executeQuery();
+			if(rs.next()){
+				bean.setIsbn(rs.getString(1));
+				bean.setTitle(rs.getString(2));
+				bean.setEdition(rs.getString(3));
+				bean.setFname(rs.getString(4));
+				bean.setLname(rs.getString(5));
+				bean.setStock(rs.getInt(6) - rs.getInt(7));
+			}
+			con.close();
+			
+		}catch(Exception e){System.out.println(e);}
+		
+		return bean;
 	}
 }
