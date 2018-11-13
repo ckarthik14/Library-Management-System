@@ -112,4 +112,21 @@ public class PublisherDao {
 		status = 2;
 		return status;
 	}
+	public static String getNamebyId(Integer Pid)
+	{
+		String name = new String();
+		try{
+			Connection con=DB.getCon();
+			PreparedStatement ps=con.prepareStatement("select pname from publisher where pid=?");
+			ps.setInt(1,Pid);
+			ResultSet rs=ps.executeQuery();
+			if(rs.next()){
+				name = rs.getString(1);
+			}
+			con.close();
+			
+		}catch(Exception e){System.out.println(e);}
+		
+		return name;
+	}
 }

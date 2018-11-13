@@ -16,6 +16,8 @@ import com.beans.BookBean;
 import com.beans.LibrarianBean;
 import com.dao.BookDao;
 import com.dao.LibrarianDao;
+import com.dao.CategoryDao;
+import com.dao.PublisherDao;
 
 @WebServlet("/ViewBook")
 public class ViewBook extends HttpServlet {
@@ -43,9 +45,9 @@ public class ViewBook extends HttpServlet {
 			List<BookBean> list=BookDao.view();
 			
 			out.println("<table class='table table-bordered table-striped'>");
-			out.println("<tr><th>Callno</th><th>Name</th><th>Author</th><th>Publisher</th><th>Quantity</th><th>Issued</th><th>Delete</th></tr>");
+			out.println("<tr><th>ISBN</th><th>Title</th><th>Edition</th><th>Quantity</th><th>Issued</th><th>Publisher</th><th>Category</th><th>Edit</th><th>Delete</th></tr>");
 			for(BookBean bean:list){
-				out.println("<tr><td>"+bean.getIsbn()+"</td><td>"+bean.getTitle()+"</td><td>"+bean.getQuantity()+"</td><td>"+bean.getIssued()+"</td><td><a href='DeleteBook?callno="+bean.getIsbn()+"'>Delete</a></td></tr>");
+				out.println("<tr><td>"+bean.getIsbn()+"</td><td>"+bean.getTitle()+"</td><td>"+bean.getEdition()+"</td><td>"+bean.getQuantity()+"</td><td>"+bean.getIssued()+"</td><td>"+PublisherDao.getNamebyId(bean.getPid())+"</td><td>"+CategoryDao.getNamebyId(bean.getCid())+"</td><td><a href='EditBookForm?isbn="+bean.getIsbn()+"'>Edit</a></td><td><a href='DeleteBook?callno="+bean.getIsbn()+"'>Delete</a></td></tr>");
 			}
 			out.println("</table>");
 			
