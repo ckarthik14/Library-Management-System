@@ -9,6 +9,7 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.beans.AuthorBean;
 import com.beans.AuthorRecommendBean;
 import com.beans.CourseBean;
 import com.beans.CourseRecommendBean;
@@ -110,20 +111,25 @@ public class CourseDao {
 	}
 	
 	public static List<CourseRecommendBean> retrieve(String cid){
-		CourseRecommendBean bean = new CourseRecommendBean();
 		List<CourseRecommendBean> list = new ArrayList<CourseRecommendBean>();
 		
 		try{
 			Connection con=DB.getCon();
-			PreparedStatement ps=con.prepareStatement("select isbn, b.title, edition, c.title, quantity, issued from prescribes as p, book as b, course as c where c.cid=p.cid and p.isbn=b.isbn and c.cid=?");
+			PreparedStatement ps=con.prepareStatement("select isbn, title, edition, quantity, issued from book where isbn in (select isbn from prescribes where cid=?)");
 			ps.setString(1,cid);
 			ResultSet rs=ps.executeQuery();
-			if(rs.next()){
+			while(rs.next()){
+				CourseRecommendBean bean = new CourseRecommendBean();
 				bean.setIsbn(rs.getString(1));
 				bean.setTitle(rs.getString(2));
 				bean.setEdition(rs.getString(3));
-				bean.setCourse(rs.getString(4));
-				bean.setStock(rs.getInt(5) - rs.getInt(6));
+				bean.setStock(rs.getInt(4) - rs.getInt(5));
+				PreparedStatement ps2=con.prepareStatement("select title from course where cid=?");
+				ps2.setString(1, cid);
+				ResultSet rs2=ps2.executeQuery();
+				if(rs2.next()) {
+					bean.setCourse(rs2.getString(1));
+				}
 				list.add(bean);
 			}
 			con.close();
@@ -131,6 +137,23 @@ public class CourseDao {
 		}catch(Exception e){System.out.println(e);}
 		
 		return list;
+	}
+	public static String getTitlebyId(int cid) {
+		CourseBean bean=new CourseBean();
+		String title = new String();
+		try{
+			Connection con=DB.getCon();
+			PreparedStatement ps=con.prepareStatement("select title from course where cid=?");
+			ps.setInt(1,cid);
+			ResultSet rs=ps.executeQuery();
+			if(rs.next()){
+				title = rs.getString(1);
+			}
+			con.close();
+			
+		}catch(Exception e){System.out.println(e);}
+
+		return title;
 	}
 }
 
