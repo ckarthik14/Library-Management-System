@@ -12,13 +12,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.beans.CourseBean;
-import com.beans.CourseBean;
-import com.dao.CourseDao;
-import com.dao.CourseDao;
+import com.beans.AuthorBean;
+import com.beans.AuthorBean;
+import com.dao.AuthorDao;
+import com.dao.AuthorDao;
 
-@WebServlet("/BookRecommendationCourseForm")
-public class BookRecommendationCourseForm extends HttpServlet {
+@WebServlet("/BookRecommendationAuthorForm")
+public class BookRecommendationAuthorForm extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("text/html");
@@ -43,20 +43,20 @@ public class BookRecommendationCourseForm extends HttpServlet {
 			request.getRequestDispatcher("navstudent.html").include(request, response);
 			out.println("<div class='container'>");
 			
-			List<CourseBean> cList = new ArrayList<CourseBean>();
+			List<AuthorBean> cList = new ArrayList<AuthorBean>();
 			
-			cList = CourseDao.view();
+			cList = AuthorDao.view();
 			
-			out.print("<h3>Enter Course</h3>");
-			out.print("<form action='BookRecommendationCourse' method='post' style='width:300px'>");
+			out.print("<h3>Enter Author</h3>");
+			out.print("<form action='BookRecommendationAuthor' method='post' style='width:300px'>");
 			out.print("<div class='form-group'>");
-			out.print("<select class='form-control' name='cid'>");
+			out.print("<select class='form-control' name='aid'>");
 			
 			out.print("<option disabled selected value=''></option>");
 			
-			for(CourseBean bean: cList)
+			for(AuthorBean bean: cList)
 			{
-				out.print("<option value='" + bean.getCid() + "'>" + bean.getTitle() + "</option>");
+				out.print("<option value='" + bean.getAid() + "'>" + bean.getFname() + " " + bean.getLname() + "</option>");
 			}
 			
 			out.print("</select>");
