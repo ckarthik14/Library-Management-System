@@ -4,10 +4,27 @@ public class BookBean {
 	private String isbn, title, edition;
 	private int quantity, issued, pid, cid;
 
-	public BookBean(String isbn, String title, String author, String publisher, int quantity)
+	public BookBean(String isbn, String title, String edition, int quantity, int pid, int cid)
 	{
 		this.isbn = isbn;
 		this.title = title;
+		this.edition = edition;
+		this.pid = pid;
+		this.cid = cid;
+		this.quantity = quantity;
+	}
+	public BookBean()
+	{
+		
+	}
+	public BookBean(String isbn, String title, String edition, int quantity, int issued, int pid, int cid)
+	{
+		this.isbn = isbn;
+		this.title = title;
+		this.edition = edition;
+		this.issued = issued;
+		this.pid = pid;
+		this.cid = cid;
 		this.quantity = quantity;
 	}
 	public String getIsbn()
