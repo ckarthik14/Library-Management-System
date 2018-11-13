@@ -9,6 +9,7 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.beans.AuthorRecommendBean;
 import com.beans.CourseBean;
 import com.beans.CourseRecommendBean;
 import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
@@ -108,8 +109,10 @@ public class CourseDao {
 		return status;
 	}
 	
-	public static CourseRecommendBean retrieve(String cid){
+	public static List<CourseRecommendBean> retrieve(String cid){
 		CourseRecommendBean bean = new CourseRecommendBean();
+		List<CourseRecommendBean> list = new ArrayList<CourseRecommendBean>();
+		
 		try{
 			Connection con=DB.getCon();
 			PreparedStatement ps=con.prepareStatement("select isbn, b.title, edition, c.title, quantity, issued from prescribes as p, book as b, course as c where c.cid=p.cid and p.isbn=b.isbn and c.cid=?");
@@ -121,12 +124,13 @@ public class CourseDao {
 				bean.setEdition(rs.getString(3));
 				bean.setCourse(rs.getString(4));
 				bean.setStock(rs.getInt(5) - rs.getInt(6));
+				list.add(bean);
 			}
 			con.close();
 			
 		}catch(Exception e){System.out.println(e);}
 		
-		return bean;
+		return list;
 	}
 }
 

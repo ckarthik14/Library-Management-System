@@ -16,6 +16,7 @@ import javax.servlet.http.HttpSession;
 import com.beans.CategoryBean;
 import com.beans.CourseRecommendBean;
 import com.dao.CategoryDao;
+import com.dao.CourseDao;
 @WebServlet("/BookRecommendationCourse")
 public class BookRecommendationCourse extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -30,7 +31,7 @@ public class BookRecommendationCourse extends HttpServlet {
 		out.println("</head>");
 		out.println("<body>");
 		
-HttpSession session = request.getSession();
+		HttpSession session = request.getSession();
 		
 		if (session.getAttribute("studentusn") != null)
 		{
@@ -38,8 +39,7 @@ HttpSession session = request.getSession();
 			request.getRequestDispatcher("navstudent.html").include(request, response);
 			out.println("<div class='container'>");
 			
-			List<CourseRecommendBean> list = new ArrayList<CourseRecommendBean>();
-			
+			List<CourseRecommendBean> list = CourseDao.retrieve(request.getParameter("cid"));
 			
 			out.println("<table class='table table-bordered table-striped'>");
 			out.println("<tr><th>ISBN</th><th>Title</th><th>Edition</th><th>Course</th><th>Stock</th></tr>");

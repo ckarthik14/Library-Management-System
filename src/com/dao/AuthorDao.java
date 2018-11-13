@@ -118,8 +118,10 @@ public class AuthorDao {
 		return status;
 	}
 	
-	public static AuthorRecommendBean retrieve(String cid){
+	public static List<AuthorRecommendBean> retrieve(String cid){
 		AuthorRecommendBean bean = new AuthorRecommendBean();
+		List<AuthorRecommendBean> list = new ArrayList<AuthorRecommendBean>();
+		
 		try{
 			Connection con=DB.getCon();
 			PreparedStatement ps=con.prepareStatement("select isbn, b.title, edition, fname, lname, quantity, issued from written as w, book as b, author as a where a.aid=w.aid and a.isbn=b.isbn and a.aid=?");
@@ -132,11 +134,12 @@ public class AuthorDao {
 				bean.setFname(rs.getString(4));
 				bean.setLname(rs.getString(5));
 				bean.setStock(rs.getInt(6) - rs.getInt(7));
+				list.add(bean);
 			}
 			con.close();
 			
 		}catch(Exception e){System.out.println(e);}
 		
-		return bean;
+		return list;
 	}
 }
