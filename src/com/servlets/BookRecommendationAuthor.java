@@ -14,7 +14,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.beans.CategoryBean;
+import com.beans.AuthorBean;
 import com.beans.AuthorRecommendBean;
+import com.dao.AuthorDao;
 import com.dao.CategoryDao;
 
 @WebServlet("/BookRecommendationAuthor")
@@ -39,7 +41,7 @@ public class BookRecommendationAuthor extends HttpServlet {
 			request.getRequestDispatcher("navstudent.html").include(request, response);
 			out.println("<div class='container'>");
 			
-			List<AuthorRecommendBean> list = new ArrayList<AuthorRecommendBean>();
+			List<AuthorRecommendBean> list = AuthorDao.retrieve(request.getParameter("cid"));
 			
 			
 			out.println("<table class='table table-bordered table-striped'>");
@@ -82,7 +84,7 @@ public class BookRecommendationAuthor extends HttpServlet {
 			request.getRequestDispatcher("navstudent.html").include(request, response);
 			out.println("<div class='container'>");
 			
-			List<AuthorRecommendBean> list = new ArrayList<AuthorRecommendBean>();
+			List<AuthorRecommendBean> list = AuthorDao.retrieve(request.getParameter("cid"));
 			
 			
 			out.println("<table class='table table-bordered table-striped'>");
