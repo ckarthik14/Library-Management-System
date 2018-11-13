@@ -30,13 +30,15 @@ public class AddBook extends HttpServlet {
 		request.getRequestDispatcher("navlibrarian.html").include(request, response);
 		
 		out.println("<div class='container'>");
-		String callno=request.getParameter("callno");
+		String isbn=request.getParameter("ISBN");
 		String name=request.getParameter("name");
-		String author=request.getParameter("author");
-		String publisher=request.getParameter("publisher");
-		String squantity=request.getParameter("quantity");
-		int quantity=Integer.parseInt(squantity);
-		BookBean bean=new BookBean(callno,name,author,publisher,quantity);
+		String edition=request.getParameter("edition");
+		int quantity=Integer.parseInt(request.getParameter("quantity"));
+		int pid=Integer.parseInt(request.getParameter("publisher"));
+		int cid=Integer.parseInt(request.getParameter("category"));
+		System.out.println(isbn + name + edition + quantity + pid + cid);
+		
+		BookBean bean=new BookBean(isbn,name,edition,quantity,pid,cid);
 		int i=BookDao.save(bean);
 		if(i==0){
 			out.println("<h3>Book saved successfully</h3>");

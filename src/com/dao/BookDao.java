@@ -18,13 +18,14 @@ public class BookDao {
 		int status=0;
 		try{
 			Connection con=DB.getCon();
-			PreparedStatement ps=con.prepareStatement("insert into book values(?,?,?,?,?,?)");
-//			ps.setString(1,bean.getCallno());
-//			ps.setString(2,bean.getName());
-//			ps.setString(3,bean.getAuthor());
-//			ps.setString(4,bean.getPublisher());
-			ps.setInt(5,bean.getQuantity());
-			ps.setInt(6,0);
+			PreparedStatement ps=con.prepareStatement("insert into book values(?,?,?,?,?,?,?)");
+			ps.setString(1,bean.getIsbn());
+			ps.setString(2,bean.getTitle());
+			ps.setString(3,bean.getEdition());
+			ps.setInt(4,bean.getQuantity());
+			ps.setInt(6,bean.getPid());
+			ps.setInt(7,bean.getCid());
+			ps.setInt(5,0);
 			status=ps.executeUpdate();
 			con.close();
 			
@@ -42,13 +43,14 @@ public class BookDao {
 			PreparedStatement ps=con.prepareStatement("select * from book");
 			ResultSet rs=ps.executeQuery();
 			while(rs.next()){
-				String callno = rs.getString("callno");
-				String name = rs.getString("name");
-				String author = rs.getString("author");
-				String publisher = rs.getString("publisher");
+				String isbn = rs.getString("isbn");
+				String name = rs.getString("title");
+				String edition = rs.getString("edition");
 				int quantity = rs.getInt("quantity");
 				int issued = rs.getInt("issued");
-				BookBean bean=new BookBean(callno, name, author, publisher, quantity);				
+				int pid = rs.getInt("pid");
+				int cid = rs.getInt("cid");
+				BookBean bean=new BookBean(isbn, name, edition, quantity, issued, pid, cid);
 				list.add(bean);
 			}
 			con.close();
@@ -57,12 +59,12 @@ public class BookDao {
 		
 		return list;
 	}
-	public static int delete(String callno){
+	public static int delete(String isbn){
 		int status=0;
 		try{
 			Connection con=DB.getCon();
-			PreparedStatement ps=con.prepareStatement("delete from book where callno=?");
-			ps.setString(1,callno);
+			PreparedStatement ps=con.prepareStatement("delete from book where isbn=?");
+			ps.setString(1,isbn);
 			status=ps.executeUpdate();
 			con.close();
 			
@@ -70,12 +72,12 @@ public class BookDao {
 		
 		return status;
 	}
-	public static int getIssued(String callno){
+	public static int getIssued(String isbn){
 		int issued=0;
 		try{
 			Connection con=DB.getCon();
-			PreparedStatement ps=con.prepareStatement("select * from book where callno=?");
-			ps.setString(1,callno);
+			PreparedStatement ps=con.prepareStatement("select * from book where isbn=?");
+			ps.setString(1,isbn);
 			ResultSet rs=ps.executeQuery();
 			if(rs.next()){
 				issued=rs.getInt("issued");
@@ -86,12 +88,12 @@ public class BookDao {
 		
 		return issued;
 	}
-	public static boolean checkIssue(String callno){
+	public static boolean checkIssue(String isbn){
 		boolean status=false;
 		try{
 			Connection con=DB.getCon();
-			PreparedStatement ps=con.prepareStatement("select * from book where callno=? and quantity>issued");
-			ps.setString(1,callno);
+			PreparedStatement ps=con.prepareStatement("select * from book where isbn=? and quantity>issued");
+			ps.setString(1,isbn);
 			ResultSet rs=ps.executeQuery();
 			if(rs.next()){
 				status=true;
@@ -178,16 +180,17 @@ public class BookDao {
 		
 		return list;
 	}
-/*	public static int update(LibrarianBean bean){
+	public static int update(BookBean bean){
 		int status=0;
 		try{
 			Connection con=DB.getCon();
-			PreparedStatement ps=con.prepareStatement("update librarian set name=?,email=?,password=?,mobile=? where id=?");
-			ps.setString(1,bean.getName());
-			ps.setString(2,bean.getEmail());
-			ps.setString(3,bean.getPassword());
-			ps.setLong(4,bean.getMobile());
-			ps.setInt(5,bean.getId());
+			PreparedStatement ps=con.prepareStatement("update book set title=?,edition=?,quantity=?,pid=?,cid=? where isbn=?");
+			ps.setString(1,bean.getTitle());
+			ps.setString(2,bean.getEdition());
+			ps.setInt(3, bean.getQuantity());
+			ps.setInt(4,bean.getPid());
+			ps.setInt(5,bean.getCid());
+			ps.setString(6,bean.getIsbn());
 			status=ps.executeUpdate();
 			con.close();
 			
@@ -195,19 +198,21 @@ public class BookDao {
 		
 		return status;
 	}
-	public static LibrarianBean viewById(int id){
-		LibrarianBean bean=new LibrarianBean();
+	public static BookBean viewById(String isbn){
+		BookBean bean=new BookBean();
 		try{
 			Connection con=DB.getCon();
-			PreparedStatement ps=con.prepareStatement("select * from librarian where id=?");
-			ps.setInt(1,id);
+			PreparedStatement ps=con.prepareStatement("select * from book where isbn=?");
+			ps.setString(1,isbn);
 			ResultSet rs=ps.executeQuery();
 			if(rs.next()){
-				bean.setId(rs.getInt(1));
-				bean.setName(rs.getString(2));
-				bean.setPassword(rs.getString(3));
-				bean.setEmail(rs.getString(4));
-				bean.setMobile(rs.getLong(5));
+				bean.setIsbn(rs.getString(1));
+				bean.setTitle(rs.getString(2));
+				bean.setEdition(rs.getString(3));
+				bean.setQuantity(rs.getInt(4));
+				bean.setIssued(rs.getInt(5));
+				bean.setPid(rs.getInt(6));
+				bean.setCid(rs.getInt(7));
 			}
 			con.close();
 			
@@ -215,5 +220,4 @@ public class BookDao {
 		
 		return bean;
 	}
-*/
 }
