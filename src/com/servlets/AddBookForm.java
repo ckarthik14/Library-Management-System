@@ -45,29 +45,30 @@ public class AddBookForm extends HttpServlet {
 			List<PublisherBean> list=PublisherDao.view();
 			
 			request.getRequestDispatcher("addbookform.html").include(request, response);
-			out.println("<div class=\"form-group\">"
-			+ "<label for=\"publisher1\">Publisher</label>");
 			
-			out.println("<select name=\"publisher\">");
+			out.println("<br /><div class='form-group'>"
+			+ "<label for='publisher1'>Publisher</label>");
+			
+			out.println("<select name='publisher'>");
 			for(PublisherBean bean:list){
-				out.println("<option value=\""+bean.getPid()+"\">"+bean.getName()+"</option>");
+				out.println("<option value='"+bean.getPid()+"'>"+bean.getName()+"</option>");
 			}
 			out.println("</select>");
 			out.println("</div>");
 			
 			List<CategoryBean> list2=CategoryDao.view();
 			
-			out.println("<div class=\"form-group\">"
-			+ "<label for=\"category1\">Category</label>");
+			out.println("<div class='form-group'>"
+			+ "<label for='category1'>Category</label>");
 			
-			out.println("<select name=\"category\">");
+			out.println("<select name='category'>");
 			for(CategoryBean bean:list2){
-				out.println("<option value=\""+bean.getCid()+"\">"+bean.getName()+"</option>");
+				out.println("<option value='"+bean.getCid()+"'>"+bean.getName()+"</option>");
 			}
 			out.println("</select>");
 			out.println("</div>");
 			
-			out.println("<button type=\"submit\" class=\"btn btn-primary\">Save Book</button>"
+			out.println("<button type='submit' class='btn btn-primary'>Save Book</button>"
 			+ "</form>");
 			out.println("</div>");
 					

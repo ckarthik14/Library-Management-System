@@ -51,7 +51,7 @@ public class AddBookCourse extends HttpServlet {
 		if(i==1){
 			out.println("<h3>Book for Course saved successfully</h3>");
 		}
-		else if(i==0) {
+		else if(i==2) {
 			out.println("<h3>Book for Course already exists</h3>");
 		}
 		
