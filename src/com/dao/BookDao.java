@@ -220,4 +220,21 @@ public class BookDao {
 		
 		return bean;
 	}
+	public static String getTitlebyId(String isbn) {
+		BookBean bean=new BookBean();
+		String title = new String();
+		try{
+			Connection con=DB.getCon();
+			PreparedStatement ps=con.prepareStatement("select title from book where isbn=?");
+			ps.setString(1,isbn);
+			ResultSet rs=ps.executeQuery();
+			if(rs.next()){
+				title = rs.getString(1);
+			}
+			con.close();
+			
+		}catch(Exception e){System.out.println(e);}
+		
+		return title;
+	}
 }

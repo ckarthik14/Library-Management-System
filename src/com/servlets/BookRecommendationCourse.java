@@ -17,6 +17,7 @@ import com.beans.CategoryBean;
 import com.beans.CourseRecommendBean;
 import com.dao.CategoryDao;
 import com.dao.CourseDao;
+
 @WebServlet("/BookRecommendationCourse")
 public class BookRecommendationCourse extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

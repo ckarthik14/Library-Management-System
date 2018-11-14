@@ -41,8 +41,7 @@ public class BookRecommendationAuthor extends HttpServlet {
 			request.getRequestDispatcher("navstudent.html").include(request, response);
 			out.println("<div class='container'>");
 			
-			List<AuthorRecommendBean> list = AuthorDao.retrieve(request.getParameter("cid"));
-			
+			List<AuthorRecommendBean> list = AuthorDao.retrieve(request.getParameter("aid"));
 			
 			out.println("<table class='table table-bordered table-striped'>");
 			out.println("<tr><th>ISBN</th><th>Title</th><th>Edition</th><th>Fname</th><th>Lname</th><th>Stock</th></tr>");

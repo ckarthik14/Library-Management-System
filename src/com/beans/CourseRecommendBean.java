@@ -35,6 +35,4 @@ public class CourseRecommendBean {
 	public void setCourse(String course) {
 		this.course = course;
 	}
-	
-	
 }
