@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
+import java.sql.Types.*;
 
 import com.beans.BookBean;
 import com.beans.IssueBookBean;
@@ -105,27 +106,26 @@ public class BookDao {
 		return status;
 	}
 	public static int issueBook(IssueBookBean bean){
-		String callno=bean.getCallno();
-		boolean checkstatus=checkIssue(callno);
+		String isbn=bean.getIsbn();
+		boolean checkstatus=checkIssue(isbn);
 		System.out.println("Check status: "+checkstatus);
 		if(checkstatus){
 			int status=0;
 			try{
 				Connection con=DB.getCon();
-				PreparedStatement ps=con.prepareStatement("insert into issuebook values(?,?,?,?,?,?)");
-				ps.setString(1,bean.getCallno());
-				ps.setString(2,bean.getStudentid());
-				ps.setString(3,bean.getStudentname());
-				ps.setLong(4,bean.getStudentmobile());
+				PreparedStatement ps=con.prepareStatement("insert into issuebook (isbn,sid,lid,doi,dor) values(?,?,?,?,?)");
+				ps.setString(1,bean.getIsbn());
+				ps.setString(2,bean.getSid());
+				ps.setString(3,bean.getLid());
 				java.sql.Date currentDate=new java.sql.Date(System.currentTimeMillis());
-				ps.setDate(5,currentDate);
-				ps.setString(6,"no");
+				ps.setDate(4,currentDate);
+				ps.setNull(5,java.sql.Types.DATE);
 				
 				status=ps.executeUpdate();
 				if(status>0){
-					PreparedStatement ps2=con.prepareStatement("update book set issued=? where callno=?");
-					ps2.setInt(1,getIssued(callno)+1);
-					ps2.setString(2,callno);
+					PreparedStatement ps2=con.prepareStatement("update book set issued=? where isbn=?");
+					ps2.setInt(1,getIssued(isbn)+1);
+					ps2.setString(2,isbn);
 					status=ps2.executeUpdate();
 				}
 				con.close();
@@ -137,19 +137,21 @@ public class BookDao {
 			return 0;
 		}
 	}
-	public static int returnBook(String callno,String studentid){
+	public static int returnBook(String isbn,String sid){
 		int status=0;
 			try{
 				Connection con=DB.getCon();
-				PreparedStatement ps=con.prepareStatement("update issuebook set returnstatus='yes' where callno=? and studentid=?");
-				ps.setString(1,callno);
-				ps.setString(2,studentid);
+				PreparedStatement ps=con.prepareStatement("update issuebook set dor=? where isbn=? and sid=?");
+				java.sql.Date currentDate=new java.sql.Date(System.currentTimeMillis());
+				ps.setDate(1,currentDate);
+				ps.setString(2,isbn);
+				ps.setString(3,sid);
 				
 				status=ps.executeUpdate();
 				if(status>0){
-					PreparedStatement ps2=con.prepareStatement("update book set issued=? where callno=?");
-					ps2.setInt(1,getIssued(callno)-1);
-					ps2.setString(2,callno);
+					PreparedStatement ps2=con.prepareStatement("update book set issued=? where isbn=?");
+					ps2.setInt(1,getIssued(isbn)-1);
+					ps2.setString(2,isbn);
 					status=ps2.executeUpdate();
 				}
 				con.close();
@@ -162,16 +164,37 @@ public class BookDao {
 		List<IssueBookBean> list=new ArrayList<IssueBookBean>();
 		try{
 			Connection con=DB.getCon();
-			PreparedStatement ps=con.prepareStatement("select * from issuebook order by issueddate desc");
+			PreparedStatement ps=con.prepareStatement("select * from issuebook order by doi desc");
 			ResultSet rs=ps.executeQuery();
 			while(rs.next()){
 				IssueBookBean bean = new IssueBookBean();
-				bean.setCallno(rs.getString("callno"));
-				bean.setStudentid(rs.getString("studentid"));
-				bean.setStudentname(rs.getString("studentname"));
-				bean.setStudentmobile(rs.getLong("studentmobile"));
-				bean.setIssueddate(rs.getDate("issueddate"));
-				bean.setReturnstatus(rs.getString("returnstatus"));
+				bean.setIsbn(rs.getString("isbn"));
+				bean.setSid(rs.getString("sid"));
+				bean.setLid(rs.getString("lid"));
+				bean.setDoi(rs.getDate("doi"));
+				bean.setDor(rs.getDate("dor"));
+				list.add(bean);
+			}
+			con.close();
+			
+		}catch(Exception e){System.out.println(e);}
+		
+		return list;
+	}
+	public static List<IssueBookBean> viewIssuedBooksforStudent(String sid){
+		List<IssueBookBean> list=new ArrayList<IssueBookBean>();
+		try{
+			Connection con=DB.getCon();
+			PreparedStatement ps=con.prepareStatement("select * from issuebook where sid=? order by doi desc");
+			ps.setString(1,sid);
+			ResultSet rs=ps.executeQuery();
+			while(rs.next()){
+				IssueBookBean bean = new IssueBookBean();
+				bean.setIsbn(rs.getString("isbn"));
+				bean.setSid(rs.getString("sid"));
+				bean.setLid(rs.getString("lid"));
+				bean.setDoi(rs.getDate("doi"));
+				bean.setDor(rs.getDate("dor"));
 				list.add(bean);
 			}
 			con.close();
@@ -236,5 +259,43 @@ public class BookDao {
 		}catch(Exception e){System.out.println(e);}
 		
 		return title;
+	}
+	public static boolean checkIsbn(String isbn) {
+		boolean i=false;
+		try{
+			Connection con=DB.getCon();
+			PreparedStatement ps=con.prepareStatement("select * from book where isbn=?");
+			ps.setString(1,isbn);
+			ResultSet rs=ps.executeQuery();
+			if(rs.next()){
+				i = true;
+			}
+			else {
+				i = false;
+			}
+			con.close();
+			
+		}catch(Exception e){System.out.println(e);}
+		
+		return i;
+	}
+	public static boolean checkIsbnissue(String isbn) {
+		boolean i=false;
+		try{
+			Connection con=DB.getCon();
+			PreparedStatement ps=con.prepareStatement("select * from issuebook where isbn=?");
+			ps.setString(1,isbn);
+			ResultSet rs=ps.executeQuery();
+			if(rs.next()){
+				i = true;
+			}
+			else {
+				i = false;
+			}
+			con.close();
+			
+		}catch(Exception e){System.out.println(e);}
+		
+		return i;
 	}
 }

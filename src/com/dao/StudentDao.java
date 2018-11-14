@@ -122,4 +122,42 @@ public class StudentDao {
 		
 		return status;
 	}
+	public static boolean checkUsn(String sid) {
+		boolean i=false;
+		try{
+			Connection con=DB.getCon();
+			PreparedStatement ps=con.prepareStatement("select * from student where sid=?");
+			ps.setString(1,sid);
+			ResultSet rs=ps.executeQuery();
+			if(rs.next()){
+				i = true;
+			}
+			else {
+				i = false;
+			}
+			con.close();
+			
+		}catch(Exception e){System.out.println(e);}
+		
+		return i;
+	}
+	public static boolean checkUsnissue(String sid) {
+		boolean i=false;
+		try{
+			Connection con=DB.getCon();
+			PreparedStatement ps=con.prepareStatement("select * from issuebook where sid=?");
+			ps.setString(1,sid);
+			ResultSet rs=ps.executeQuery();
+			if(rs.next()){
+				i = true;
+			}
+			else {
+				i = false;
+			}
+			con.close();
+			
+		}catch(Exception e){System.out.println(e);}
+		
+		return i;
+	}
 }
