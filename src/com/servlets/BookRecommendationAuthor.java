@@ -44,7 +44,7 @@ public class BookRecommendationAuthor extends HttpServlet {
 			List<AuthorRecommendBean> list = AuthorDao.retrieve(request.getParameter("aid"));
 			
 			out.println("<table class='table table-bordered table-striped'>");
-			out.println("<tr><th>ISBN</th><th>Title</th><th>Edition</th><th>Fname</th><th>Lname</th><th>Stock</th></tr>");
+			out.println("<tr><th>ISBN</th><th>Title</th><th>Edition</th><th>First Name</th><th>Last Name</th><th>Stock</th></tr>");
 			for(AuthorRecommendBean bean:list){
 				out.println("<tr><td>"+bean.getIsbn()+"</td><td>"+bean.getTitle()+"</td><td>"+bean.getEdition()+"</td><td>"+bean.getFname()+"</td><td>"+bean.getLname()+"</td><td>"+bean.getStock()+"</td></tr>");
 			}
@@ -87,7 +87,7 @@ public class BookRecommendationAuthor extends HttpServlet {
 			
 			
 			out.println("<table class='table table-bordered table-striped'>");
-			out.println("<tr><th>ISBN</th><th>Title</th><th>Edition</th><th>Fname</th><th>Lname</th><th>Stock</th></tr>");
+			out.println("<tr><th>ISBN</th><th>Title</th><th>Edition</th><th>First Name</th><th>Last Name</th><th>Stock</th></tr>");
 			for(AuthorRecommendBean bean:list){
 				out.println("<tr><td>"+bean.getIsbn()+"</td><td>"+bean.getTitle()+"</td><td>"+bean.getEdition()+"</td><td>"+bean.getFname()+"</td><td>"+bean.getLname()+"</td><td>"+bean.getStock()+"</td></tr>");
 			}
