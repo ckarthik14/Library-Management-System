@@ -11,6 +11,7 @@ import java.util.List;
 
 import com.beans.AuthorBean;
 import com.beans.AuthorRecommendBean;
+import com.beans.BookBean;
 import com.mysql.jdbc.exceptions.MySQLIntegrityConstraintViolationException;
 
 public class AuthorDao {
@@ -118,22 +119,27 @@ public class AuthorDao {
 		return status;
 	}
 	
-	public static List<AuthorRecommendBean> retrieve(String cid){
-		AuthorRecommendBean bean = new AuthorRecommendBean();
+	public static List<AuthorRecommendBean> retrieve(String aid){
 		List<AuthorRecommendBean> list = new ArrayList<AuthorRecommendBean>();
 		
 		try{
 			Connection con=DB.getCon();
-			PreparedStatement ps=con.prepareStatement("select isbn, b.title, edition, fname, lname, quantity, issued from written as w, book as b, author as a where a.aid=w.aid and a.isbn=b.isbn and a.aid=?");
-			ps.setString(1,cid);
+			PreparedStatement ps=con.prepareStatement("select isbn, title, edition, quantity, issued from book where isbn in (select isbn from written_by where aid=?)");
+			ps.setString(1,aid);
 			ResultSet rs=ps.executeQuery();
-			if(rs.next()){
+			while(rs.next()){
+				AuthorRecommendBean bean = new AuthorRecommendBean();
 				bean.setIsbn(rs.getString(1));
 				bean.setTitle(rs.getString(2));
 				bean.setEdition(rs.getString(3));
-				bean.setFname(rs.getString(4));
-				bean.setLname(rs.getString(5));
-				bean.setStock(rs.getInt(6) - rs.getInt(7));
+				bean.setStock(rs.getInt(4) - rs.getInt(5));
+				PreparedStatement ps2=con.prepareStatement("select fname, lname from author where aid=?");
+				ps2.setString(1, aid);
+				ResultSet rs2=ps2.executeQuery();
+				if(rs2.next()) {
+					bean.setFname(rs2.getString(1));
+					bean.setLname(rs2.getString(2));
+				}
 				list.add(bean);
 			}
 			con.close();
@@ -141,5 +147,24 @@ public class AuthorDao {
 		}catch(Exception e){System.out.println(e);}
 		
 		return list;
+	}
+	public static String getNamebyId(int aid) {
+		AuthorBean bean=new AuthorBean();
+		String name = new String();
+		try{
+			Connection con=DB.getCon();
+			PreparedStatement ps=con.prepareStatement("select fname, lname from author where aid=?");
+			ps.setInt(1,aid);
+			ResultSet rs=ps.executeQuery();
+			if(rs.next()){
+				name = rs.getString(1);
+				name += " ";
+				name += rs.getString(2);
+			}
+			con.close();
+			
+		}catch(Exception e){System.out.println(e);}
+
+		return name;
 	}
 }

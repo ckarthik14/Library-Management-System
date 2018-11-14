@@ -18,7 +18,7 @@ public class WrittenDao {
 		int status=0;
 		try{
 			Connection con=DB.getCon();
-			PreparedStatement ps=con.prepareStatement("insert into written(isbn, aid) values(?,?)");
+			PreparedStatement ps=con.prepareStatement("insert into written_by(isbn, aid) values(?,?)");
 			ps.setString(1,bean.getIsbn());
 			ps.setInt(2,bean.getAid());
 			status=ps.executeUpdate();
@@ -40,7 +40,7 @@ public class WrittenDao {
 		int status=0;
 		try{
 			Connection con=DB.getCon();
-			PreparedStatement ps=con.prepareStatement("update written set aid=? where isbn=?, aid=?");
+			PreparedStatement ps=con.prepareStatement("update written_by set aid=? where isbn=?, aid=?");
 			ps.setInt(1,bean.getAid());
 			ps.setString(2,bean.getIsbn());
 			ps.setInt(3,bean.getAid());
@@ -60,7 +60,7 @@ public class WrittenDao {
 		List<WrittenBean> list=new ArrayList<WrittenBean>();
 		try{
 			Connection con=DB.getCon();
-			PreparedStatement ps=con.prepareStatement("select * from written");
+			PreparedStatement ps=con.prepareStatement("select * from written_by");
 			ResultSet rs=ps.executeQuery();
 			while(rs.next()){
 				WrittenBean bean=new WrittenBean();
@@ -78,7 +78,7 @@ public class WrittenDao {
 		WrittenBean bean = new WrittenBean();
 		try{
 			Connection con=DB.getCon();
-			PreparedStatement ps=con.prepareStatement("select * from written where isbn=?");
+			PreparedStatement ps=con.prepareStatement("select * from written_by where isbn=?");
 			ps.setString(1,isbn);
 			ResultSet rs=ps.executeQuery();
 			if(rs.next()){
@@ -95,7 +95,7 @@ public class WrittenDao {
 		int status=0;
 		try{
 			Connection con=DB.getCon();
-			PreparedStatement ps=con.prepareStatement("delete from written where aid=? and isbn=?");
+			PreparedStatement ps=con.prepareStatement("delete from written_by where aid=? and isbn=?");
 			ps.setString(1,aid);
 			ps.setString(1,isbn);
 			status=ps.executeUpdate();
@@ -106,4 +106,3 @@ public class WrittenDao {
 		return status;
 	}
 }
-

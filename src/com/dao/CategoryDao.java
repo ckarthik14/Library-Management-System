@@ -106,4 +106,21 @@ public class CategoryDao {
 		
 		return status;
 	}
+	public static String getNamebyId(Integer Cid)
+	{
+		String name = new String();
+		try{
+			Connection con=DB.getCon();
+			PreparedStatement ps=con.prepareStatement("select name from category where cid=?");
+			ps.setInt(1,Cid);
+			ResultSet rs=ps.executeQuery();
+			if(rs.next()){
+				name = rs.getString(1);
+			}
+			con.close();
+			
+		}catch(Exception e){System.out.println(e);}
+		
+		return name;
+	}
 }

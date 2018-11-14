@@ -40,9 +40,9 @@ public class ViewStudent extends HttpServlet {
 			
 			
 			out.println("<table class='table table-bordered table-striped'>");
-			out.println("<tr><th>Name</th><th>USN</th><th>Password</th><th>Edit</th><th>Delete</th></tr>");
+			out.println("<tr><th>Name</th><th>USN</th><th>Password</th><th>DOB</th><th>Edit</th><th>Delete</th></tr>");
 			for(StudentBean bean:list){
-				out.println("<tr><td>"+bean.getName()+"</td><td>"+bean.getSid()+"</td><td>"+bean.getPassword()+"</td><td><a href='EditStudentForm?sid="+bean.getSid()+"'>Edit</a></td><td><a href='DeleteStudent?sid="+bean.getSid()+"'>Delete</a></td></tr>");
+				out.println("<tr><td>"+bean.getName()+"</td><td>"+bean.getSid()+"</td><td>"+bean.getPassword()+"</td><td>"+bean.getDob()+"</td><td><a href='EditStudentForm?sid="+bean.getSid()+"'>Edit</a></td><td><a href='DeleteStudent?sid="+bean.getSid()+"'>Delete</a></td></tr>");
 			}
 			out.println("</table>");
 			
