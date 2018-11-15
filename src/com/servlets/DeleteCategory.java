@@ -23,7 +23,6 @@ public class DeleteCategory extends HttpServlet {
 		out.println("<head>");
 		out.println("<title>Librarian Section</title>");
 		out.println("<link rel='stylesheet' href='bootstrap.min.css'/>");
-		out.println("<link rel='stylesheet' href='index.css'/>");
 		out.println("</head>");
 		
 		HttpSession session = request.getSession();

@@ -4,14 +4,16 @@
 }
 
 .text_format{
-	color: white;
+	color: #eeeeee;
 	text-shadow: 3px 2px #000000;
-	font-family: "Verdana", sans-serif;
+	font-family: "Comic Sans";
+	font-size: 20px;
 }
 
 .text_format_title{
-	color: white;
+	color: #eeeeee;
 	text-shadow: 3px 2px #000000;
-	font-family: "Courier New";
+	font-family: "Trebuchet MS Header";
 	font-weight: bold;
+	font-size: 25px;
 }
