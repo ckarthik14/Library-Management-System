@@ -12,6 +12,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.websocket.Session;
 
+import com.beans.LibrarianBean;
+import com.beans.StudentBean;
+import com.dao.LibrarianDao;
 import com.dao.StudentDao;
 
 @WebServlet("/StudentLogin")
@@ -36,7 +39,16 @@ public class StudentLogin extends HttpServlet {
 			HttpSession session=request.getSession();
 			session.setAttribute("studentusn",usn);
 			
-			request.getRequestDispatcher("navstudent.html").include(request, response);
+			request.getRequestDispatcher("navstudentname.html").include(request, response);
+
+			String studusn = (String) session.getAttribute("studentusn");
+			
+			StudentBean bean = StudentDao.viewById(studusn);
+			
+			out.print("<li><a href='#'>" + bean.getName() + "</a></li></ul>");
+			
+			request.getRequestDispatcher("navfooter.html").include(request, response);
+			
 			request.getRequestDispatcher("studentcarousel.html").include(request, response);
 			
 		}
@@ -73,7 +85,7 @@ public class StudentLogin extends HttpServlet {
 		
 		if (session.getAttribute("studentusn") != null) {
 		
-		request.getRequestDispatcher("navstudent.html").include(request, response);
+		request.getRequestDispatcher("navstudentname.html").include(request, response);
 		request.getRequestDispatcher("studentcarousel.html").include(request, response);
 		
 		}
