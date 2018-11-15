@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 import java.sql.Types.*;
+import java.sql.Date;
 
 import com.beans.BookBean;
 import com.beans.IssueBookBean;
@@ -137,8 +138,10 @@ public class BookDao {
 			return 0;
 		}
 	}
-	public static int returnBook(String isbn,String sid){
+	public static List<Date> returnBook(String isbn,String sid){
 		int status=0;
+		Date doi = new Date(0);
+		List<Date> DateStatus = new ArrayList<Date>(); 
 			try{
 				Connection con=DB.getCon();
 				PreparedStatement ps=con.prepareStatement("update issuebook set dor=? where isbn=? and sid=?");
@@ -148,6 +151,16 @@ public class BookDao {
 				ps.setString(3,sid);
 				
 				status=ps.executeUpdate();
+				PreparedStatement ps3=con.prepareStatement("select doi from issuebook where isbn=? and sid=?");
+				ps3.setString(1,isbn);
+				ps3.setString(2,sid);
+				ResultSet rs=ps3.executeQuery();
+				if(rs.next()) {
+					doi = rs.getDate("doi");
+				}
+				DateStatus.add(doi);
+				DateStatus.add(currentDate);
+				
 				if(status>0){
 					PreparedStatement ps2=con.prepareStatement("update book set issued=? where isbn=?");
 					ps2.setInt(1,getIssued(isbn)-1);
@@ -158,7 +171,7 @@ public class BookDao {
 				
 			}catch(Exception e){System.out.println(e);}
 			
-			return status;
+			return DateStatus;
 	}
 	public static List<IssueBookBean> viewIssuedBooks(){
 		List<IssueBookBean> list=new ArrayList<IssueBookBean>();

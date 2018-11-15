@@ -14,7 +14,7 @@ import javax.servlet.http.HttpSession;
 import com.dao.PublisherDao;
 @WebServlet("/GiveReviewForm")
 public class GiveReviewForm extends HttpServlet {
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("text/html");
 		PrintWriter out=response.getWriter();
 		
@@ -31,7 +31,7 @@ public class GiveReviewForm extends HttpServlet {
 		if (session.getAttribute("studentusn") != null)
 		{
 			
-			request.getRequestDispatcher("navlibrarian.html").include(request, response);
+			request.getRequestDispatcher("navstudent.html").include(request, response);
 			
 			out.println("<div class='container'>");
 			request.getRequestDispatcher("givereviewform.html").include(request, response);
@@ -41,12 +41,11 @@ public class GiveReviewForm extends HttpServlet {
 			
 		else
 		{
-			new com.authfunctions.LibraryLogin(request,response,out);
+			new com.authfunctions.StudentLogin(request,response,out);
 		}
 	
 		request.getRequestDispatcher("footer.html").include(request, response);
 		
 		out.close();
 	}
-
 }
