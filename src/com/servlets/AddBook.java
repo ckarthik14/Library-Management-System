@@ -60,7 +60,8 @@ public class AddBook extends HttpServlet {
 		out.println("<div class='form-group'>"
 				+ "<label for='publisher1'>Publisher</label>");
 				
-				out.println("<select name='publisher'>");
+				out.println("<select class='form-control' name='publisher'>");
+				out.println("<option disabled selected value=''></option>");
 				for(PublisherBean bean2:list){
 					out.println("<option value='"+bean2.getPid()+"'>"+bean2.getName()+"</option>");
 				}
@@ -72,7 +73,8 @@ public class AddBook extends HttpServlet {
 				out.println("<div class='form-group'>"
 				+ "<label for='category1'>Category</label>");
 				
-				out.println("<select name='category'>");
+				out.println("<select class='form-control' name='category'>");
+				out.println("<option disabled selected value=''></option>");
 				for(CategoryBean bean3:list2){
 					out.println("<option value='"+bean3.getCid()+"'>"+bean3.getName()+"</option>");
 				}
