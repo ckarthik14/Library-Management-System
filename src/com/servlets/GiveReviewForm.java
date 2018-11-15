@@ -62,12 +62,11 @@ public class GiveReviewForm extends HttpServlet {
 			
 		else
 		{
-			new com.authfunctions.LibraryLogin(request,response,out);
+			new com.authfunctions.StudentLogin(request,response,out);
 		}
 	
 		request.getRequestDispatcher("footer.html").include(request, response);
 		
 		out.close();
 	}
-
 }
