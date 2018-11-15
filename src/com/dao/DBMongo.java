@@ -12,7 +12,7 @@ public class DBMongo {
 		
 	MongoClient mongo = null;
 	try {
-		mongo = new MongoClient( "127.0.0.2" , 27017 );
+		mongo = new MongoClient( "127.0.0.1" , 27017 );
 		
 		MongoCredential credential = MongoCredential.createMongoCRCredential("karthik", "library", "password".toCharArray());
 	    

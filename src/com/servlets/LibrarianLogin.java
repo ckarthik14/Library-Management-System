@@ -12,7 +12,10 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.websocket.Session;
 
+import com.beans.LibrarianBean;
 import com.dao.LibrarianDao;
+
+import sun.util.logging.resources.logging_de;
 @WebServlet("/LibrarianLogin")
 public class LibrarianLogin extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -35,7 +38,15 @@ public class LibrarianLogin extends HttpServlet {
 			HttpSession session=request.getSession();
 			session.setAttribute("librarianemail",email);
 			
-			request.getRequestDispatcher("navlibrarian.html").include(request, response);
+			request.getRequestDispatcher("navlibrarianname.html").include(request, response);
+			
+			String lid = (String) session.getAttribute("librarianemail");
+			
+			LibrarianBean bean = LibrarianDao.viewById(lid);
+			
+			out.print("<li><a href='#'>" + bean.getName() + "</a></li></ul>");
+			
+			request.getRequestDispatcher("navfooter.html").include(request, response);
 			request.getRequestDispatcher("librariancarousel.html").include(request, response);
 			
 		}
@@ -72,7 +83,15 @@ public class LibrarianLogin extends HttpServlet {
 		
 		if (session.getAttribute("librarianemail") != null) {
 		
-		request.getRequestDispatcher("navlibrarian.html").include(request, response);
+		request.getRequestDispatcher("navlibrarianname.html").include(request, response);
+		
+		String lid = (String) session.getAttribute("librarianemail");
+		
+		LibrarianBean bean = LibrarianDao.viewById(lid);
+		
+		out.print("<li><a href='#'>" + bean.getName() + "</a></li></ul>");
+		
+		request.getRequestDispatcher("navfooter.html").include(request, response);
 		request.getRequestDispatcher("librariancarousel.html").include(request, response);
 		
 		}
