@@ -52,7 +52,7 @@ public class AddBookCourseForm extends HttpServlet {
 			out.println("<div class=\"form-group\">"
 					+ "<label for=\"book1\">Book</label>");
 					
-					out.println("<select name=\"isbn\">");
+					out.println("<select required name=\"isbn\">");
 					for(BookBean bean:listBook){
 						out.println("<option value=\""+bean.getIsbn()+"\">"+bean.getTitle()+"</option>");
 					}
@@ -62,7 +62,7 @@ public class AddBookCourseForm extends HttpServlet {
 			out.println("<div class=\"form-group\">"
 					+ "<label for=\"course1\">Course</label>");
 					
-					out.println("<select name=\"cid\">");
+					out.println("<select required name=\"cid\">");
 					for(CourseBean bean:listCourse){
 						out.println("<option value=\""+bean.getCid()+"\">"+bean.getTitle()+"</option>");
 					}

@@ -61,7 +61,7 @@ public class BookRecommendationAuthorForm extends HttpServlet {
 			
 			out.print("</select>");
 			out.print("</div><br />");
-			out.print("<button class='btn btn-primary' type='submit'>View Recommendations</button>");
+			out.print("<button class='btn btn-primary' type='submit'>View Books</button>");
 			
 			out.print("</form>");
 			

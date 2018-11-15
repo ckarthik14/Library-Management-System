@@ -12,6 +12,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.sql.Date;
+import java.text.DateFormat;  
+import java.text.SimpleDateFormat;
 
 import com.beans.BookBean;
 import com.beans.IssueBookBean;
@@ -26,7 +29,7 @@ public class ViewIssuedBook extends HttpServlet {
 		out.print("<!DOCTYPE html>");
 		out.print("<html>");
 		out.println("<head>");
-		out.println("<title>View Issued Book</title>");
+		out.println("<title>View Issued Books</title>");
 		out.println("<link rel='stylesheet' href='bootstrap.min.css'/>");
 		out.println("</head>");
 		out.println("<body>");
@@ -42,9 +45,9 @@ public class ViewIssuedBook extends HttpServlet {
 			List<IssueBookBean> list=BookDao.viewIssuedBooks();
 			
 			out.println("<table class='table table-bordered table-striped'>");
-			out.println("<tr><th>Callno</th><th>Student Id</th><th>Student Name</th><th>Student Mobile</th><th>Issued Date</th><th>Return Status</th></tr>");
+			out.println("<tr><th>ISBN</th><th>Student USN</th><th>Librarian issued</th><th>Issued Date</th><th>Returned Date</th></tr>");
 			for(IssueBookBean bean:list){
-				out.println("<tr><td>"+bean.getCallno()+"</td><td>"+bean.getStudentid()+"</td><td>"+bean.getStudentname()+"</td><td>"+bean.getStudentmobile()+"</td><td>"+bean.getIssueddate()+"</td><td>"+bean.getReturnstatus()+"</td></tr>");
+				out.println("<tr><td>"+bean.getIsbn()+"</td><td>"+bean.getSid()+"</td><td>"+bean.getLid()+"</td><td>"+bean.getDoi()+"</td><td>"+getReturnStatus(bean.getDor())+"</td></tr>");
 			}
 			out.println("</table>");
 			
@@ -58,5 +61,16 @@ public class ViewIssuedBook extends HttpServlet {
 		
 		request.getRequestDispatcher("footer.html").include(request, response);
 		out.close();
+	}
+	public static String getReturnStatus(Date dor)
+	{
+		if(dor != null) {
+			 DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");  
+	         String strDate = dateFormat.format(dor);  
+			 return strDate; 
+		}
+		else {
+			return "Not returned yet";
+		}
 	}
 }

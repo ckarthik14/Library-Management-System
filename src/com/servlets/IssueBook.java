@@ -10,11 +10,12 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.beans.BookBean;
 import com.beans.IssueBookBean;
 import com.dao.BookDao;
-
+import com.dao.StudentDao;
 
 @WebServlet("/IssueBook")
 public class IssueBook extends HttpServlet {
@@ -25,28 +26,40 @@ public class IssueBook extends HttpServlet {
 		out.print("<!DOCTYPE html>");
 		out.print("<html>");
 		out.println("<head>");
-		out.println("<title>Add Book Form</title>");
+		out.println("<title>Issue Book Form</title>");
 		out.println("<link rel='stylesheet' href='bootstrap.min.css'/>");
 		out.println("</head>");
 		out.println("<body>");
 		request.getRequestDispatcher("navlibrarian.html").include(request, response);
 		
 		out.println("<div class='container'>");
-		String callno=request.getParameter("callno");
-		String studentid=request.getParameter("studentid");
-		String studentname=request.getParameter("studentname");
-		String sstudentmobile=request.getParameter("studentmobile");
-		long studentmobile=Long.parseLong(sstudentmobile);
+		HttpSession session = request.getSession();
+		String isbn=request.getParameter("isbn");
+		String sid=request.getParameter("usn");
+		String lid =session.getAttribute("librarianemail").toString();
 		
-		IssueBookBean bean=new IssueBookBean(callno,studentid,studentname,studentmobile);
-		int i=BookDao.issueBook(bean);
-		if(i>0){
-			out.println("<h3>Book issued successfully</h3>");
-		}else{
-			out.println("<h3>Sorry, unable to issue book.</h3><p>We may have shortage of books. Kindly visit later.</p>");
+		boolean i=BookDao.checkIsbn(isbn);
+		if(i == false) {
+			out.println("<h3>Invalid ISBN.</h3><p>Please check again.</p>");
 		}
-		out.println("</div>");
+		else {
+			
+			i=StudentDao.checkUsn(sid);
+			if(i == false) {
+				out.println("<h3>Invalid Student USN.</h3><p>Please check again.</p>");
+			}
+			else {
+				IssueBookBean bean=new IssueBookBean(isbn,sid,lid);
+				int j=BookDao.issueBook(bean);
+				if(j>0){
+					out.println("<h3>Book issued successfully</h3>");
+				}else{
+					out.println("<h3>Sorry, unable to issue book.</h3><p>We may have shortage of books. Kindly visit later.</p>");
+				}
+			}
+		}
 		
+		out.println("</div>");
 		
 		request.getRequestDispatcher("footer.html").include(request, response);
 		out.close();

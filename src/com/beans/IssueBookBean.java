@@ -3,55 +3,73 @@ package com.beans;
 import java.sql.Date;
 
 public class IssueBookBean {
-private String callno,studentid,studentname;
-private long studentmobile;
-private Date issueddate;
-private String returnstatus;
+private String isbn, sid, lid;
+private Date doi, dor;
+private Integer issueid;
 
 public IssueBookBean() {}
 
-public IssueBookBean(String callno, String studentid, String studentname, long studentmobile) {
-	this.callno = callno;
-	this.studentid = studentid;
-	this.studentname = studentname;
-	this.studentmobile = studentmobile;
+public IssueBookBean(String isbn, String sid, String lid) {
+	this.isbn = isbn;
+	this.sid = sid;
+	this.lid = lid;
+}
+public IssueBookBean(String isbn, String sid, String lid, Date doi, Date dor) {
+	this.isbn = isbn;
+	this.sid = sid;
+	this.lid = lid;
+	this.doi = doi;
+	this.dor = dor;
+}
+public IssueBookBean(String isbn, String sid, String lid, Date doi, Date dor, Integer issueid) {
+	this.isbn = isbn;
+	this.sid = sid;
+	this.lid = lid;
+	this.doi = doi;
+	this.dor = dor;
+	this.issueid = issueid;
 }
 
-public String getReturnstatus() {
-	return returnstatus;
+public String getIsbn() {
+	return isbn;
 }
-public void setReturnstatus(String returnstatus) {
-	this.returnstatus = returnstatus;
+public void setIsbn(String isbn) {
+	this.isbn = isbn;
 }
-public Date getIssueddate() {
-	return issueddate;
+
+public String getSid() {
+	return sid;
 }
-public void setIssueddate(Date issueddate) {
-	this.issueddate = issueddate;
+public void setSid(String sid) {
+	this.sid = sid;
 }
-public String getCallno() {
-	return callno;
+
+public String getLid() {
+	return lid;
 }
-public void setCallno(String callno) {
-	this.callno = callno;
+public void setLid(String lid) {
+	this.lid = lid;
 }
-public String getStudentid() {
-	return studentid;
+
+public Date getDoi() {
+	return doi;
 }
-public void setStudentid(String studentid) {
-	this.studentid = studentid;
+public void setDoi(Date doi) {
+	this.doi = doi;
 }
-public String getStudentname() {
-	return studentname;
+
+public Date getDor() {
+	return dor;
 }
-public void setStudentname(String studentname) {
-	this.studentname = studentname;
+public void setDor(Date dor) {
+	this.dor = dor;
 }
-public long getStudentmobile() {
-	return studentmobile;
+
+public Integer getIssueid() {
+	return issueid;
 }
-public void setStudentmobile(long studentmobile) {
-	this.studentmobile = studentmobile;
+public void setIssueid(Integer issueid) {
+	this.issueid = issueid;
 }
 
 }
