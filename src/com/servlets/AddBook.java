@@ -35,6 +35,7 @@ public class AddBook extends HttpServlet {
 		out.println("<head>");
 		out.println("<title>Add Book Form</title>");
 		out.println("<link rel='stylesheet' href='bootstrap.min.css'/>");
+		out.println("<link rel='stylesheet' href='index.css'/>");
 		out.println("</head>");
 		out.println("<body>");
 		request.getRequestDispatcher("navlibrarian.html").include(request, response);

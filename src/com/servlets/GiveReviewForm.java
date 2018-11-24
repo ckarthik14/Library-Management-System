@@ -3,6 +3,7 @@ package com.servlets;
 import java.io.IOException;
 
 import java.io.PrintWriter;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -11,6 +12,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.beans.AuthorRecommendBean;
+import com.beans.IssueBookBean;
+import com.dao.AuthorDao;
+import com.dao.BookDao;
 import com.dao.PublisherDao;
 @WebServlet("/GiveReviewForm")
 public class GiveReviewForm extends HttpServlet {
@@ -28,12 +33,30 @@ public class GiveReviewForm extends HttpServlet {
 		
 		HttpSession session = request.getSession();
 		
-		if (session.getAttribute("studentusn") != null)
+		String usn = (String) session.getAttribute("studentusn");
+		
+		if (usn != null)
 		{
 			
 			request.getRequestDispatcher("navstudent.html").include(request, response);
 			
 			out.println("<div class='container'>");
+			
+			out.println("<h3>Give Review</h3>");
+			out.println("<br><form action='CalculateReview' method='post' style='width:300px'>");
+			out.println("<div class='form-group'><label for='book'>Select Book</label>");
+			out.println("<select class='form-control' name='bookid' id='book'/>");
+			
+			List<IssueBookBean> list=BookDao.viewDistinctIssuedBooksforStudent(usn);
+			
+			out.print("<option disabled selected value=''></option>");
+			
+			for(IssueBookBean bean: list) {
+				out.print("<option value='" + bean.getIsbn() + "'>" + BookDao.getTitlebyId(bean.getIsbn()) + "</option>");
+			}
+			
+			out.println("</select></div>");
+			
 			request.getRequestDispatcher("givereviewform.html").include(request, response);
 			out.println("</div>");
 					
