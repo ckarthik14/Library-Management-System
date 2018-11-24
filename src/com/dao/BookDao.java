@@ -311,4 +311,23 @@ public class BookDao {
 		
 		return i;
 	}
+	
+	public static List<IssueBookBean> viewDistinctIssuedBooksforStudent(String sid){
+		List<IssueBookBean> list=new ArrayList<IssueBookBean>();
+		try{
+			Connection con=DB.getCon();
+			PreparedStatement ps=con.prepareStatement("select distinct isbn from issuebook where sid=?");
+			ps.setString(1,sid);
+			ResultSet rs=ps.executeQuery();
+			while(rs.next()){
+				IssueBookBean bean = new IssueBookBean();
+				bean.setIsbn(rs.getString("isbn"));
+				list.add(bean);
+			}
+			con.close();
+			
+		}catch(Exception e){System.out.println(e);}
+		
+		return list;
+	}
 }

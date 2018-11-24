@@ -33,7 +33,9 @@ public class GiveReviewForm extends HttpServlet {
 		
 		HttpSession session = request.getSession();
 		
-		if (session.getAttribute("studentusn") != null)
+		String usn = (String) session.getAttribute("studentusn");
+		
+		if (usn != null)
 		{
 			
 			request.getRequestDispatcher("navstudent.html").include(request, response);
@@ -45,7 +47,7 @@ public class GiveReviewForm extends HttpServlet {
 			out.println("<div class='form-group'><label for='book'>Select Book</label>");
 			out.println("<select class='form-control' name='bookid' id='book'/>");
 			
-			List<IssueBookBean> list=BookDao.viewIssuedBooks();
+			List<IssueBookBean> list=BookDao.viewDistinctIssuedBooksforStudent(usn);
 			
 			out.print("<option disabled selected value=''></option>");
 			

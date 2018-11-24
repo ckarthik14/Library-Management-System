@@ -23,7 +23,7 @@ public class GetSentiment {
 	// **********************************************
 
 	// Replace the accessKey string value with your valid access key.
-	    static String accessKey = "f6d2c61e3efb4b98b8c4138c3d7dd769";
+	    static String accessKey = "enter_key";
 
 	// Replace or verify the region.
 
@@ -33,11 +33,11 @@ public class GetSentiment {
 
 	// NOTE: Free trial access keys are generated in the westcentralus region, so if you are using
 	// a free trial access key, you should not need to change this region.
-	    static String host = "https://centralindia.api.cognitive.microsoft.com/";
+	    static String host = "https://centralindia.api.cognitive.microsoft.com";
 
 	    static String path = "/text/analytics/v2.0/sentiment";
 
-	    public static String GetSentiment (Documents documents) throws Exception {
+	    public static String GetSentiments (Documents documents) throws Exception {
 	        String text = new Gson().toJson(documents);
 	        byte[] encoded_text = text.getBytes("UTF-8");
 

@@ -2,6 +2,7 @@ package com.servlets;
 
 import java.io.*;
 
+
 import java.net.*;
 import java.util.*;
 import javax.net.ssl.HttpsURLConnection;
@@ -37,6 +38,9 @@ import com.dao.DBMongo;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
+import com.mongodb.util.JSON;
+import com.mongodb.BasicDBList;
+import com.beans.ReviewBean;
 
 @WebServlet("/CalculateReview")
 public class CalculateReview extends HttpServlet {
@@ -50,42 +54,86 @@ public class CalculateReview extends HttpServlet {
 		
 		DBCollection collection = database.getCollection("review");
 		
-		String bookid = request.getParameter("bookid");
+		String isbn = request.getParameter("bookid");
 		String librarian = request.getParameter("librarian");
 		String issue = request.getParameter("issue");
 		String book = request.getParameter("book");
 		String webapp = request.getParameter("webapp");
 		String content = request.getParameter("content");
 		
+		String[] reviews = new String[6];
+		
+		ReviewBean rBean = new ReviewBean();
+		
 		BasicDBObject document = new BasicDBObject();
 		
-		if(bookid != null)
+		if(isbn != null)
 		{
+			Documents documents = new Documents();
+			
 			if(librarian != "")
-			{
-				Documents documents = new Documents();
-				
-				documents.add("1", "en", librarian);
-						
-				String sentiment = null;
-				try {
-					sentiment = GetSentiment.GetSentiment(documents);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-				
-				System.out.println(sentiment);
-				
-				JsonParser parser = new JsonParser();
-				JsonObject sent = (JsonObject) parser.parse(sentiment);
-				
-				JsonArray docs = sent.getAsJsonArray("documents");
-				JsonObject scoreobj = (JsonObject) docs.get(0);
-				
-				float score = scoreobj.get("score").getAsFloat();
-				
-				System.out.println(score);
+			{	
+				reviews[1] = librarian;
+				documents.add("1", "en", librarian);	
 			}
+			if(issue != "")
+			{	
+				reviews[2] = issue;
+				documents.add("2", "en", issue);	
+			}
+			if(book != "")
+			{	
+				reviews[3] = book;
+				documents.add("3", "en", book);	
+			}
+			if(webapp != "")
+			{	
+				reviews[4] = webapp;
+				documents.add("4", "en", webapp);	
+			}
+			if(content != "")
+			{	
+				reviews[5] = content;
+				documents.add("5", "en", content);	
+			}
+			
+			System.out.println(documents);
+			
+			String sentiment = null;
+			try {
+				sentiment = GetSentiment.GetSentiments(documents);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			
+			System.out.println(1);
+			
+			JsonParser parser = new JsonParser();
+			JsonObject sentobj = (JsonObject) parser.parse(sentiment);
+			
+			JsonArray docs = sentobj.getAsJsonArray("documents");
+			
+			int arraySize = docs.size();
+			
+			BasicDBList reviewsList = new BasicDBList();
+			
+			document.append("sid", usn).append("isbn", isbn);
+			
+			
+			for(int i = 0; i < arraySize; i++)
+			{
+				JsonObject docobj = (JsonObject) docs.get(i);
+				
+				float score = docobj.get("score").getAsFloat();
+				int id = docobj.get("id").getAsInt();
+				
+				BasicDBObject obj = new BasicDBObject();
+				obj.append(rBean.reviews[id], reviews[id]).append("score", score);
+				
+				reviewsList.add(obj);
+			}
+			
+			document.append("reviews", reviewsList);
 		}
 		
 	    collection.insert(document);
