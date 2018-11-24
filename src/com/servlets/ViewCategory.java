@@ -45,13 +45,13 @@ public class ViewCategory extends HttpServlet {
 				out.println("<tr><td>"+bean.getName()+"</td><td>"+bean.getDescription()+"</td><td><a href='EditCategoryForm?cid="+bean.getCid()+"'>Edit</a></td><td><a href='DeleteCategory?cid="+bean.getCid()+"'>Delete</a></td></tr>");
 			}
 			out.println("</table>");
-			
+
 			out.println("</div>");
 		}
 		
 		else
 		{
-			new com.authfunctions.AdminLogin(request,response,out);
+			new com.authfunctions.LibraryLogin(request,response,out);
 		}
 		
 		request.getRequestDispatcher("footer.html").include(request, response);
