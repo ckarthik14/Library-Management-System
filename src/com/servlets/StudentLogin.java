@@ -86,6 +86,13 @@ public class StudentLogin extends HttpServlet {
 		if (session.getAttribute("studentusn") != null) {
 		
 		request.getRequestDispatcher("navstudentname.html").include(request, response);
+		String studusn = (String) session.getAttribute("studentusn");
+		
+		StudentBean bean = StudentDao.viewById(studusn);
+		
+		out.print("<li><a href='#'>" + bean.getName() + "</a></li></ul>");
+		
+		request.getRequestDispatcher("navfooter.html").include(request, response);
 		request.getRequestDispatcher("studentcarousel.html").include(request, response);
 		
 		}
