@@ -12,10 +12,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.beans.CategoryBean;
-import com.dao.CategoryDao;
-@WebServlet("/ViewCategory")
-public class ViewCategory extends HttpServlet {
+import com.beans.CourseBean;
+import com.dao.CourseDao;
+@WebServlet("/ViewReview")
+public class ViewReview extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("text/html");
 		PrintWriter out=response.getWriter();
@@ -23,26 +23,26 @@ public class ViewCategory extends HttpServlet {
 		out.print("<!DOCTYPE html>");
 		out.print("<html>");
 		out.println("<head>");
-		out.println("<title>View Category</title>");
+		out.println("<title>View Review</title>");
 		out.println("<link rel='stylesheet' href='bootstrap.min.css'/>");
 		out.println("</head>");
 		out.println("<body>");
 		
 		HttpSession session = request.getSession();
 		
-		if (session.getAttribute("librarianemail") != null)
+		if (session.getAttribute("studentusn") != null)
 		{
 		
-			request.getRequestDispatcher("navlibrarian.html").include(request, response);
+			request.getRequestDispatcher("navstudent.html").include(request, response);
 			out.println("<div class='container'>");
 			
-			List<CategoryBean> list=CategoryDao.view();
+			List<CourseBean> list=CourseDao.view();
 			
 			
 			out.println("<table class='table table-bordered table-striped'>");
-			out.println("<tr><th>Name</th><th>Description</th><th>Edit</th><th>Delete</th></tr>");
-			for(CategoryBean bean:list){
-				out.println("<tr><td>"+bean.getName()+"</td><td>"+bean.getDescription()+"</td><td><a href='EditCategoryForm?cid="+bean.getCid()+"'>Edit</a></td><td><a href='DeleteCategory?cid="+bean.getCid()+"'>Delete</a></td></tr>");
+			out.println("<tr><th>Title</th><th>Department</th><th>Edit</th><th>Delete</th></tr>");
+			for(CourseBean bean:list){
+				out.println("<tr><td>"+bean.getTitle()+"</td><td>"+bean.getDepartment()+"</td><td><a href='EditCourseForm?cid="+bean.getCid()+"'>Edit</a></td><td><a href='DeleteCourse?cid="+bean.getCid()+"'>Delete</a></td></tr>");
 			}
 			out.println("</table>");
 			
@@ -51,7 +51,7 @@ public class ViewCategory extends HttpServlet {
 		
 		else
 		{
-			new com.authfunctions.LibraryLogin(request,response,out);
+			new com.authfunctions.StudentLogin(request,response,out);
 		}
 		
 		request.getRequestDispatcher("footer.html").include(request, response);
@@ -65,7 +65,7 @@ public class ViewCategory extends HttpServlet {
 		out.print("<!DOCTYPE html>");
 		out.print("<html>");
 		out.println("<head>");
-		out.println("<title>View Category</title>");
+		out.println("<title>View Course</title>");
 		out.println("<link rel='stylesheet' href='bootstrap.min.css'/>");
 		out.println("</head>");
 		out.println("<body>");
@@ -78,13 +78,13 @@ public class ViewCategory extends HttpServlet {
 			request.getRequestDispatcher("navlibrarian.html").include(request, response);
 			out.println("<div class='container'>");
 			
-			List<CategoryBean> list=CategoryDao.view();
+			List<CourseBean> list=CourseDao.view();
 			
 			
 			out.println("<table class='table table-bordered table-striped'>");
-			out.println("<tr><th>Name</th><th>Description</th><th>Edit</th><th>Delete</th></tr>");
-			for(CategoryBean bean:list){
-				out.println("<tr><td>"+bean.getName()+"</td><td>"+bean.getDescription()+"</td><td><a href='EditCategoryForm?cid="+bean.getCid()+"'>Edit</a></td><td><a href='DeleteCategory?cid="+bean.getCid()+"'>Delete</a></td></tr>");
+			out.println("<tr><th>Title</th><th>Department</th><th>Edit</th><th>Delete</th></tr>");
+			for(CourseBean bean:list){
+				out.println("<tr><td>"+bean.getTitle()+"</td><td>"+bean.getDepartment()+"</td><td><a href='EditCourseForm?cid="+bean.getCid()+"'>Edit</a></td><td><a href='DeleteCourse?cid="+bean.getCid()+"'>Delete</a></td></tr>");
 			}
 			out.println("</table>");
 			
