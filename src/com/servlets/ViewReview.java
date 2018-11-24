@@ -14,8 +14,8 @@ import javax.servlet.http.HttpSession;
 
 import com.beans.CourseBean;
 import com.dao.CourseDao;
-@WebServlet("/ViewCourse")
-public class ViewCourse extends HttpServlet {
+@WebServlet("/ViewReview")
+public class ViewReview extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("text/html");
 		PrintWriter out=response.getWriter();
@@ -23,17 +23,17 @@ public class ViewCourse extends HttpServlet {
 		out.print("<!DOCTYPE html>");
 		out.print("<html>");
 		out.println("<head>");
-		out.println("<title>View Course</title>");
+		out.println("<title>View Review</title>");
 		out.println("<link rel='stylesheet' href='bootstrap.min.css'/>");
 		out.println("</head>");
 		out.println("<body>");
 		
 		HttpSession session = request.getSession();
 		
-		if (session.getAttribute("librarianemail") != null)
+		if (session.getAttribute("studentusn") != null)
 		{
 		
-			request.getRequestDispatcher("navlibrarian.html").include(request, response);
+			request.getRequestDispatcher("navstudent.html").include(request, response);
 			out.println("<div class='container'>");
 			
 			List<CourseBean> list=CourseDao.view();
@@ -51,7 +51,7 @@ public class ViewCourse extends HttpServlet {
 		
 		else
 		{
-			new com.authfunctions.LibraryLogin(request,response,out);
+			new com.authfunctions.StudentLogin(request,response,out);
 		}
 		
 		request.getRequestDispatcher("footer.html").include(request, response);

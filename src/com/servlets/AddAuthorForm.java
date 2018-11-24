@@ -23,6 +23,7 @@ public class AddAuthorForm extends HttpServlet {
 		out.println("<head>");
 		out.println("<title>Add Author</title>");
 		out.println("<link rel='stylesheet' href='bootstrap.min.css'/>");
+		out.println("<link rel='stylesheet' href='index.css'/>");
 		out.println("</head>");
 		out.println("<body>");
 		

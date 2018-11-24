@@ -63,7 +63,7 @@ public class ViewBookCourse extends HttpServlet {
 		
 		else
 		{
-			new com.authfunctions.AdminLogin(request,response,out);
+			new com.authfunctions.LibraryLogin(request,response,out);
 		}
 		
 		request.getRequestDispatcher("footer.html").include(request, response);
