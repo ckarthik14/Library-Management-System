@@ -2,6 +2,7 @@ package com.servlets;
 
 
 import java.io.IOException;
+
 import java.io.PrintWriter;
 
 import javax.net.ssl.SSLEngineResult.Status;
@@ -13,6 +14,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.beans.LibrarianBean;
 import com.dao.LibrarianDao;
+
+import com.password.SHA256;
+
 @WebServlet("/AddLibrarian")
 public class AddLibrarian extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -33,7 +37,10 @@ public class AddLibrarian extends HttpServlet {
 		String name=request.getParameter("name");
 		String email=request.getParameter("email");
 		String password=request.getParameter("password");
-		LibrarianBean bean=new LibrarianBean(name, email, password);
+		
+		String passhash = SHA256.getSHA(password);
+		
+		LibrarianBean bean=new LibrarianBean(name, email, passhash);
 		int status = LibrarianDao.save(bean);
 		
 		if(status == 2)

@@ -47,7 +47,7 @@ public class EditLibrarianForm extends HttpServlet {
 			out.print("</div>");
 			out.print("<div class='form-group'>");
 			out.print("<label for='password1'>Password</label>");
-			out.print("<input type='password' class='form-control' value='"+bean.getPassword()+"' name='password' id='password1' placeholder='Password'/>");
+			out.print("<input type='password' class='form-control' name='password' id='password1' placeholder='Password'/>");
 			out.print("</div>  ");
 			out.print("<button type='submit' class='btn btn-primary'>Update</button>");
 			out.print("</form>");
