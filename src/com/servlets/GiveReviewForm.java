@@ -45,7 +45,7 @@ public class GiveReviewForm extends HttpServlet {
 			out.println("<h3>Give Review</h3>");
 			out.println("<br><form action='CalculateReview' method='post' style='width:300px'>");
 			out.println("<div class='form-group'><label for='book'>Select Book</label>");
-			out.println("<select class='form-control' name='bookid' id='book'/>");
+			out.println("<select required class='form-control' name='bookid' id='book'/>");
 			
 			List<IssueBookBean> list=BookDao.viewDistinctIssuedBooksforStudent(usn);
 			
