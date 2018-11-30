@@ -16,6 +16,7 @@ import com.beans.LibrarianBean;
 import com.beans.StudentBean;
 import com.dao.LibrarianDao;
 import com.dao.StudentDao;
+import com.password.SHA256;
 
 @WebServlet("/StudentLogin")
 public class StudentLogin extends HttpServlet {
@@ -34,7 +35,10 @@ public class StudentLogin extends HttpServlet {
 		String usn=request.getParameter("sid");
 		String password=request.getParameter("password");
 		
-		if(StudentDao.authenticate(usn, password))
+		String passhash = SHA256.getSHA(password);
+		System.out.println(passhash);
+		
+		if(StudentDao.authenticate(usn, passhash))
 		{
 			HttpSession session=request.getSession();
 			session.setAttribute("studentusn",usn);

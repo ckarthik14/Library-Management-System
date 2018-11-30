@@ -2,6 +2,7 @@ package com.servlets;
 
 
 import java.io.IOException;
+
 import java.io.PrintWriter;
 
 import javax.servlet.ServletException;
@@ -15,7 +16,8 @@ import javax.websocket.Session;
 import com.beans.LibrarianBean;
 import com.dao.LibrarianDao;
 
-import sun.util.logging.resources.logging_de;
+import com.password.SHA256;
+
 @WebServlet("/LibrarianLogin")
 public class LibrarianLogin extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -33,7 +35,9 @@ public class LibrarianLogin extends HttpServlet {
 		String email=request.getParameter("email");
 		String password=request.getParameter("password");
 		
-		if(LibrarianDao.authenticate(email, password))
+		String passhash = SHA256.getSHA(password);
+		
+		if(LibrarianDao.authenticate(email, passhash))
 		{
 			HttpSession session=request.getSession();
 			session.setAttribute("librarianemail",email);

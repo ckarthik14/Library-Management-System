@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 5.7.23, for Linux (x86_64)
+-- MySQL dump 10.13  Distrib 5.7.24, for Linux (x86_64)
 --
 -- Host: localhost    Database: library
 -- ------------------------------------------------------
--- Server version	5.7.23
+-- Server version	5.7.24
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -40,7 +40,7 @@ CREATE TABLE `author` (
 
 LOCK TABLES `author` WRITE;
 /*!40000 ALTER TABLE `author` DISABLE KEYS */;
-INSERT INTO `author` VALUES (6,'Arthur','Conan Doyle','221B Baker Street','8571239041'),(10,'Muhammad','Mazidi','University of Tabriz','9681239121'),(12,'Janice','Mazidi','University of Tabriz','9859123877');
+INSERT INTO `author` VALUES (10,'Muhammad','Mazidi','University of Tabriz','9681239121'),(12,'Janice','Mazidi','University of Tabriz','9859123877');
 /*!40000 ALTER TABLE `author` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -73,7 +73,6 @@ CREATE TABLE `book` (
 
 LOCK TABLES `book` WRITE;
 /*!40000 ALTER TABLE `book` DISABLE KEYS */;
-INSERT INTO `book` VALUES ('abc12','8051 progamming','2nd',3,0,1,1),('abc124','8086 embedded systems','5th',5,0,5,10);
 /*!40000 ALTER TABLE `book` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -99,7 +98,7 @@ CREATE TABLE `category` (
 
 LOCK TABLES `category` WRITE;
 /*!40000 ALTER TABLE `category` DISABLE KEYS */;
-INSERT INTO `category` VALUES (1,'Fiction','Unreal works of art'),(10,'Science','Physics, Chemistry and Biology related books');
+INSERT INTO `category` VALUES (10,'Science','Physics, Chemistry and Biology related books');
 /*!40000 ALTER TABLE `category` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -138,7 +137,7 @@ DROP TABLE IF EXISTS `issuebook`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `issuebook` (
   `ISBN` varchar(20) NOT NULL,
-  `SID` varchar(20) NOT NULL,
+  `SID` varchar(20) DEFAULT NULL,
   `LID` varchar(100) NOT NULL,
   `DOI` date NOT NULL,
   `DOR` date DEFAULT NULL,
@@ -149,7 +148,7 @@ CREATE TABLE `issuebook` (
   KEY `ISBN_idx` (`ISBN`),
   CONSTRAINT `isbn_issue` FOREIGN KEY (`ISBN`) REFERENCES `book` (`ISBN`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `lid` FOREIGN KEY (`LID`) REFERENCES `librarian` (`LID`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `sid` FOREIGN KEY (`SID`) REFERENCES `student` (`SID`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `sid` FOREIGN KEY (`SID`) REFERENCES `student` (`SID`) ON DELETE SET NULL ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -159,7 +158,6 @@ CREATE TABLE `issuebook` (
 
 LOCK TABLES `issuebook` WRITE;
 /*!40000 ALTER TABLE `issuebook` DISABLE KEYS */;
-INSERT INTO `issuebook` VALUES ('abc124','1RV16CS014','keerthan@gmail.com','2018-11-14','2018-11-15',4),('abc124','1RV16CS014','keerthan@gmail.com','2018-11-15','2018-11-15',7),('abc124','1RV16CS014','keerthan@gmail.com','2018-11-04','2018-11-15',8),('abc124','1RV16CS014','keerthan@gmail.com','2018-11-02','2018-11-15',13),('abc124','1RV16CS014','keerthan@gmail.com','2018-11-15','2018-11-15',18),('abc124','1RV16CS014','keerthan@gmail.com','2018-11-02','2018-11-15',19),('abc124','1RV16CS001','keerthan@gmail.com','2018-11-02','2018-11-15',20),('abc124','1RV16CS014','keerthan@gmail.com','2018-11-01','2018-11-15',22),('abc12','1RV16CS001','keerthan@gmail.com','2018-11-04','2018-11-15',23);
 /*!40000 ALTER TABLE `issuebook` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -173,7 +171,7 @@ DROP TABLE IF EXISTS `librarian`;
 CREATE TABLE `librarian` (
   `LID` varchar(100) NOT NULL,
   `NAME` varchar(50) NOT NULL,
-  `PASSWORD` varchar(50) NOT NULL,
+  `PASSWORD` varchar(1000) NOT NULL,
   PRIMARY KEY (`LID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -184,7 +182,7 @@ CREATE TABLE `librarian` (
 
 LOCK TABLES `librarian` WRITE;
 /*!40000 ALTER TABLE `librarian` DISABLE KEYS */;
-INSERT INTO `librarian` VALUES ('ckarthik114@gmail.com','Karthik Cottur','123'),('keerthan@gmail.com','Keerthan Bhat','123');
+INSERT INTO `librarian` VALUES ('ckarthik114@gmail.com','Karthik Cottur','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3');
 /*!40000 ALTER TABLE `librarian` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -211,7 +209,6 @@ CREATE TABLE `prescribes` (
 
 LOCK TABLES `prescribes` WRITE;
 /*!40000 ALTER TABLE `prescribes` DISABLE KEYS */;
-INSERT INTO `prescribes` VALUES ('abc12',1),('abc124',2),('abc12',2);
 /*!40000 ALTER TABLE `prescribes` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -254,7 +251,7 @@ CREATE TABLE `student` (
   `SID` varchar(20) NOT NULL,
   `NAME` varchar(50) NOT NULL,
   `DOB` date NOT NULL,
-  `PASSWORD` varchar(50) NOT NULL,
+  `PASSWORD` varchar(1000) NOT NULL,
   PRIMARY KEY (`SID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -265,7 +262,7 @@ CREATE TABLE `student` (
 
 LOCK TABLES `student` WRITE;
 /*!40000 ALTER TABLE `student` DISABLE KEYS */;
-INSERT INTO `student` VALUES ('1RV16CS001','Aashish','1999-01-01','123'),('1RV16CS014','Akshay','1998-03-14','123');
+INSERT INTO `student` VALUES ('1RV16AS014','Varun Durbha','1998-03-14','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3'),('1RV2','Varun Durbha','0021-03-21','c38777d1619a83b0ee9e6e23868bb47b29f81875090a0b5d4e607263df35fec1');
 /*!40000 ALTER TABLE `student` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -292,7 +289,6 @@ CREATE TABLE `written_by` (
 
 LOCK TABLES `written_by` WRITE;
 /*!40000 ALTER TABLE `written_by` DISABLE KEYS */;
-INSERT INTO `written_by` VALUES ('abc124',10),('abc124',12);
 /*!40000 ALTER TABLE `written_by` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -305,4 +301,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-11-24 11:10:52
+-- Dump completed on 2018-11-30 13:57:24

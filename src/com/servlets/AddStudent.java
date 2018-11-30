@@ -2,6 +2,7 @@ package com.servlets;
 
 
 import java.io.IOException;
+
 import java.io.PrintWriter;
 import java.sql.Date;
 
@@ -14,6 +15,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.beans.StudentBean;
 import com.dao.StudentDao;
+
+import com.password.SHA256;
+
 @WebServlet("/AddStudent")
 public class AddStudent extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -35,7 +39,10 @@ public class AddStudent extends HttpServlet {
 		String email=request.getParameter("sid");
 		String password=request.getParameter("password");
 		Date dob=Date.valueOf(request.getParameter("dob"));
-		StudentBean bean=new StudentBean(name, email, password, dob);
+		
+		String passhash = SHA256.getSHA(password);
+		
+		StudentBean bean=new StudentBean(name, email, passhash, dob);
 		int status = StudentDao.save(bean);
 		
 		if(status == 2)
