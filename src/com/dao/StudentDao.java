@@ -145,8 +145,9 @@ public class StudentDao {
 		boolean i=false;
 		try{
 			Connection con=DB.getCon();
-			PreparedStatement ps=con.prepareStatement("select * from issuebook where sid=?");
+			PreparedStatement ps=con.prepareStatement("select * from issuebook where sid=? and dor is ?");
 			ps.setString(1,sid);
+			ps.setNull(2, java.sql.Types.DATE);
 			ResultSet rs=ps.executeQuery();
 			if(rs.next()){
 				i = true;

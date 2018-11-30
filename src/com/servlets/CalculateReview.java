@@ -119,6 +119,8 @@ public class CalculateReview extends HttpServlet {
 			
 			document.append("sid", usn).append("isbn", isbn);
 			
+			java.sql.Date currentDate=new java.sql.Date(System.currentTimeMillis());
+			document.append("date", currentDate);
 			
 			for(int i = 0; i < arraySize; i++)
 			{

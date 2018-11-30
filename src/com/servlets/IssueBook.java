@@ -49,12 +49,18 @@ public class IssueBook extends HttpServlet {
 				out.println("<h3>Invalid Student USN.</h3><p>Please check again.</p>");
 			}
 			else {
-				IssueBookBean bean=new IssueBookBean(isbn,sid,lid);
-				int j=BookDao.issueBook(bean);
-				if(j>0){
-					out.println("<h3>Book issued successfully</h3>");
-				}else{
-					out.println("<h3>Sorry, unable to issue book.</h3><p>We may have shortage of books. Kindly visit later.</p>");
+				i=BookDao.checkRedundancy(isbn,sid);
+				if(i == true) {
+					out.println("<h3>Student has already issued this book and haven't returned it yet.</h3><p>Please check again.</p>");
+				}
+				else {
+					IssueBookBean bean=new IssueBookBean(isbn,sid,lid);
+					int j=BookDao.issueBook(bean);
+					if(j>0){
+						out.println("<h3>Book issued successfully</h3>");
+					}else{
+						out.println("<h3>Sorry, unable to issue book.</h3><p>We may have shortage of books. Kindly visit later.</p>");
+					}
 				}
 			}
 		}
