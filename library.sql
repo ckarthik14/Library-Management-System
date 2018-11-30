@@ -31,7 +31,7 @@ CREATE TABLE `author` (
   PRIMARY KEY (`AID`),
   UNIQUE KEY `PHONE_UNIQUE` (`PHONE`),
   UNIQUE KEY `NAME` (`FNAME`,`LNAME`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -40,7 +40,7 @@ CREATE TABLE `author` (
 
 LOCK TABLES `author` WRITE;
 /*!40000 ALTER TABLE `author` DISABLE KEYS */;
-INSERT INTO `author` VALUES (10,'Muhammad','Mazidi','University of Tabriz','9681239121'),(12,'Janice','Mazidi','University of Tabriz','9859123877');
+INSERT INTO `author` VALUES (10,'Muhammad','Mazidi','University of Tabriz','9681239121'),(12,'Janice','Mazidi','University of Tabriz','9859123877'),(13,'Levitin','','162B, Mendel Hall','9214785312');
 /*!40000 ALTER TABLE `author` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -73,6 +73,7 @@ CREATE TABLE `book` (
 
 LOCK TABLES `book` WRITE;
 /*!40000 ALTER TABLE `book` DISABLE KEYS */;
+INSERT INTO `book` VALUES ('9780132316','8051 Microcontroller','Second',10,0,5,11),('9788072031','Introduction to Algorithms','Third',20,0,5,11);
 /*!40000 ALTER TABLE `book` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -89,7 +90,7 @@ CREATE TABLE `category` (
   `DESCRIPTION` varchar(100) NOT NULL,
   PRIMARY KEY (`CID`),
   UNIQUE KEY `NAME_UNIQUE` (`NAME`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -98,7 +99,7 @@ CREATE TABLE `category` (
 
 LOCK TABLES `category` WRITE;
 /*!40000 ALTER TABLE `category` DISABLE KEYS */;
-INSERT INTO `category` VALUES (10,'Science','Physics, Chemistry and Biology related books');
+INSERT INTO `category` VALUES (10,'Science','Physics, Chemistry and Biology related books'),(11,'Engineering','Books for Engineering');
 /*!40000 ALTER TABLE `category` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -115,7 +116,7 @@ CREATE TABLE `course` (
   `DEPARTMENT` varchar(50) NOT NULL,
   PRIMARY KEY (`CID`),
   UNIQUE KEY `TITLE_DEPT` (`DEPARTMENT`,`TITLE`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -124,7 +125,7 @@ CREATE TABLE `course` (
 
 LOCK TABLES `course` WRITE;
 /*!40000 ALTER TABLE `course` DISABLE KEYS */;
-INSERT INTO `course` VALUES (1,'DMS','CSE'),(2,'MCES','CSE');
+INSERT INTO `course` VALUES (3,'DAA','CSE'),(1,'DMS','CSE'),(2,'MCES','CSE');
 /*!40000 ALTER TABLE `course` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -182,7 +183,7 @@ CREATE TABLE `librarian` (
 
 LOCK TABLES `librarian` WRITE;
 /*!40000 ALTER TABLE `librarian` DISABLE KEYS */;
-INSERT INTO `librarian` VALUES ('ckarthik114@gmail.com','Karthik Cottur','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3');
+INSERT INTO `librarian` VALUES ('ckarthik114@gmail.com','Karthik Cottur','5994471abb01112afcc18159f6cc74b4f511b99806da59b3caf5a9c173cacfc5'),('hkbhat@gmail.com','Keerthan Bhat','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3');
 /*!40000 ALTER TABLE `librarian` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -196,6 +197,7 @@ DROP TABLE IF EXISTS `prescribes`;
 CREATE TABLE `prescribes` (
   `ISBN` varchar(20) NOT NULL,
   `CID` int(11) NOT NULL,
+  UNIQUE KEY `course_isbn_pk` (`ISBN`,`CID`),
   KEY `course_id_idx` (`CID`),
   KEY `isbn_p_idx` (`ISBN`),
   CONSTRAINT `course_id` FOREIGN KEY (`CID`) REFERENCES `course` (`CID`) ON DELETE CASCADE ON UPDATE CASCADE,
@@ -209,6 +211,7 @@ CREATE TABLE `prescribes` (
 
 LOCK TABLES `prescribes` WRITE;
 /*!40000 ALTER TABLE `prescribes` DISABLE KEYS */;
+INSERT INTO `prescribes` VALUES ('9788072031',3);
 /*!40000 ALTER TABLE `prescribes` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -276,6 +279,7 @@ DROP TABLE IF EXISTS `written_by`;
 CREATE TABLE `written_by` (
   `ISBN` varchar(20) NOT NULL,
   `AID` int(11) NOT NULL,
+  UNIQUE KEY `isbn_aid_pk` (`ISBN`,`AID`),
   KEY `isbn_wb_idx` (`ISBN`),
   KEY `aid_idx` (`AID`),
   CONSTRAINT `aid` FOREIGN KEY (`AID`) REFERENCES `author` (`AID`) ON DELETE CASCADE ON UPDATE CASCADE,
@@ -301,4 +305,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-11-30 13:57:24
+-- Dump completed on 2018-11-30 15:37:35
