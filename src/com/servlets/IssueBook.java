@@ -51,7 +51,7 @@ public class IssueBook extends HttpServlet {
 			else {
 				i=BookDao.checkRedundancy(isbn,sid);
 				if(i == true) {
-					out.println("<h3>Student has already issued this book and haven't returned it yet.</h3><p>Please check again.</p>");
+					out.println("<h3>Student has already issued this book and has not returned it yet.</h3><p>Please check again.</p>");
 				}
 				else {
 					IssueBookBean bean=new IssueBookBean(isbn,sid,lid);
