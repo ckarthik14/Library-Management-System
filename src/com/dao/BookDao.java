@@ -144,22 +144,25 @@ public class BookDao {
 		List<Date> DateStatus = new ArrayList<Date>(); 
 			try{
 				Connection con=DB.getCon();
-				PreparedStatement ps=con.prepareStatement("update issuebook set dor=? where isbn=? and sid=?");
+				
+				PreparedStatement ps3=con.prepareStatement("select doi from issuebook where isbn=? and sid=? and dor is ?");
+				ps3.setString(1,isbn);
+				ps3.setString(2,sid);
+				ps3.setNull(3,java.sql.Types.DATE);
+				ResultSet rs=ps3.executeQuery();
+				if(rs.next()) {
+					doi = rs.getDate("doi");
+				}
 				java.sql.Date currentDate=new java.sql.Date(System.currentTimeMillis());
+				DateStatus.add(doi);
+				DateStatus.add(currentDate);
+				
+				PreparedStatement ps=con.prepareStatement("update issuebook set dor=? where isbn=? and sid=?");
 				ps.setDate(1,currentDate);
 				ps.setString(2,isbn);
 				ps.setString(3,sid);
 				
 				status=ps.executeUpdate();
-				PreparedStatement ps3=con.prepareStatement("select doi from issuebook where isbn=? and sid=?");
-				ps3.setString(1,isbn);
-				ps3.setString(2,sid);
-				ResultSet rs=ps3.executeQuery();
-				if(rs.next()) {
-					doi = rs.getDate("doi");
-				}
-				DateStatus.add(doi);
-				DateStatus.add(currentDate);
 				
 				if(status>0){
 					PreparedStatement ps2=con.prepareStatement("update book set issued=? where isbn=?");
@@ -172,6 +175,44 @@ public class BookDao {
 			}catch(Exception e){System.out.println(e);}
 			
 			return DateStatus;
+	}
+	public static int CalcFine (Date doi, Date dor) {
+		String doiStr = doi.toString();
+		String dorStr = dor.toString();
+		char doiDay1 = doiStr.charAt(8);
+		char doiDay2 = doiStr.charAt(9);
+		char dorDay1 = dorStr.charAt(8);
+		char dorDay2 = dorStr.charAt(9);
+		char doiMonth1 = doiStr.charAt(5);
+		char doiMonth2 = doiStr.charAt(6);
+		char dorMonth1 = dorStr.charAt(5);
+		char dorMonth2 = dorStr.charAt(6);
+		
+		String doiDay1str = Character.toString(doiDay1);
+		String doiDay2str = Character.toString(doiDay2);
+		String doiDay = doiDay1str + doiDay2str;
+		String doiMonth1str = Character.toString(doiMonth1);
+		String doiMonth2str = Character.toString(doiMonth2);
+		String doiMonth = doiMonth1str + doiMonth2str;
+		
+		String dorDay1str = Character.toString(dorDay1);
+		String dorDay2str = Character.toString(dorDay2);
+		String dorDay = dorDay1str + dorDay2str;
+		String dorMonth1str = Character.toString(dorMonth1);
+		String dorMonth2str = Character.toString(dorMonth2);
+		String dorMonth = dorMonth1str + dorMonth2str;
+		
+		int doiday = Integer.parseInt(doiDay);
+		int dorday = Integer.parseInt(dorDay);
+		int difference = dorday - doiday;
+		
+		int doimonth = Integer.parseInt(doiMonth);
+		int dormonth = Integer.parseInt(dorMonth);
+		int monthDifference = dormonth - doimonth;
+		
+		difference = difference + monthDifference * 30;
+		
+		return difference;
 	}
 	public static List<IssueBookBean> viewIssuedBooks(){
 		List<IssueBookBean> list=new ArrayList<IssueBookBean>();
@@ -292,12 +333,33 @@ public class BookDao {
 		
 		return i;
 	}
+	public static boolean checkRedundancy(String isbn, String sid) {
+		boolean i=true;
+		try{
+			Connection con=DB.getCon();
+			PreparedStatement ps=con.prepareStatement("select * from issuebook where isbn=? and sid=? and dor is ?");
+			ps.setString(1,isbn);
+			ps.setString(2,sid);
+			ps.setNull(3,java.sql.Types.DATE);
+			ResultSet rs=ps.executeQuery();
+			if(rs.next()){
+				i = true;
+			}
+			else {
+				i = false;
+			}
+			con.close();
+			
+		}catch(Exception e){System.out.println(e);}
+		return i;
+	}
 	public static boolean checkIsbnissue(String isbn) {
 		boolean i=false;
 		try{
 			Connection con=DB.getCon();
-			PreparedStatement ps=con.prepareStatement("select * from issuebook where isbn=?");
+			PreparedStatement ps=con.prepareStatement("select * from issuebook where isbn=? and dor is ?");
 			ps.setString(1,isbn);
+			ps.setNull(2,java.sql.Types.DATE);
 			ResultSet rs=ps.executeQuery();
 			if(rs.next()){
 				i = true;

@@ -23,7 +23,7 @@ public class GetSentiment {
 	// **********************************************
 
 	// Replace the accessKey string value with your valid access key.
-	    static String accessKey = "enter_key";
+	    static String accessKey = "8e02e8a07ef64c7596bc495fa688c89c";
 
 	// Replace or verify the region.
 

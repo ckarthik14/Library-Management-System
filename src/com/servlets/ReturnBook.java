@@ -50,40 +50,11 @@ public class ReturnBook extends HttpServlet {
 				if(j != null){
 					Date doi = j.get(0);
 					Date dor = j.get(1);
-					System.out.println(doi);
-					System.out.println(dor);
-					
-					String doiStr = doi.toString();
-					String dorStr = dor.toString();
-					char doiDay1 = doiStr.charAt(8);
-					char doiDay2 = doiStr.charAt(9);
-					char dorDay1 = dorStr.charAt(8);
-					char dorDay2 = dorStr.charAt(9);
-					System.out.println(doiDay1);
-					System.out.println(doiDay2);
-					System.out.println(dorDay1);
-					System.out.println(dorDay2);
-					
-					String doiDay1str = Character.toString(doiDay1);
-					String doiDay2str = Character.toString(doiDay2);
-					String doiDay = doiDay1str + doiDay2str;
-					System.out.println(doiDay);
-					
-					String dorDay1str = Character.toString(dorDay1);
-					String dorDay2str = Character.toString(dorDay2);
-					String dorDay = dorDay1str + dorDay2str;
-					System.out.println(dorDay);
-					
-					int doiday = Integer.parseInt(doiDay);
-					int dorday = Integer.parseInt(dorDay);
-					System.out.println(doiday);
-					System.out.println(dorday);
-					int difference = dorday - doiday;
+					int difference = BookDao.CalcFine(doi,dor);
 					
 					out.println("<h3>Book returned successfully</h3>");
 					int fineAmt = 1;
 					int limit = 7;
-					System.out.println(difference);
 					if(difference > limit)
 					{
 						int fine = (difference - limit) * fineAmt;
