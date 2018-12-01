@@ -1,8 +1,11 @@
 package com.servlets;
-
+import com.beans.AuthorRecommendBean;
+import com.beans.BookBean;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Dictionary;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -13,7 +16,16 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.beans.CourseBean;
+import com.beans.IssueBookBean;
+import com.dao.AuthorDao;
+import com.dao.BookDao;
 import com.dao.CourseDao;
+import com.dao.DBMongo;
+import com.mongodb.DB;
+import com.mongodb.DBCollection;
+import com.mongodb.BasicDBObject;
+import com.mongodb.DBCursor;
+
 @WebServlet("/ViewReview")
 public class ViewReview extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -32,20 +44,84 @@ public class ViewReview extends HttpServlet {
 		
 		if (session.getAttribute("studentusn") != null)
 		{
-		
+			DB database = DBMongo.getDB();
+			DBCollection collection = database.getCollection("review");
+			String isbn = request.getParameter("bookid");
+			DBCursor cursor = collection.find();
 			request.getRequestDispatcher("navstudent.html").include(request, response);
+			out.println("<h3 align='center'>" + BookDao.getTitlebyId(isbn) + "</h3></ br>");
+			out.println("<h3 align='center'>ISBN: " + isbn + "</h3></ br>");
 			out.println("<div class='container'>");
-			
-			List<CourseBean> list=CourseDao.view();
-			
-			
-			out.println("<table class='table table-bordered table-striped'>");
-			out.println("<tr><th>Title</th><th>Department</th><th>Edit</th><th>Delete</th></tr>");
-			for(CourseBean bean:list){
-				out.println("<tr><td>"+bean.getTitle()+"</td><td>"+bean.getDepartment()+"</td><td><a href='EditCourseForm?cid="+bean.getCid()+"'>Edit</a></td><td><a href='DeleteCourse?cid="+bean.getCid()+"'>Delete</a></td></tr>");
-			}
-			out.println("</table>");
-			
+			int j = 1;
+			while (cursor.hasNext()) {
+				cursor.next();
+				String curIsbn = (String) cursor.curr().get("isbn");
+				if(isbn.equals(curIsbn)) {
+					out.println("<h4>" + j + ".</h4>");
+					out.println("<h4>Student USN: " + cursor.curr().get("sid") + "</h4>");
+					out.println("<h4>Date: " + cursor.curr().get("date") + "</h4>");
+					
+					out.println("<table class='table table-bordered table-striped'>");
+					out.println("<tr><th>Parameter</th><th>Comments</th><th>Sentiment</th></tr>");
+					
+					@SuppressWarnings("unchecked")
+					List<BasicDBObject> reviews = (List<BasicDBObject>) cursor.curr().get("reviews");
+
+					int iter = 0;
+					int l = reviews.size();
+					int i = 1;
+					BasicDBObject review = (BasicDBObject) reviews.get(0);
+					while(iter < l) {
+						review = reviews.get(iter);
+
+						switch(i) {
+						case 1:
+							String parameter = review.getString("libreview");
+							String score = review.getString("score");
+							if(parameter != null) {
+								out.println("<tr><td>Librarian Review</td><td>" + parameter + "</td><td>" + score + "</td></tr>");
+								iter++;
+							}
+							break;
+						case 2:
+							String parameter2 = review.getString("issueexperience");
+							String score2 = review.getString("score");
+							if(parameter2 != null) {
+								out.println("<tr><td>Issue Experience</td><td>" + parameter2 + "</td><td>" + score2 + "</td></tr>");
+								iter++;
+							}
+							break;
+						case 3:
+							String parameter3 = review.getString("bookquality");
+							String score3 = review.getString("score");
+							if(parameter3 != null) {
+								out.println("<tr><td>Book Quality</td><td>" + parameter3 + "</td><td>" + score3 + "</td></tr>");
+								iter++;
+							}
+							break;
+						case 4:
+							String parameter4 = review.getString("webapp");
+							String score4 = review.getString("score");
+							if(parameter4 != null) {
+								out.println("<tr><td>Web app feedback</td><td>" + parameter4 + "</td><td>" + score4 + "</td></tr>");
+								iter++;
+							}
+							break;
+						case 5:
+							String parameter5 = review.getString("bookcontent");
+							String score5 = review.getString("score");
+							if(parameter5 != null) {
+								out.println("<tr><td>Book Content</td><td>" + parameter5 + "</td><td>" + score5 + "</td></tr>");
+								iter++;
+							}
+							break;
+						}
+						i++;
+					}
+					out.println("</table></ br></ br>");
+					j = j + 1;
+				}
+			 }
 			out.println("</div>");
 		}
 		
@@ -71,29 +147,40 @@ public class ViewReview extends HttpServlet {
 		out.println("<body>");
 		
 		HttpSession session = request.getSession();
+		String usn = (String) session.getAttribute("studentusn");
 		
-		if (session.getAttribute("librarianemail") != null)
+		if (usn != null)
 		{
 		
-			request.getRequestDispatcher("navlibrarian.html").include(request, response);
+			request.getRequestDispatcher("navstudent.html").include(request, response);
+			
 			out.println("<div class='container'>");
 			
-			List<CourseBean> list=CourseDao.view();
+			out.println("<h3>View Reviews</h3>");
+			out.println("<br><form action='ViewReview' method='post' style='width:300px'>");
+			out.println("<div class='form-group'><label for='book'>Select Book</label>");
+			out.println("<select required class='form-control' name='bookid' id='book'/>");
 			
+			List<BookBean> list=BookDao.view();
 			
-			out.println("<table class='table table-bordered table-striped'>");
-			out.println("<tr><th>Title</th><th>Department</th><th>Edit</th><th>Delete</th></tr>");
-			for(CourseBean bean:list){
-				out.println("<tr><td>"+bean.getTitle()+"</td><td>"+bean.getDepartment()+"</td><td><a href='EditCourseForm?cid="+bean.getCid()+"'>Edit</a></td><td><a href='DeleteCourse?cid="+bean.getCid()+"'>Delete</a></td></tr>");
+			out.print("<option disabled selected value=''></option>");
+			
+			for(BookBean bean: list) {
+				out.print("<option value='" + bean.getIsbn() + "'>" + BookDao.getTitlebyId(bean.getIsbn()) + "</option>");
 			}
-			out.println("</table>");
 			
+			out.println("</select></div>");
+			
+			out.println("<button type=\"submit\" class=\"btn btn-primary\">View Reviews</button>\r\n" + 
+					"</form>\r\n" + 
+					"<br />");
 			out.println("</div>");
+
 		}
 		
 		else
 		{
-			new com.authfunctions.LibraryLogin(request,response,out);
+			new com.authfunctions.StudentLogin(request,response,out);
 		}
 		
 		request.getRequestDispatcher("footer.html").include(request, response);

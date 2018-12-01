@@ -21,20 +21,12 @@ public class DBMongo {
 		
 		MongoCredential credential = MongoCredential.createMongoCRCredential("karthik", "library", "password".toCharArray());
 	    
-	    // Accessing the database
-	    database = mongo.getDB("library"); 
-	    System.out.println("Credentials ::"+ credential);  
-	    
-	    System.out.println("Connected to the database successfully");
-	    
+	    database = mongo.getDB("library");
 	    
 	} catch (UnknownHostException e) {
 		e.printStackTrace();
 	}
 	
 	return database;
-    
-	
-	}
-	
+ }	
 }

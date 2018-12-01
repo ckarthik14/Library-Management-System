@@ -11,5 +11,5 @@ public static Connection getCon(){
 		
 	}catch(Exception e){System.out.println(e);}
 	return con;
-}
+ }
 }

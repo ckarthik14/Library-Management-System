@@ -97,16 +97,12 @@ public class CalculateReview extends HttpServlet {
 				documents.add("5", "en", content);	
 			}
 			
-			System.out.println(documents);
-			
 			String sentiment = null;
 			try {
 				sentiment = GetSentiment.GetSentiments(documents);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			
-			System.out.println(1);
 			
 			JsonParser parser = new JsonParser();
 			JsonObject sentobj = (JsonObject) parser.parse(sentiment);
