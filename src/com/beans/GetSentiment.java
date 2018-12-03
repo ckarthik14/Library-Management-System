@@ -18,21 +18,7 @@ import com.beans.Documents;
 
 public class GetSentiment {
 
-	// ***********************************************
-	// *** Update or verify the following values. ***
-	// **********************************************
-
-	// Replace the accessKey string value with your valid access key.
-	    static String accessKey = "8e02e8a07ef64c7596bc495fa688c89c";
-
-	// Replace or verify the region.
-
-	// You must use the same region in your REST API call as you used to obtain your access keys.
-	// For example, if you obtained your access keys from the westus region, replace 
-	// "westcentralus" in the URI below with "westus".
-
-	// NOTE: Free trial access keys are generated in the westcentralus region, so if you are using
-	// a free trial access key, you should not need to change this region.
+	    static String accessKey = "Enter Key Here";
 	    static String host = "https://centralindia.api.cognitive.microsoft.com";
 
 	    static String path = "/text/analytics/v2.0/sentiment";
