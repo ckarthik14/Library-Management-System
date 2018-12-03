@@ -2,8 +2,11 @@ package com.servlets;
 import com.beans.AuthorRecommendBean;
 import com.beans.BookBean;
 
+import com.beans.RoundOff;
+
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.math.BigDecimal;
 import java.util.Dictionary;
 import java.util.Iterator;
 import java.util.List;
@@ -62,7 +65,7 @@ public class ViewReview extends HttpServlet {
 					out.println("<h4>Date: " + cursor.curr().get("date") + "</h4>");
 					
 					out.println("<table class='table table-bordered table-striped'>");
-					out.println("<tr><th>Parameter</th><th>Comments</th><th>Sentiment</th></tr>");
+					out.println("<tr><th>Parameter</th><th>Comments</th><th>User Feeling</th></tr>");
 					
 					@SuppressWarnings("unchecked")
 					List<BasicDBObject> reviews = (List<BasicDBObject>) cursor.curr().get("reviews");
@@ -77,50 +80,61 @@ public class ViewReview extends HttpServlet {
 						switch(i) {
 						case 1:
 							String parameter = review.getString("libreview");
-							String score = review.getString("score");
+							float score = Float.parseFloat(review.getString("score")) * 100;
+							
+							BigDecimal bdScore = RoundOff.round(score, 2);
 							if(parameter != null) {
-								out.println("<tr><td>Librarian Review</td><td>" + parameter + "</td><td>" + score + "</td></tr>");
+								out.println("<tr><td>Librarian Review</td><td>" + parameter + "</td><td>" + bdScore + "%</td></tr>");
 								iter++;
 							}
 							break;
 						case 2:
 							String parameter2 = review.getString("issueexperience");
-							String score2 = review.getString("score");
+							float score2 = Float.parseFloat(review.getString("score")) * 100;
+							
+							BigDecimal bdScore2 = RoundOff.round(score2, 2);
 							if(parameter2 != null) {
-								out.println("<tr><td>Issue Experience</td><td>" + parameter2 + "</td><td>" + score2 + "</td></tr>");
+								out.println("<tr><td>Issue Experience</td><td>" + parameter2 + "</td><td>" + bdScore2 + "%</td></tr>");
 								iter++;
 							}
 							break;
 						case 3:
 							String parameter3 = review.getString("bookquality");
-							String score3 = review.getString("score");
+							float score3 = Float.parseFloat(review.getString("score")) * 100;
+							
+							BigDecimal bdScore3 = RoundOff.round(score3, 2);
 							if(parameter3 != null) {
-								out.println("<tr><td>Book Quality</td><td>" + parameter3 + "</td><td>" + score3 + "</td></tr>");
+								out.println("<tr><td>Book Quality</td><td>" + parameter3 + "</td><td>" + bdScore3 + "%</td></tr>");
 								iter++;
 							}
 							break;
 						case 4:
 							String parameter4 = review.getString("webapp");
-							String score4 = review.getString("score");
+							float score4 = Float.parseFloat(review.getString("score")) * 100;
+							
+							BigDecimal bdScore4 = RoundOff.round(score4, 2);
 							if(parameter4 != null) {
-								out.println("<tr><td>Web app feedback</td><td>" + parameter4 + "</td><td>" + score4 + "</td></tr>");
+								out.println("<tr><td>Web app feedback</td><td>" + parameter4 + "</td><td>" + bdScore4 + "%</td></tr>");
 								iter++;
 							}
 							break;
 						case 5:
 							String parameter5 = review.getString("bookcontent");
-							String score5 = review.getString("score");
+							float score5 = Float.parseFloat(review.getString("score")) * 100;
+							
+							BigDecimal bdScore5 = RoundOff.round(score5, 2);
 							if(parameter5 != null) {
-								out.println("<tr><td>Book Content</td><td>" + parameter5 + "</td><td>" + score5 + "</td></tr>");
+								out.println("<tr><td>Book Content</td><td>" + parameter5 + "</td><td>" + bdScore5 + "%</td></tr>");
 								iter++;
 							}
 							break;
 						}
 						i++;
 					}
-					out.println("</table></ br></ br>");
+					out.println("</table></ br>");
 					j = j + 1;
 				}
+				out.println("<br />");
 			 }
 			out.println("</div>");
 		}
@@ -141,7 +155,7 @@ public class ViewReview extends HttpServlet {
 		out.print("<!DOCTYPE html>");
 		out.print("<html>");
 		out.println("<head>");
-		out.println("<title>View Course</title>");
+		out.println("<title>View Review</title>");
 		out.println("<link rel='stylesheet' href='bootstrap.min.css'/>");
 		out.println("</head>");
 		out.println("<body>");
