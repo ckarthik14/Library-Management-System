@@ -21,6 +21,9 @@ import java.io.IOException;
 
 import java.io.PrintWriter;
 
+import javax.servlet.RequestDispatcher;
+import javax.servlet.Servlet;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -47,6 +50,7 @@ public class CalculateReview extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		HttpSession session = request.getSession();
+		PrintWriter out = response.getWriter();
 		
 		String usn = (String) session.getAttribute("studentusn");
 		
@@ -102,42 +106,71 @@ public class CalculateReview extends HttpServlet {
 				sentiment = GetSentiment.GetSentiments(documents);
 			} catch (Exception e) {
 				e.printStackTrace();
+				
+				request.setAttribute("reviewfail", "true");
+				
+				RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/GiveReviewForm");
+				
+				dispatcher.forward(request, response);
+				
+				return;
 			}
 			
-			JsonParser parser = new JsonParser();
-			JsonObject sentobj = (JsonObject) parser.parse(sentiment);
-			
-			JsonArray docs = sentobj.getAsJsonArray("documents");
-			
-			int arraySize = docs.size();
-			
-			BasicDBList reviewsList = new BasicDBList();
-			
-			document.append("sid", usn).append("isbn", isbn);
-			
-			java.sql.Date currentDate=new java.sql.Date(System.currentTimeMillis());
-			document.append("date", currentDate);
-			
-			for(int i = 0; i < arraySize; i++)
+			if(sentiment == null)
 			{
-				JsonObject docobj = (JsonObject) docs.get(i);
+				request.setAttribute("reviewfail", "true");
 				
-				float score = docobj.get("score").getAsFloat();
-				int id = docobj.get("id").getAsInt();
+				RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/GiveReviewForm");
 				
-				BasicDBObject obj = new BasicDBObject();
-				obj.append(rBean.reviews[id], reviews[id]).append("score", score);
+				dispatcher.forward(request, response);
 				
-				reviewsList.add(obj);
+				return;
 			}
 			
-			document.append("reviews", reviewsList);
+			else
+			{
+			
+				JsonParser parser = new JsonParser();
+				JsonObject sentobj = (JsonObject) parser.parse(sentiment);
+				
+				JsonArray docs = sentobj.getAsJsonArray("documents");
+				
+				int arraySize = docs.size();
+				
+				BasicDBList reviewsList = new BasicDBList();
+				
+				document.append("sid", usn).append("isbn", isbn);
+				
+				java.sql.Date currentDate=new java.sql.Date(System.currentTimeMillis());
+				document.append("date", currentDate);
+				
+				for(int i = 0; i < arraySize; i++)
+				{
+					JsonObject docobj = (JsonObject) docs.get(i);
+					
+					float score = docobj.get("score").getAsFloat();
+					int id = docobj.get("id").getAsInt();
+					
+					BasicDBObject obj = new BasicDBObject();
+					obj.append(rBean.reviews[id], reviews[id]).append("score", score);
+					
+					reviewsList.add(obj);
+				}
+				
+				document.append("reviews", reviewsList);
+			}
+			
+		    collection.insert(document);
+			
+			
+		    request.setAttribute("reviewfail", "false");
+			
+			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/GiveReviewForm");
+			
+			dispatcher.forward(request, response);
+			
+			return;
 		}
-		
-	    collection.insert(document);
-		
-		
-		response.sendRedirect("GiveReviewForm");
 	}
 
 }
