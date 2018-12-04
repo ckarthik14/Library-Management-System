@@ -106,6 +106,23 @@ public class BookDao {
 		
 		return status;
 	}
+	public static int getCount(String usn){
+		int count=0;
+		try{
+			Connection con=DB.getCon();
+			PreparedStatement ps=con.prepareStatement("select * from issuebook where sid=? and dor is ?");
+
+			ps.setString(1,usn);
+			ps.setNull(2, java.sql.Types.DATE);
+			ResultSet rs=ps.executeQuery();
+			while(rs.next()){
+				count=count+1;
+			}
+			con.close();
+			
+		}catch(Exception e){System.out.println(e);}
+		return count;
+	}
 	public static int issueBook(IssueBookBean bean){
 		String isbn=bean.getIsbn();
 		boolean checkstatus=checkIssue(isbn);
