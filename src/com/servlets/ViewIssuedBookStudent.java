@@ -32,6 +32,7 @@ public class ViewIssuedBookStudent extends HttpServlet {
 		out.println("<title>View Issued Books for Students</title>");
 		out.println("<link rel='stylesheet' href='bootstrap.min.css'/>");
 		out.println("</head>");
+		out.println("<script src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js'></script>");
 		out.println("<body>");
 		
 		HttpSession session = request.getSession();
@@ -51,6 +52,10 @@ public class ViewIssuedBookStudent extends HttpServlet {
 				out.println("<tr><td>"+bean.getIsbn()+"</td><td>"+BookDao.getTitlebyId(bean.getIsbn())+"</td><td>"+bean.getDoi()+"</td><td>"+getReturnStatus(bean.getDor())+"</td></tr>");
 			}
 			out.println("</table>");
+			
+			out.println("<br /><FORM>\n" + 
+					"<INPUT TYPE='button' onClick='window.print()' value='Print Report'>\n" + 
+					"</FORM>");
 			
 			out.println("</div>");
 		}

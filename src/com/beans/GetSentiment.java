@@ -18,7 +18,7 @@ import com.beans.Documents;
 
 public class GetSentiment {
 
-	    static String accessKey = "Enter Key Here";
+	    static String accessKey = "Enter key here";
 	    static String host = "https://centralindia.api.cognitive.microsoft.com";
 
 	    static String path = "/text/analytics/v2.0/sentiment";
