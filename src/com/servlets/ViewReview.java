@@ -52,9 +52,9 @@ public class ViewReview extends HttpServlet {
 			String isbn = request.getParameter("bookid");
 			DBCursor cursor = collection.find();
 			request.getRequestDispatcher("navstudent.html").include(request, response);
-			out.println("<h3 align='center'>" + BookDao.getTitlebyId(isbn) + "</h3></ br>");
-			out.println("<h3 align='center'>ISBN: " + isbn + "</h3></ br>");
-			out.println("<div class='container'>");
+			out.println("<h3 align='center'>" + BookDao.getTitlebyId(isbn) + "</h3>");
+			out.println("<h3 align='center'>ISBN: " + isbn + "</h3><br />");
+			out.println("<div class='container'><br />");
 			int j = 1;
 			while (cursor.hasNext()) {
 				cursor.next();
@@ -133,8 +133,9 @@ public class ViewReview extends HttpServlet {
 					}
 					out.println("</table></ br>");
 					j = j + 1;
+					out.println("<br />");
 				}
-				out.println("<br />");
+				
 			 }
 			out.println("</div>");
 		}
