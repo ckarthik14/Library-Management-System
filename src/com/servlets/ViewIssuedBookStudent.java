@@ -55,7 +55,7 @@ public class ViewIssuedBookStudent extends HttpServlet {
 			
 			out.println("<br /><FORM>\n" + 
 					"<INPUT TYPE='button' onClick='window.print()' value='Print Report'>\n" + 
-					"</FORM>");
+					"</FORM><br /><br />");
 			
 			out.println("</div>");
 		}
