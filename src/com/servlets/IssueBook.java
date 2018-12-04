@@ -53,6 +53,9 @@ public class IssueBook extends HttpServlet {
 				if(i == true) {
 					out.println("<h3>Student has already issued this book and has not returned it yet.</h3><p>Please check again.</p>");
 				}
+				else if(BookDao.getCount(sid) >= 5) {
+					out.println("<h3>You can issue only 5 books maximum.</h3>");
+				}
 				else {
 					IssueBookBean bean=new IssueBookBean(isbn,sid,lid);
 					int j=BookDao.issueBook(bean);

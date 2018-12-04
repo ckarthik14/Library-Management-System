@@ -47,7 +47,7 @@ public class AddBookAuthor extends HttpServlet {
 		if(i==1){
 			out.println("<h3>Book for Author saved successfully</h3>");
 		}
-		else if(i==0) {
+		else if(i==2) {
 			out.println("<h3>Book for Author already exists</h3>");
 		}
 		
